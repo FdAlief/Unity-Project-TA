@@ -57,5 +57,12 @@ public class CongklakManager : MonoBehaviour
 
         // Set prefab sebagai child dari lubang
         seed.transform.SetParent(hole);
+
+        // Tambahkan biji ke dalam list seedsInHole pada lubang
+        CongklakHole holeScript = hole.GetComponent<CongklakHole>();
+        if (holeScript != null)
+        {
+            holeScript.AddSeed(seed);  // Menambahkan biji ke lubang yang sesuai
+        }
     }
 }
