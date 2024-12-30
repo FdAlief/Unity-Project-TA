@@ -13,6 +13,8 @@ public class InventoryManager : MonoBehaviour
         seedsInSlots = new GameObject[inventorySlots.Length]; // Inisialisasi array untuk menyimpan biji
     }
 
+    // Method untuk memasukkan biji ke dalam slot inventory yang ada
+    // Digubakan pada script Congklak Hole (TransferSeedsToInventory)
     public bool AddSeedToInventory(GameObject seed)
     {
         for (int i = 0; i < inventorySlots.Length; i++)
@@ -34,6 +36,9 @@ public class InventoryManager : MonoBehaviour
         return false; // Jika semua slot penuh
     }
 
+
+    // Method untuk meletakkan prefab biji ke dalam slot dan menjadi child dari slot
+    // Digunakan pada method AddSeedToInventory
     private void PlaceSeedInSlot(GameObject seed, GameObject slot)
     {
         // Set parent prefab biji menjadi slot inventory
@@ -45,5 +50,21 @@ public class InventoryManager : MonoBehaviour
         seed.transform.localScale = new Vector3(30f, 30f, 30f);
 
         Debug.Log("Biji dipindahkan ke slot: " + slot.name);
+    }
+
+    // Pengecekan Seed berada di Inventory
+    // Method yang digunakan pada script DragHandler (HandleDrag)
+    // Berfungsi agar prefab biji dapat di drag ketika sudah terdapat pada slot Inventory
+    public bool IsSeedInInventory(GameObject seed)
+    {
+        // Periksa apakah biji ada di salah satu slot inventory
+        foreach (var s in seedsInSlots)
+        {
+            if (s == seed)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

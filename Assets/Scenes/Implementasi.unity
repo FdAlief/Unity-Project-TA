@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 645618813}
   - component: {fileID: 645618814}
   - component: {fileID: 645618815}
+  - component: {fileID: 645618816}
   m_Layer: 0
   m_Name: Congklak Manager
   m_TagString: Untagged
@@ -825,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e5a55d76f17de4b86becabd540cafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  congklakPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
+  seedCongklakPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
   holes:
   - {fileID: 468622487}
   - {fileID: 796549621}
@@ -850,6 +851,21 @@ MonoBehaviour:
   holeLayer:
     serializedVersion: 2
     m_Bits: 64
+  interactableDragLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &645618816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645618812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273dde9c5d5b16640952877620453482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &670802923
 GameObject:
   m_ObjectHideFlags: 0

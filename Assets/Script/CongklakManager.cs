@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CongklakManager : MonoBehaviour
 {
-    public GameObject congklakPrefab; // Prefab biji congklak
+    public GameObject seedCongklakPrefab; // Prefab biji congklak
     public Transform[] holes; // Array untuk lubang congklak
 
     private int totalSeeds = 56; // Total biji congklak
@@ -50,7 +50,7 @@ public class CongklakManager : MonoBehaviour
         );
 
         // Buat instance biji congklak dengan posisi offset
-        GameObject seed = Instantiate(congklakPrefab, hole.position + offset, Quaternion.identity);
+        GameObject seed = Instantiate(seedCongklakPrefab, hole.position + offset, Quaternion.identity);
 
         // Atur rotasi acak agar terlihat lebih alami
         seed.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
@@ -58,6 +58,7 @@ public class CongklakManager : MonoBehaviour
         // Set prefab sebagai child dari lubang
         seed.transform.SetParent(hole);
 
+        // Menggunakan method pada script Congklak Hole
         // Tambahkan biji ke dalam list seedsInHole pada lubang
         CongklakHole holeScript = hole.GetComponent<CongklakHole>();
         if (holeScript != null)
