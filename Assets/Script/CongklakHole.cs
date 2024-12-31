@@ -14,9 +14,15 @@ public class CongklakHole : MonoBehaviour
     // Method ini digunakan juga pada script Raycast Manager (TakeSeedToInventory)
     public void HandleClick()
     {
-        TransferSeedsToInventory();
+        if (inventoryManager.IsInventoryEmpty())
+        {
+            TransferSeedsToInventory();
+        }
+        else
+        {
+            Debug.LogWarning("Tidak dapat memindahkan biji: Inventory tidak kosong.");
+        }
     }
-
 
     // Method untuk memindahkan biji dari lubang ke Inventory
     // Digunakan pada method HandleClick

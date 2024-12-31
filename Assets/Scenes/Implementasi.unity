@@ -1219,6 +1219,7 @@ MonoBehaviour:
   - {fileID: 670802923}
   - {fileID: 1339425979}
   - {fileID: 470478978}
+  seedsInSlots: []
 --- !u!1 &1256745525
 GameObject:
   m_ObjectHideFlags: 0

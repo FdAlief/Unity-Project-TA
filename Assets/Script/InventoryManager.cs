@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     public GameObject[] inventorySlots; // Array slot UI untuk inventory
-    private GameObject[] seedsInSlots; // Referensi biji yang ada di setiap slot
+
+    [SerializeField]
+    private GameObject[] seedsInSlots; // Database biji yang ada di setiap slot
 
     void Start()
     {
@@ -66,5 +68,21 @@ public class InventoryManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    // Method untuk mengecek apakah inventory kosong
+    // Digunakan pada script CongklakHole (HandleClick)
+    // Fungsi agar membatasi mengambil biji dari hole ke Inventory
+    // Harus kosong slot inventory baru bisa ambil biji dari Hole
+    public bool IsInventoryEmpty()
+    {
+        foreach (var seed in seedsInSlots)
+        {
+            if (seed != null) // Jika ada slot yang terisi
+            {
+                return false;
+            }
+        }
+        return true; // Semua slot kosong
     }
 }
