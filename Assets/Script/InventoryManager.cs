@@ -30,6 +30,9 @@ public class InventoryManager : MonoBehaviour
                 // Pindahkan prefab biji ke dalam slot
                 PlaceSeedInSlot(seed, inventorySlots[i]);
 
+                // Ubah Layer menggunakan waktu
+                StartCoroutine(TimeToChangeLayer(seed));
+
                 return true;
             }
         }
@@ -47,6 +50,10 @@ public class InventoryManager : MonoBehaviour
             if (seedsInSlots[i] == seed)
             {
                 seedsInSlots[i] = null; // Hapus dari slot
+
+                // Ubah layer (di luar inventory)
+                ChangeSeedLayer(seed, "Default");
+
                 break;
             }
         }
@@ -102,5 +109,20 @@ public class InventoryManager : MonoBehaviour
             }
         }
         return true; // Semua slot kosong
+    }
+
+    // Method untuk mengubah layer prefab biji
+    // Digunakan pada method AddSeedToInventory dan RemoveSeedFromInventory
+    private void ChangeSeedLayer(GameObject seed, string layerName)
+    {
+        // Ubah layer pada seed
+        seed.layer = LayerMask.NameToLayer(layerName);
+        Debug.Log("Layer biji diubah menjadi: " + layerName);
+    }
+
+    IEnumerator TimeToChangeLayer(GameObject seed)
+    {
+        yield return new WaitForSeconds(0.05f); // Menunggu 0.05 detik
+        ChangeSeedLayer(seed, "Seed Layer"); // Ubah Layer
     }
 }
