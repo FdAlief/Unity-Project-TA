@@ -55,6 +55,9 @@ public class CongklakManager : MonoBehaviour
         // Atur rotasi acak agar terlihat lebih alami
         seed.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
 
+        // Atur scale biji untuk pertama kali
+        seed.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
+
         // Set prefab sebagai child dari lubang
         seed.transform.SetParent(hole);
 

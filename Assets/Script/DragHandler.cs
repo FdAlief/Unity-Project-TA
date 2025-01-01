@@ -11,6 +11,7 @@ public class DragHandler : MonoBehaviour
     private RaycastManager raycastManager; // Referensi ke RaycastManager
     private InventoryManager inventoryManager; // Referensi ke InventoryManager
     private Vector3 initialPosition; // Posisi awal biji di slot inventory
+    private Vector3 initialScale; // Menyimpan ukuran skala awal biji
 
     void Start()
     {
@@ -43,12 +44,16 @@ public class DragHandler : MonoBehaviour
                 {
                     selectedSeed = hitObject;
 
-                    // Simpan posisi awal sebelum drag
+                    // Simpan posisi dan ukuran scale awal sebelum drag
                     initialPosition = selectedSeed.transform.localPosition;
+                    initialScale = selectedSeed.transform.localScale;
 
                     // Hitung offset antara posisi input dan posisi objek
                     Vector3 worldPosition = GetWorldPositionFromInput(inputPosition);
                     offset = selectedSeed.transform.position - worldPosition;
+
+                    // Mengubah ukuran biji saat di-drag
+                    selectedSeed.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); // Perbesar ukuran biji
 
                     Debug.Log("Mulai drag: " + selectedSeed.name);
                 }
@@ -83,14 +88,19 @@ public class DragHandler : MonoBehaviour
                     // Pindahkan biji ke lubang hole
                     inventoryManager.RemoveSeedFromInventory(selectedSeed); // Hapus dari inventory
                     hole.AddSeed(selectedSeed); // Tambahkan ke seedsInHole
+                    selectedSeed.transform.localScale = new Vector3(1f, 1f, 1f); // Perbesar ukuran biji
                     Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
                 }
                 else
                 {
-                    // Kembalikan posisi jika tidak di-drop ke lubang
+                    // Kembalikan posisi dan scale jika tidak di-drop ke lubang
                     selectedSeed.transform.localPosition = initialPosition;
+                    selectedSeed.transform.localScale = initialScale;
                     Debug.Log("Selesai drag: " + selectedSeed.name);
                 }
+
+                // Reset selectedSeed
+                selectedSeed = null;
             }
         }
     }
