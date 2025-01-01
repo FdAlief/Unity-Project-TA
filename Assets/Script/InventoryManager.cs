@@ -38,6 +38,24 @@ public class InventoryManager : MonoBehaviour
         return false; // Jika semua slot penuh
     }
 
+    // Method untuk menghapus data Seed pada Slot Inventory
+    // Digunakan pada script DragHandler (HandleDrag - GetMouseUp/Touch Ended)
+    public void RemoveSeedFromInventory(GameObject seed)
+    {
+        for (int i = 0; i < seedsInSlots.Length; i++)
+        {
+            if (seedsInSlots[i] == seed)
+            {
+                seedsInSlots[i] = null; // Hapus dari slot
+                break;
+            }
+        }
+
+        // Pastikan biji tidak lagi menjadi child dari slot
+        seed.transform.SetParent(null);
+        Debug.Log("Biji dihapus dari inventory: " + seed.name);
+    }
+
 
     // Method untuk meletakkan prefab biji ke dalam slot dan menjadi child dari slot
     // Digunakan pada method AddSeedToInventory
@@ -49,7 +67,7 @@ public class InventoryManager : MonoBehaviour
         // Reset posisi, rotasi, dan skala biji agar sesuai dengan slot
         seed.transform.localPosition = Vector3.zero;
         seed.transform.localRotation = Quaternion.identity;
-        seed.transform.localScale = new Vector3(30f, 30f, 30f);
+        seed.transform.localScale = new Vector3(5f, 5f, 5f);
 
         Debug.Log("Biji dipindahkan ke slot: " + slot.name);
     }

@@ -40,11 +40,11 @@ public class CongklakHole : MonoBehaviour
         Debug.Log("Semua biji dari lubang telah dipindahkan ke inventory.");
     }
 
-
     // Method untuk memasukkan data biji ke dalam list data hole atau lubang
-    // Digunakan pada script Congklak Manager (PlaceSeedInHole)
+    // Digunakan pada script Congklak Manager (PlaceSeedInHole) dan DragHandler (HandleDrag - GetMouseUp/Tounch Ended)
     public void AddSeed(GameObject seed)
     {
-        seedsInHole.Add(seed);  // Tambahkan biji ke dalam list seedsInHole
+        seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
+        seed.transform.SetParent(transform); // Set parent ke lubang
     }
 }

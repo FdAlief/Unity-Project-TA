@@ -39,6 +39,7 @@ public class RaycastManager : MonoBehaviour
     }
 
     // Raycast untuk drag seed di inventory
+    // Method ini digunakan pada script DragHandler (HandlerDrag - GetMouseDown/Touch Began)
     public GameObject GetObjectUnderRaycast(Vector3 inputPosition)
     {
         // Lakukan raycast
@@ -51,5 +52,20 @@ public class RaycastManager : MonoBehaviour
         }
 
         return null; // Tidak ada objek yang terkena
+    }
+
+    // Raycast untuk Memasukkan Seed ke Hole
+    // Method ini digunakan pada script DragHandler (HandleDrag - GetMouseUp/Touch Ended)
+    public CongklakHole GetHoleUnderRaycast(Vector3 inputPosition)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(inputPosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, holeLayer))
+        {
+            return hit.collider.GetComponent<CongklakHole>();
+        }
+
+        return null; // Tidak ada lubang yang terkena raycast
     }
 }

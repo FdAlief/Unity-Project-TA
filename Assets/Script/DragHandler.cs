@@ -73,11 +73,24 @@ public class DragHandler : MonoBehaviour
         {
             if (selectedSeed != null)
             {
-                // Kembalikan posisi ke posisi awal
-                selectedSeed.transform.localPosition = initialPosition;
+                Vector3 inputPosition = Input.GetMouseButtonUp(0) ? Input.mousePosition : (Vector3)Input.GetTouch(0).position;
 
-                Debug.Log("Selesai drag: " + selectedSeed.name);
-                selectedSeed = null;
+                // Panggil method di RaycastManager
+                CongklakHole hole = raycastManager.GetHoleUnderRaycast(inputPosition);
+
+                if (hole != null)
+                {
+                    // Pindahkan biji ke lubang hole
+                    inventoryManager.RemoveSeedFromInventory(selectedSeed); // Hapus dari inventory
+                    hole.AddSeed(selectedSeed); // Tambahkan ke seedsInHole
+                    Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
+                }
+                else
+                {
+                    // Kembalikan posisi jika tidak di-drop ke lubang
+                    selectedSeed.transform.localPosition = initialPosition;
+                    Debug.Log("Selesai drag: " + selectedSeed.name);
+                }
             }
         }
     }
