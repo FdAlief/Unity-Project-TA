@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 468622489}
   - component: {fileID: 468622490}
   m_Layer: 6
-  m_Name: Hole 1
+  m_Name: Hole 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -792,6 +792,7 @@ GameObject:
   - component: {fileID: 645618814}
   - component: {fileID: 645618815}
   - component: {fileID: 645618816}
+  - component: {fileID: 645618817}
   m_Layer: 0
   m_Name: Congklak Manager
   m_TagString: Untagged
@@ -828,14 +829,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seedCongklakPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
   holes:
-  - {fileID: 468622487}
-  - {fileID: 796549621}
-  - {fileID: 1762205081}
-  - {fileID: 707606895}
   - {fileID: 2141375280}
   - {fileID: 1706618423}
   - {fileID: 1383048825}
   - {fileID: 1717137167}
+  - {fileID: 1910305995}
+  - {fileID: 468622487}
+  - {fileID: 796549621}
+  - {fileID: 1762205081}
+  - {fileID: 707606895}
 --- !u!114 &645618815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,6 +868,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273dde9c5d5b16640952877620453482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &645618817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645618812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a06acd49b0767140bcb1b4175250465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 2141375283}
+  - {fileID: 1706618426}
+  - {fileID: 1383048828}
+  - {fileID: 1717137170}
+  - {fileID: 1910305996}
+  - {fileID: 468622490}
+  - {fileID: 796549624}
+  - {fileID: 1762205084}
+  - {fileID: 707606898}
 --- !u!1 &670802923
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +977,7 @@ GameObject:
   - component: {fileID: 707606897}
   - component: {fileID: 707606898}
   m_Layer: 6
-  m_Name: Hole 4
+  m_Name: Hole 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1100,7 +1124,7 @@ GameObject:
   - component: {fileID: 796549623}
   - component: {fileID: 796549624}
   m_Layer: 6
-  m_Name: Hole 2
+  m_Name: Hole 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1319,14 +1343,15 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 468622487}
-  - {fileID: 796549621}
-  - {fileID: 1762205081}
-  - {fileID: 707606895}
   - {fileID: 2141375280}
   - {fileID: 1706618423}
   - {fileID: 1383048825}
   - {fileID: 1717137167}
+  - {fileID: 1910305995}
+  - {fileID: 468622487}
+  - {fileID: 796549621}
+  - {fileID: 1762205081}
+  - {fileID: 707606895}
   m_Father: {fileID: 1644555348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -1611,7 +1636,7 @@ GameObject:
   - component: {fileID: 1383048827}
   - component: {fileID: 1383048828}
   m_Layer: 6
-  m_Name: Hole 7
+  m_Name: Hole 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1862,7 +1887,7 @@ GameObject:
   - component: {fileID: 1706618425}
   - component: {fileID: 1706618426}
   m_Layer: 6
-  m_Name: Hole 6
+  m_Name: Hole 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1934,7 +1959,7 @@ GameObject:
   - component: {fileID: 1717137169}
   - component: {fileID: 1717137170}
   m_Layer: 6
-  m_Name: Hole 8
+  m_Name: Hole 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2006,7 +2031,7 @@ GameObject:
   - component: {fileID: 1762205083}
   - component: {fileID: 1762205084}
   m_Layer: 6
-  m_Name: Hole 3
+  m_Name: Hole 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2141,6 +2166,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866830139}
   m_CullTransparentMesh: 1
+--- !u!1 &1910305994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1910305995}
+  - component: {fileID: 1910305997}
+  - component: {fileID: 1910305996}
+  m_Layer: 6
+  m_Name: Hole Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1910305995
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910305994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1321961395}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 115}
+  m_SizeDelta: {x: 30, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!65 &1910305996
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910305994}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 30, y: 30, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1910305997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910305994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e61bbf24d94964cbbec65fd4a72862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedsInHole: []
+  inventoryManager: {fileID: 1238139202}
 --- !u!1 &2141375279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,7 +2250,7 @@ GameObject:
   - component: {fileID: 2141375282}
   - component: {fileID: 2141375283}
   m_Layer: 6
-  m_Name: Hole 5
+  m_Name: Hole 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

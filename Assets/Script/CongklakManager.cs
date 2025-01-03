@@ -15,6 +15,7 @@ public class CongklakManager : MonoBehaviour
         DistributeSeeds();
     }
 
+    // Method untuk men-distribusi / memasukkan biji ke Holes untuk pertama kalinya secara random
     void DistributeSeeds()
     {
         // List biji yang sudah ditempatkan
@@ -27,8 +28,9 @@ public class CongklakManager : MonoBehaviour
             do
             {
                 randomIndex = Random.Range(0, holes.Length);
-            }
-            while (seedsPerHole[randomIndex] >= maxSeedsPerHole);
+
+                // Abaikan elemen ke-4
+            } while (seedsPerHole[randomIndex] >= maxSeedsPerHole || randomIndex == 4);
 
             // Tambahkan biji ke lubang
             seedsPerHole[randomIndex]++;
@@ -36,6 +38,7 @@ public class CongklakManager : MonoBehaviour
         }
     }
 
+    // Method untuk peletakkan posisi dan rotasi biji pada Holes pertama kalinya
     void PlaceSeedInHole(Transform hole)
     {
         // Tentukan radius untuk distribusi biji di sekitar pusat lubang

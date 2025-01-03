@@ -120,6 +120,7 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Layer biji diubah menjadi: " + layerName);
     }
 
+    // Waktu untuk menjalankan perubahan Layer Biji ketika berada di  dalam Inventory
     IEnumerator TimeToChangeLayer(GameObject seed)
     {
         yield return new WaitForSeconds(0.05f); // Menunggu 0.05 detik

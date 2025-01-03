@@ -27,7 +27,12 @@ public class DragHandler : MonoBehaviour
 
     // Method berfungsi agar prefab biji yang ada pada Inventory dapat di drag
     // Interaksi menggunakan mouse atau touch (ditekan, digeser dan dilepas)
-    // Method ini menggunakan referensi script Inventory untuk menggunakan method (IsSeedInInventory)
+    // Method ini menggunakan referensi script
+    // Inventory untuk menggunakan method (IsSeedInInventory)
+    // Inventory untuk menggunakan method (RemoveSeedFromInventory)
+    // CongklakHole method (AddSeed)
+    // RaycastManager method (GetObjectUnderRaycast)
+    // RaycastManager method (GetHoleUnderRaycast)
     private void HandleDrag()
     {
         // Deteksi touch/mouse down untuk memulai drag
@@ -80,23 +85,30 @@ public class DragHandler : MonoBehaviour
             {
                 Vector3 inputPosition = Input.GetMouseButtonUp(0) ? Input.mousePosition : (Vector3)Input.GetTouch(0).position;
 
-                // Panggil method di RaycastManager
-                CongklakHole hole = raycastManager.GetHoleUnderRaycast(inputPosition);
+                // Panggil metode di RaycastManager untuk mendapatkan collider
+                Collider hitCollider = raycastManager.GetHoleUnderRaycast(inputPosition);
 
-                if (hole != null)
+                if (hitCollider != null)
                 {
-                    // Pindahkan biji ke lubang hole
-                    inventoryManager.RemoveSeedFromInventory(selectedSeed); // Hapus dari inventory
-                    hole.AddSeed(selectedSeed); // Tambahkan ke seedsInHole
-                    selectedSeed.transform.localScale = new Vector3(1f, 1f, 1f); // Perbesar ukuran biji
-                    Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
+                    // Cek apakah collider adalah lubang yang valid
+                    CongklakHole hole = hitCollider.GetComponent<CongklakHole>();
+                    if (hole != null)
+                    {
+                        inventoryManager.RemoveSeedFromInventory(selectedSeed);
+                        hole.AddSeed(selectedSeed);
+                        selectedSeed.transform.localScale = new Vector3(1f, 1f, 1f);
+                        Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
+                    }
+                    else
+                    {
+                        Debug.Log("Collider bukan lubang yang valid.");
+                    }
                 }
                 else
                 {
-                    // Kembalikan posisi dan scale jika tidak di-drop ke lubang
+                    // Kembalikan posisi jika tidak valid
                     selectedSeed.transform.localPosition = initialPosition;
                     selectedSeed.transform.localScale = initialScale;
-                    Debug.Log("Selesai drag: " + selectedSeed.name);
                 }
 
                 // Reset selectedSeed
