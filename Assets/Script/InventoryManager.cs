@@ -13,6 +13,12 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         seedsInSlots = new GameObject[inventorySlots.Length]; // Inisialisasi array untuk menyimpan biji
+
+        // Set semua slot menjadi tidak aktif jika kosong prefab biji
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            inventorySlots[i].SetActive(false);
+        }
     }
 
     // Method untuk memasukkan biji ke dalam slot inventory yang ada
@@ -32,6 +38,9 @@ public class InventoryManager : MonoBehaviour
 
                 // Ubah Layer menggunakan waktu
                 StartCoroutine(TimeToChangeLayer(seed));
+
+                // SetAktifkan slot ketika beisi prefab biji
+                inventorySlots[i].SetActive(true);
 
                 return true;
             }
@@ -53,6 +62,9 @@ public class InventoryManager : MonoBehaviour
 
                 // Ubah layer (di luar inventory)
                 ChangeSeedLayer(seed, "Default");
+
+                // SetNonaktifkan slot ketika tidak berisi prefab biji
+                inventorySlots[i].SetActive(false);
 
                 break;
             }

@@ -8,7 +8,12 @@ public class CongklakHole : MonoBehaviour
     [SerializeField]
     private List<GameObject> seedsInHole = new List<GameObject>(); // List biji di setiap lubang
 
-    public InventoryManager inventoryManager; // Referensi ke manager inventory
+    private InventoryManager inventoryManager; // Referensi ke manager inventory
+
+    private void Start()
+    {
+        inventoryManager = FindObjectOfType<InventoryManager>();
+    }
 
     // Method untuk melakukan Transfer atau pemindahan biji ke Inventory
     // Method ini digunakan juga pada script Raycast Manager (TakeSeedToInventory)

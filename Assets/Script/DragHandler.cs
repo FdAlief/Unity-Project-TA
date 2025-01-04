@@ -58,7 +58,7 @@ public class DragHandler : MonoBehaviour
                     offset = selectedSeed.transform.position - worldPosition;
 
                     // Mengubah ukuran biji saat di-drag
-                    selectedSeed.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); // Perbesar ukuran biji
+                    selectedSeed.transform.localScale = new Vector3(3f, 3f, 3f); // Perbesar ukuran biji
 
                     Debug.Log("Mulai drag: " + selectedSeed.name);
                 }
@@ -96,7 +96,7 @@ public class DragHandler : MonoBehaviour
                     {
                         inventoryManager.RemoveSeedFromInventory(selectedSeed);
                         hole.AddSeed(selectedSeed);
-                        selectedSeed.transform.localScale = new Vector3(1f, 1f, 1f);
+                        selectedSeed.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                         Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
                     }
                     else
