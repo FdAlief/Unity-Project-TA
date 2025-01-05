@@ -8,12 +8,10 @@ public class InventoryManager : MonoBehaviour
     public GameObject[] inventorySlots; // Array slot UI untuk inventory
 
     [SerializeField]
-    private GameObject[] seedsInSlots; // Database biji yang ada di setiap slot
+    private List<GameObject> seedsInSlots = new List<GameObject>(); // Database biji dalam list dinamis
 
     void Start()
     {
-        seedsInSlots = new GameObject[inventorySlots.Length]; // Inisialisasi array untuk menyimpan biji
-
         // Set semua slot menjadi tidak aktif jika kosong prefab biji
         for (int i = 0; i < inventorySlots.Length; i++)
         {
@@ -28,20 +26,13 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             // Cek apakah slot kosong
-            if (seedsInSlots[i] == null)
+            if (!inventorySlots[i].activeSelf)
             {
                 // Tambahkan biji ke slot ini
-                seedsInSlots[i] = seed;
-
-                // Pindahkan prefab biji ke dalam slot
-                PlaceSeedInSlot(seed, inventorySlots[i]);
-
-                // Ubah Layer menggunakan waktu
-                StartCoroutine(TimeToChangeLayer(seed));
-
-                // SetAktifkan slot ketika beisi prefab biji
-                inventorySlots[i].SetActive(true);
-
+                seedsInSlots.Add(seed); // Masukkan seed ke list
+                inventorySlots[i].SetActive(true); // Aktifkan slot
+                PlaceSeedInSlot(seed, inventorySlots[i]); // Pindahkan prefab biji ke slot
+                StartCoroutine(TimeToChangeLayer(seed)); // Ubah Layer
                 return true;
             }
         }
@@ -54,25 +45,18 @@ public class InventoryManager : MonoBehaviour
     // Digunakan pada script DragHandler (HandleDrag - GetMouseUp/Touch Ended)
     public void RemoveSeedFromInventory(GameObject seed)
     {
-        for (int i = 0; i < seedsInSlots.Length; i++)
+        for (int i = 0; i < inventorySlots.Length; i++)
         {
-            if (seedsInSlots[i] == seed)
+            if (inventorySlots[i].activeSelf && seedsInSlots.Contains(seed))
             {
-                seedsInSlots[i] = null; // Hapus dari slot
-
-                // Ubah layer (di luar inventory)
-                ChangeSeedLayer(seed, "Default");
-
-                // SetNonaktifkan slot ketika tidak berisi prefab biji
-                inventorySlots[i].SetActive(false);
-
+                seedsInSlots.Remove(seed); // Hapus seed dari list
+                inventorySlots[i].SetActive(false); // Nonaktifkan slot
+                ChangeSeedLayer(seed, "Default"); // Ubah layer kembali
+                seed.transform.SetParent(null); // Lepaskan parent dari slot
+                Debug.Log("Biji dihapus dari inventory: " + seed.name);
                 break;
             }
         }
-
-        // Pastikan biji tidak lagi menjadi child dari slot
-        seed.transform.SetParent(null);
-        Debug.Log("Biji dihapus dari inventory: " + seed.name);
     }
 
 
@@ -96,15 +80,7 @@ public class InventoryManager : MonoBehaviour
     // Berfungsi agar prefab biji dapat di drag ketika sudah terdapat pada slot Inventory
     public bool IsSeedInInventory(GameObject seed)
     {
-        // Periksa apakah biji ada di salah satu slot inventory
-        foreach (var s in seedsInSlots)
-        {
-            if (s == seed)
-            {
-                return true;
-            }
-        }
-        return false;
+        return seedsInSlots.Contains(seed); // Periksa apakah seed ada dalam list
     }
 
     // Method untuk mengecek apakah inventory kosong
@@ -113,14 +89,7 @@ public class InventoryManager : MonoBehaviour
     // Harus kosong slot inventory baru bisa ambil biji dari Hole
     public bool IsInventoryEmpty()
     {
-        foreach (var seed in seedsInSlots)
-        {
-            if (seed != null) // Jika ada slot yang terisi
-            {
-                return false;
-            }
-        }
-        return true; // Semua slot kosong
+        return seedsInSlots.Count == 0; // Inventory kosong jika list kosong
     }
 
     // Method untuk mengubah layer prefab biji
