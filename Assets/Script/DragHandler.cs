@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragHandler : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class DragHandler : MonoBehaviour
     private InventoryManager inventoryManager; // Referensi ke InventoryManager
     private Vector3 initialPosition; // Posisi awal biji di slot inventory
     private Vector3 initialScale; // Menyimpan ukuran skala awal biji
+    public ScrollRect scrollRect; // Reference ke Scroll Rect
 
     void Start()
     {
@@ -61,6 +63,12 @@ public class DragHandler : MonoBehaviour
                     selectedSeed.transform.localScale = new Vector3(3f, 3f, 3f); // Perbesar ukuran biji
 
                     Debug.Log("Mulai drag: " + selectedSeed.name);
+
+                    // Nonaktifkan Scroll Rect ketika mulai drag
+                    if (scrollRect != null)
+                    {
+                        scrollRect.enabled = false;
+                    }
                 }
                 else
                 {
@@ -113,6 +121,12 @@ public class DragHandler : MonoBehaviour
 
                 // Reset selectedSeed
                 selectedSeed = null;
+
+                // Aktifkan Scroll Rect ketika selesai drag
+                if (scrollRect != null)
+                {
+                    scrollRect.enabled = true;
+                }
             }
         }
     }
