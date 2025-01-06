@@ -10,13 +10,15 @@ public class CongklakHole : MonoBehaviour
 
     private InventoryManager inventoryManager; // Referensi ke manager inventory
 
+    public int SeedsCount => seedsInHole.Count;
+
     private void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     // Method untuk melakukan Transfer atau pemindahan biji ke Inventory
-    // Method ini digunakan juga pada script Raycast Manager (TakeSeedToInventory)
+    // Method ini digunakan juga pada script Raycast Manager (TakeSeedToInventory) dan Drag Handler (HandleDrag - MouseUp/Touch Ended)
     public void HandleClick()
     {
         if (inventoryManager.IsInventoryEmpty())

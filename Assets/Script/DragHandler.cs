@@ -106,6 +106,16 @@ public class DragHandler : MonoBehaviour
                         hole.AddSeed(selectedSeed);
                         selectedSeed.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                         Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
+
+                        // Cek apakah ini adalah biji terakhir di inventory
+                        if (inventoryManager.seedsInSlots.Count == 0)
+                        {
+                            // Jika pada Congklak Hole berisi lebih dari 1
+                            if (hole.SeedsCount > 1)
+                            {
+                                hole.HandleClick(); ; // Transfer semua biji dari hole ke inventory
+                            }
+                        }
                     }
                     else
                     {

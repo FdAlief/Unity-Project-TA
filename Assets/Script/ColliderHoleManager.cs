@@ -8,10 +8,16 @@ public class ColliderHoleManager : MonoBehaviour
 
     void Start()
     {
-        // Awalnya, aktifkan semua collider
+        // Nonaktifkan semua collider terlebih dahulu
         foreach (var col in colliders)
         {
-            col.enabled = true;
+            col.enabled = false;
+        }
+
+        // Aktifkan collider dengan indeks 0, 1, 2, dan 3 atau hole (1,2,3,4)
+        for (int i = 0; i <= 3 && i < colliders.Count; i++)
+        {
+            colliders[i].enabled = true;
         }
     }
 
