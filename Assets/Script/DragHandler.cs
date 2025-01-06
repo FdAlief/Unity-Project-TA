@@ -113,7 +113,26 @@ public class DragHandler : MonoBehaviour
                             // Jika pada Congklak Hole berisi lebih dari 1
                             if (hole.SeedsCount > 1)
                             {
-                                hole.HandleClick(); ; // Transfer semua biji dari hole ke inventory
+                                // Cek jika hole yang dipilih adalah "Hole Left"
+                                if (hitCollider.gameObject.name != "Hole Left") // Pastikan bukan Hole Left
+                                {
+                                    hole.HandleClick(); // Transfer semua biji dari hole ke inventory
+                                }
+                                else
+                                {
+                                    Debug.Log("Tidak melakukan HandleClick pada Hole Left meskipun SeedsCount > 1");
+                                }
+                            }
+
+                            // Cek jika hole yang dipilih adalah hole dengan indeks 4
+                            if (hitCollider.gameObject.name == "Hole Left") // Gantilah "Hole Left" dengan nama hole sesuai dengan GameObject Anda
+                            {
+                                // Panggil fungsi ResetCollidersToDefault di ColliderHoleManager
+                                ColliderHoleManager colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
+                                if (colliderHoleManager != null)
+                                {
+                                    colliderHoleManager.ResetCollidersToDefault();
+                                }
                             }
                         }
                     }

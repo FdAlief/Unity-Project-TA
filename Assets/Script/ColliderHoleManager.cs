@@ -51,4 +51,22 @@ public class ColliderHoleManager : MonoBehaviour
             Debug.LogWarning("Collider yang diklik tidak ditemukan dalam daftar!");
         }
     }
+
+    // Fungsi untuk mengatur ulang collider ketika biji terakhir dilepas
+    public void ResetCollidersToDefault()
+    {
+        // Nonaktifkan semua collider terlebih dahulu
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
+
+        // Aktifkan collider dengan indeks 0, 1, 2, dan 3
+        for (int i = 0; i <= 3 && i < colliders.Count; i++)
+        {
+            colliders[i].enabled = true;
+        }
+
+        Debug.Log("Collider di-reset ke default (0, 1, 2, 3 aktif)");
+    }
 }
