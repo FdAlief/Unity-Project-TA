@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    [Header("Slot Inevntory")]
     public GameObject[] inventorySlots; // Array slot UI untuk inventory
-
     public List<GameObject> seedsInSlots = new List<GameObject>(); // Database biji dalam list dinamis
+
+    public RectTransform contentRect;  // Referensi RectTransform dari Content di ScrollView
+    public float slotWidth;    // Tinggi setiap slot
+    public float spacing;        // Spasi antar slot
 
     void Start()
     {
@@ -16,6 +20,8 @@ public class InventoryManager : MonoBehaviour
         {
             inventorySlots[i].SetActive(false);
         }
+
+        UpdateContentSize();
     }
 
     // Method untuk memasukkan biji ke dalam slot inventory yang ada
@@ -30,6 +36,7 @@ public class InventoryManager : MonoBehaviour
                 inventorySlots[i].SetActive(true); // Aktifkan slot
                 PlaceSeedInSlot(seed, inventorySlots[i]); // Tempatkan seed
                 StartCoroutine(TimeToChangeLayer(seed)); // Ubah layer
+                UpdateContentSize();
                 Debug.Log($"Seed {seed.name} ditambahkan ke slot {i}.");
                 return true;
             }
@@ -53,6 +60,7 @@ public class InventoryManager : MonoBehaviour
                     inventorySlots[i].SetActive(false); // Nonaktifkan slot
                     ChangeSeedLayer(seed, "Default"); // Ubah layer
                     seed.transform.SetParent(null); // Lepaskan parent
+                    UpdateContentSize();
                     Debug.Log($"Seed {seed.name} dihapus dari slot {i}.");
                     return;
                 }
@@ -111,5 +119,25 @@ public class InventoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f); // Menunggu 0.05 detik
         ChangeSeedLayer(seed, "Seed Layer"); // Ubah Layer
+    }
+
+    private void UpdateContentSize()
+    {
+        int activeSlots = 0;
+
+        // Hitung jumlah slot aktif
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.activeSelf)
+            {
+                activeSlots++;
+            }
+        }
+
+        // Hitung lebar Content berdasarkan slot aktif
+        float contentWidth = (activeSlots * slotWidth) + Mathf.Max(0, (activeSlots - 1) * spacing);
+
+        // Perbarui ukuran Content
+        contentRect.sizeDelta = new Vector2(contentWidth, contentRect.sizeDelta.y);
     }
 }
