@@ -6,17 +6,19 @@ public class RaycastManager : MonoBehaviour
 {
     public LayerMask holeLayer; // Layer untuk mendeteksi lubang congklak
     public LayerMask interactableDragLayer; // Layer untuk biji yang dapat diinteraksi
-    private ColliderHoleManager colliderHoleManager;
+
+    private ColliderHoleManager colliderHoleManager; // Referensi ColliderManager
+    private InventoryManager inventoryManager; // Referensi InventoryManager
 
     private void Start()
     {
         colliderHoleManager = FindObjectOfType<ColliderHoleManager>(); // Cari instance ColliderHoleManager
+        inventoryManager = FindObjectOfType<InventoryManager>(); // Cari instance InventoryManager
     }
 
     void Update()
     {
         TakeSeedToInventory();
-        HandleRaycastColliderHole();
     }
 
     // Raycast untuk memasukkan biji ke inventory
@@ -36,10 +38,24 @@ public class RaycastManager : MonoBehaviour
             {
                 // Cek apakah objek memiliki script CongklakHole
                 CongklakHole hole = hit.collider.GetComponent<CongklakHole>();
-                if (hole != null)
+                if (hole != null && hole.SeedsCount > 0)
                 {
+                    // Panggil ColliderHoleManager jika collider terdeteksi
+                    if (inventoryManager.seedsInSlots.Count == 0)
+                    {
+                        colliderHoleManager.OnColliderChoose(hit.collider);
+                    }
+                    else
+                    {
+                        Debug.Log("Inventory berisi sehingga tidak dapat mengaktifkan collider next");
+                    }
+
                     hole.HandleClick(); // Panggil logika lubang saat diklik
                     Debug.Log("Lubang diklik: " + hit.collider.gameObject.name);
+                }
+                else
+                {
+                    Debug.Log("Lubang: "+ hit.collider.gameObject.name + "tidak berisi");
                 }
             }
         }
@@ -89,26 +105,5 @@ public class RaycastManager : MonoBehaviour
         }
 
         return null; // Tidak ada lubang yang terkena raycast
-    }
-
-    // Raycast untuk mengatur Collider pada Hole agar dapat (Aktif dan Nonaktif)
-    // Digunakan pada method Update
-    public void HandleRaycastColliderHole()
-    {
-        // Deteksi input dari mouse atau touch
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-        {
-            Vector3 inputPosition = Input.GetMouseButtonDown(0) ? Input.mousePosition : (Vector3)Input.GetTouch(0).position;
-
-            // Lakukan raycast
-            Ray ray = Camera.main.ScreenPointToRay(inputPosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, holeLayer))
-            {
-                // Panggil ColliderManager jika collider terdeteksi
-                colliderHoleManager.OnColliderChoose(hit.collider);
-            }
-        }
     }
 }

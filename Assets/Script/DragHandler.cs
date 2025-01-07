@@ -125,7 +125,7 @@ public class DragHandler : MonoBehaviour
                             }
 
                             // Cek jika hole yang dipilih adalah hole dengan indeks 4
-                            if (hitCollider.gameObject.name == "Hole Left") // Gantilah "Hole Left" dengan nama hole sesuai dengan GameObject Anda
+                            if (hitCollider.gameObject.name == "Hole Left")
                             {
                                 // Panggil fungsi ResetCollidersToDefault di ColliderHoleManager
                                 ColliderHoleManager colliderHoleManager = FindObjectOfType<ColliderHoleManager>();

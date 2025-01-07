@@ -52,7 +52,8 @@ public class ColliderHoleManager : MonoBehaviour
         }
     }
 
-    // Fungsi untuk mengatur ulang collider ketika biji terakhir dilepas
+    // Fungsi untuk mengatur ulang collider ketika biji terakhir dilepas pada Hole Left
+    // Method ini digunakan pada script DragHandler (MouseUp)
     public void ResetCollidersToDefault()
     {
         // Nonaktifkan semua collider terlebih dahulu

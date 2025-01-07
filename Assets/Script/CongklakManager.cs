@@ -29,7 +29,7 @@ public class CongklakManager : MonoBehaviour
             {
                 randomIndex = Random.Range(0, holes.Length);
 
-                // Abaikan elemen ke-4
+                // Abaikan elemen ke-4 (Hole Left)
             } while (seedsPerHole[randomIndex] >= maxSeedsPerHole || randomIndex == 4);
 
             // Tambahkan biji ke lubang
