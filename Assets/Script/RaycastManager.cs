@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RaycastManager : MonoBehaviour
 {
+    [Header("Layer")]
     public LayerMask holeLayer; // Layer untuk mendeteksi lubang congklak
     public LayerMask interactableDragLayer; // Layer untuk biji yang dapat diinteraksi
 

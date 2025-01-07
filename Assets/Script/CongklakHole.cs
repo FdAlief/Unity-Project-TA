@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using TMPro;
 
 public class CongklakHole : MonoBehaviour
 {
@@ -12,9 +12,13 @@ public class CongklakHole : MonoBehaviour
 
     public int SeedsCount => seedsInHole.Count;
 
+    [Header("Info Seed In Hole")]
+    public TMP_Text seedCountText; // Referensi ke Text UI
+
     private void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
+        UpdateSeedCountUI(); // Perbarui UI saat awal
     }
 
     // Method untuk melakukan Transfer atau pemindahan biji ke Inventory
@@ -44,6 +48,7 @@ public class CongklakHole : MonoBehaviour
             }
         }
 
+        UpdateSeedCountUI(); // Perbarui UI saat awal
         Debug.Log("Semua biji dari lubang telah dipindahkan ke inventory.");
     }
 
@@ -53,5 +58,16 @@ public class CongklakHole : MonoBehaviour
     {
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
+        UpdateSeedCountUI(); // Perbarui UI saat awal
+    }
+
+    // Method ini berfungsi untuk menampilkan jumlah biji di dalam Hole pada UI Text
+    // Digunakan pada method (AddSeed), (TransferSeedsToInventory), (Start)
+    private void UpdateSeedCountUI()
+    {
+        if (seedCountText != null)
+        {
+            seedCountText.text = SeedsCount.ToString(); // Update jumlah biji
+        }
     }
 }

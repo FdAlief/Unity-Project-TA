@@ -13,6 +13,8 @@ public class DragHandler : MonoBehaviour
     private InventoryManager inventoryManager; // Referensi ke InventoryManager
     private Vector3 initialPosition; // Posisi awal biji di slot inventory
     private Vector3 initialScale; // Menyimpan ukuran skala awal biji
+
+    [Header("ScrollView")]
     public ScrollRect scrollRect; // Reference ke Scroll Rect
 
     void Start()

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class CongklakManager : MonoBehaviour
 {
+    [Header("Biji")]
     public GameObject seedCongklakPrefab; // Prefab biji congklak
+
+    [Header("Hole")]
     public Transform[] holes; // Array untuk lubang congklak
 
     private int totalSeeds = 56; // Total biji congklak

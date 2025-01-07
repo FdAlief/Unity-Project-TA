@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ColliderHoleManager : MonoBehaviour
 {
+    [Header("Hole Collider")]
     public List<Collider> colliders; // List collider yang diatur secara berurutan
+
+    [Header("Info Non-Active Collider")]
+    public List<Image> colliderImagesInfo; // List Image UI yang sesuai dengan collider
+    public Color activeColor = Color.green; // Warna untuk collider aktif
+    public Color inactiveColor = Color.red; // Warna untuk collider nonaktif
 
     void Start()
     {
@@ -19,6 +26,16 @@ public class ColliderHoleManager : MonoBehaviour
         {
             colliders[i].enabled = true;
         }
+
+        // Validasi panjang list Images
+        if (colliders.Count != colliderImagesInfo.Count)
+        {
+            Debug.LogError("Jumlah colliders dan colliderImages tidak sesuai!");
+            return;
+        }
+
+        // Perbarui UI berdasarkan status collider
+        UpdateUICollider();
     }
 
     // Fungsi untuk ketika collider Hole dipilih maka collide yang aktif hanya collider setelahnya
@@ -45,6 +62,9 @@ public class ColliderHoleManager : MonoBehaviour
 
             // Aktifkan collider berikutnya
             colliders[nextIndex].enabled = true;
+
+            // Perbarui UI berdasarkan status collider
+            UpdateUICollider();
         }
         else
         {
@@ -68,6 +88,26 @@ public class ColliderHoleManager : MonoBehaviour
             colliders[i].enabled = true;
         }
 
+        // Perbarui UI berdasarkan status collider
+        UpdateUICollider();
         Debug.Log("Collider di-reset ke default (0, 1, 2, 3 aktif)");
+    }
+
+    // Method ini berfungsi untuk menampilkan info UI Collider yang aktif dan nonaktif
+    // Dengan merubah warna UI Infonya
+    // Digunakan pada method (ResetCollidersToDefault), (OnColliderChoose), (Start)
+    private void UpdateUICollider()
+    {
+        for (int i = 0; i < colliders.Count; i++)
+        {
+            if (colliders[i].enabled)
+            {
+                colliderImagesInfo[i].color = activeColor; // Ubah ke warna aktif
+            }
+            else
+            {
+                colliderImagesInfo[i].color = inactiveColor; // Ubah ke warna nonaktif
+            }
+        }
     }
 }

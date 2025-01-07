@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 108866756}
   - component: {fileID: 108866755}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: 388218620}
   - component: {fileID: 388218619}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,6 +984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 2013911179}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1109,7 +1110,7 @@ GameObject:
   - component: {fileID: 561678904}
   - component: {fileID: 561678903}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1568,6 +1569,18 @@ MonoBehaviour:
   - {fileID: 796549624}
   - {fileID: 1762205084}
   - {fileID: 707606898}
+  colliderImages:
+  - {fileID: 1408197257}
+  - {fileID: 705954950}
+  - {fileID: 108866755}
+  - {fileID: 2144604864}
+  - {fileID: 1840668227}
+  - {fileID: 388218619}
+  - {fileID: 1711182348}
+  - {fileID: 561678903}
+  - {fileID: 1229340531}
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &652258861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1668,7 @@ GameObject:
   - component: {fileID: 705954951}
   - component: {fileID: 705954950}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1770,6 +1783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 592372795}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1842,6 +1856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 1699019412}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2277,7 +2292,7 @@ GameObject:
   - component: {fileID: 1229340532}
   - component: {fileID: 1229340531}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2860,6 +2875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 963892518}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2975,7 +2991,7 @@ GameObject:
   - component: {fileID: 1408197258}
   - component: {fileID: 1408197257}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4023,6 +4039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 846362903}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4056,7 +4073,7 @@ GameObject:
   - component: {fileID: 1711182349}
   - component: {fileID: 1711182348}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4439,6 +4456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 1712273461}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4586,6 +4604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 1060110161}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4619,7 +4638,7 @@ GameObject:
   - component: {fileID: 1840668228}
   - component: {fileID: 1840668227}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4845,6 +4864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 1715557220}
 --- !u!1 &1924630528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5180,6 +5200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedsInHole: []
+  seedCountText: {fileID: 1641866683}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5213,7 +5234,7 @@ GameObject:
   - component: {fileID: 2144604865}
   - component: {fileID: 2144604864}
   m_Layer: 0
-  m_Name: Info Jumlah Seed
+  m_Name: Info Jumlah Seed 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

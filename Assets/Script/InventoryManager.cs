@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    [Header("Slot Inevntory")]
+    [Header("Slot Inventory")]
     public GameObject[] inventorySlots; // Array slot UI untuk inventory
     public List<GameObject> seedsInSlots = new List<GameObject>(); // Database biji dalam list dinamis
 
+    [Header("ScrollView")]
     public RectTransform contentRect;  // Referensi RectTransform dari Content di ScrollView
     public float slotWidth;    // Tinggi setiap slot
     public float spacing;        // Spasi antar slot
