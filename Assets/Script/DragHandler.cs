@@ -11,6 +11,7 @@ public class DragHandler : MonoBehaviour
     private Camera mainCamera; // Kamera utama
     private RaycastManager raycastManager; // Referensi ke RaycastManager
     private InventoryManager inventoryManager; // Referensi ke InventoryManager
+    private ColliderHoleManager colliderHoleManager; // Referensi ke ColliderHoleManager
     private Vector3 initialPosition; // Posisi awal biji di slot inventory
     private Vector3 initialScale; // Menyimpan ukuran skala awal biji
 
@@ -21,7 +22,8 @@ public class DragHandler : MonoBehaviour
     {
         mainCamera = Camera.main;
         raycastManager = FindObjectOfType<RaycastManager>(); // Cari instance RaycastManager
-        inventoryManager = FindObjectOfType<InventoryManager>(); // Cari instance InventoryManager
+        inventoryManager = FindObjectOfType<InventoryManager>(); // Cari instance InventoryManager                                                         // Panggil fungsi ResetCollidersToDefault di ColliderHoleManager
+        colliderHoleManager = FindObjectOfType<ColliderHoleManager>(); // Cari Instance ColliderHoleManager
     }
 
     void Update()
@@ -115,7 +117,7 @@ public class DragHandler : MonoBehaviour
                             // Jika pada Congklak Hole berisi lebih dari 1
                             if (hole.SeedsCount > 1)
                             {
-                                // Cek jika hole yang dipilih adalah "Hole Left"
+                                // Cek jika hole yang dipilih adalah bukan "Hole Left"
                                 if (hitCollider.gameObject.name != "Hole Left") // Pastikan bukan Hole Left
                                 {
                                     hole.HandleClick(); // Transfer semua biji dari hole ke inventory
@@ -126,14 +128,40 @@ public class DragHandler : MonoBehaviour
                                 }
                             }
 
-                            // Cek jika hole yang dipilih adalah hole dengan indeks 4
+                            // Cek jika hole yang dipilih adalah hole dengan indeks 4 (Hole Left)
                             if (hitCollider.gameObject.name == "Hole Left")
                             {
-                                // Panggil fungsi ResetCollidersToDefault di ColliderHoleManager
-                                ColliderHoleManager colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
                                 if (colliderHoleManager != null)
                                 {
                                     colliderHoleManager.ResetCollidersToDefault();
+                                }
+                            }
+
+                            // Cek jika hole yang dipilih memiliki biji hanya 1
+                            if (hole.SeedsCount == 1)
+                            {
+                                if (colliderHoleManager != null)
+                                {
+                                    int currentHoleIndex = colliderHoleManager.colliders.IndexOf(hitCollider);
+                                    if (colliderHoleManager.oppositeHoles.TryGetValue(currentHoleIndex + 1, out int oppositeIndex))
+                                    {
+                                        Collider oppositeHoleCollider = colliderHoleManager.colliders[oppositeIndex - 1];
+                                        CongklakHole oppositeHole = oppositeHoleCollider.GetComponent<CongklakHole>();
+                                        if (oppositeHole != null && oppositeHole.SeedsCount > 0)
+                                        {
+                                            Debug.Log($"Mengambil biji dari hole berlawanan: {oppositeHole.gameObject.name}");
+
+                                            // Transfer biji dari hole berlawanan ke inventory
+                                            oppositeHole.HandleClick();
+
+                                            // Hapus biji dari Hole Berlawanan tersebut
+                                            oppositeHole.RemoveSeedsInHole();
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Hole berlawanan kosong.");
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -13,8 +13,22 @@ public class ColliderHoleManager : MonoBehaviour
     public Color activeColor = Color.green; // Warna untuk collider aktif
     public Color inactiveColor = Color.red; // Warna untuk collider nonaktif
 
+    [Header("Opposite Holes Mapping")]
+    public Dictionary<int, int> oppositeHoles = new Dictionary<int, int>(); // Data untuk menentuka Hole yang Berlawanan
+
     void Start()
     {
+        // Mapping hole berlawanan (1 -> 8, 2 -> 7, dll.)
+        // Digunakan pada Script DragHandler (HandleDrag - MouseUp)
+        oppositeHoles[1] = 9;
+        oppositeHoles[2] = 8;
+        oppositeHoles[3] = 7;
+        oppositeHoles[4] = 6;
+        oppositeHoles[9] = 1;
+        oppositeHoles[8] = 2;
+        oppositeHoles[7] = 3;
+        oppositeHoles[6] = 4;
+
         // Nonaktifkan semua collider terlebih dahulu
         foreach (var col in colliders)
         {

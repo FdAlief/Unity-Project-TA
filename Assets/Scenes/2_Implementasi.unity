@@ -1569,7 +1569,7 @@ MonoBehaviour:
   - {fileID: 796549624}
   - {fileID: 1762205084}
   - {fileID: 707606898}
-  colliderImages:
+  colliderImagesInfo:
   - {fileID: 1408197257}
   - {fileID: 705954950}
   - {fileID: 108866755}
