@@ -137,7 +137,7 @@ public class DragHandler : MonoBehaviour
                                 }
                             }
 
-                            // Cek jika hole yang dipilih memiliki biji hanya 1
+                            // Cek jika hole yang dipilih memiliki biji hanya 1 atau kosong sebelum diletakkan
                             if (hole.SeedsCount == 1)
                             {
                                 if (colliderHoleManager != null)
@@ -161,6 +161,16 @@ public class DragHandler : MonoBehaviour
                                         {
                                             Debug.Log("Hole berlawanan kosong.");
                                         }
+                                    }
+                                }
+
+                                // Cek jika hole yang dipilih adalah hole dengan indeks 3 (Hole 4, sebelum Hole Left)
+                                if (hitCollider.gameObject.name == "Hole 4")
+                                {
+                                    if (colliderHoleManager != null)
+                                    {
+                                        // Melewati sistme peng-aktif-an pada collider Hole Left dan langsung ke Hole 5, setelah Hole Left
+                                        colliderHoleManager.PassingLefthole();
                                     }
                                 }
                             }
