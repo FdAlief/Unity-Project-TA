@@ -36,7 +36,7 @@ public class ColliderHoleManager : MonoBehaviour
         }
 
         // Aktifkan collider dengan indeks 0, 1, 2, dan 3 atau hole (1,2,3,4)
-        for (int i = 5; i <= 8 && i < colliders.Count; i++)
+        for (int i = 0; i <= 3 && i < colliders.Count; i++)
         {
             colliders[i].enabled = true;
         }
@@ -105,22 +105,6 @@ public class ColliderHoleManager : MonoBehaviour
         // Perbarui UI berdasarkan status collider
         UpdateUICollider();
         Debug.Log("Collider di-reset ke default (0, 1, 2, 3 aktif)");
-    }
-
-    // Method untuk ketika biji terakhir diletakkan pada Hole 4 yang kosong, maka collider Hole Left dilewati sistem OnColliderChoose
-    // Digunakan pada Script DragHandler (HandleDrag - MouseUp)
-    public void PassingLefthole()
-    {
-        // Nonaktifkan semua collider terlebih dahulu
-        foreach (var col in colliders)
-        {
-            col.enabled = false;
-        }
-
-        colliders[5].enabled = true;
-
-        // Perbarui UI berdasarkan status collider
-        UpdateUICollider();
     }
 
     // Method ini berfungsi untuk menampilkan info UI Collider yang aktif dan nonaktif

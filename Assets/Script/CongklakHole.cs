@@ -52,6 +52,43 @@ public class CongklakHole : MonoBehaviour
         Debug.Log("Semua biji dari lubang telah dipindahkan ke inventory.");
     }
 
+    // Method untuk memindahkan seluruh biji ke lubang tertentu
+    // Disini method ini digunakan pada Script DragHandler (MouseUp)
+    public void TransferSeedsToSpecificHole(CongklakHole targetHole)
+    {
+        if (targetHole == null)
+        {
+            Debug.LogError("Target hole tidak ditemukan!");
+            return;
+        }
+
+        // Pindahkan dan hancurkan setiap biji dari hole asal
+        for (int i = seedsInHole.Count - 1; i >= 0; i--)
+        {
+            GameObject seed = seedsInHole[i];
+
+            // Buat duplikasi biji untuk target hole
+            GameObject seedUpdate = Instantiate(seed, targetHole.transform.position, Quaternion.identity, targetHole.transform);
+
+            // Tambahkan duplikasi biji ke target hole
+            targetHole.AddSeed(seedUpdate);
+
+            // Hapus biji asli dari scene
+            Destroy(seed);
+
+            // Hapus biji dari list seedsInHole (hole asal)
+            seedsInHole.RemoveAt(i);
+        }
+
+        // Perbarui UI pada hole ini
+        UpdateSeedCountUI();
+
+        // Perbarui UI pada target hole (jika diperlukan)
+        targetHole.UpdateSeedCountUI();
+
+        Debug.Log($"Semua biji dari {gameObject.name} telah dipindahkan ke {targetHole.gameObject.name}.");
+    }
+
     // Method untuk memasukkan data biji ke dalam list data hole atau lubang
     // Digunakan pada script Congklak Manager (PlaceSeedInHole) dan DragHandler (HandleDrag - GetMouseUp/Tounch Ended)
     public void AddSeed(GameObject seed)
@@ -59,25 +96,6 @@ public class CongklakHole : MonoBehaviour
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
         UpdateSeedCountUI(); // Perbarui UI saat awal
-    }
-
-    // Method untuk menghapus semua data seed dari hole
-    // Method ini digunakan pada Script DragHandler (HandleDrag - MouseUp)
-    public void RemoveSeedsInHole()
-    {
-        // Hapus setiap objek secara fisik dari scene
-        foreach (GameObject seed in seedsInHole)
-        {
-            Destroy(seed); // Menghapus seed dari scene
-        }
-
-        // Bersihkan list setelah semua biji dihancurkan
-        seedsInHole.Clear();
-
-        // Perbarui UI
-        UpdateSeedCountUI();
-
-        Debug.Log($"Semua seed di {gameObject.name} telah dihapus.");
     }
 
     // Method ini berfungsi untuk menampilkan jumlah biji di dalam Hole pada UI Text

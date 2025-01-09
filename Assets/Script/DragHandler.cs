@@ -140,6 +140,9 @@ public class DragHandler : MonoBehaviour
                             // Cek jika hole yang dipilih memiliki biji hanya 1 atau kosong sebelum diletakkan
                             if (hole.SeedsCount == 1)
                             {
+                                // Aktifkan Collider Hole Pada Deret Player
+                                colliderHoleManager.ResetCollidersToDefault();
+
                                 if (colliderHoleManager != null)
                                 {
                                     int currentHoleIndex = colliderHoleManager.colliders.IndexOf(hitCollider);
@@ -151,26 +154,25 @@ public class DragHandler : MonoBehaviour
                                         {
                                             Debug.Log($"Mengambil biji dari hole berlawanan: {oppositeHole.gameObject.name}");
 
-                                            // Transfer biji dari hole berlawanan ke inventory
-                                            oppositeHole.HandleClick();
+                                            // Ambil referensi ke Hole Left
+                                            CongklakHole holeLeft = colliderHoleManager.colliders[4].GetComponent<CongklakHole>();
 
-                                            // Hapus biji dari Hole Berlawanan tersebut
-                                            oppositeHole.RemoveSeedsInHole();
+                                            if (holeLeft != null)
+                                            {
+                                                // Transfer biji dari hole berlawanan ke Hole Left
+                                                oppositeHole.TransferSeedsToSpecificHole(holeLeft);
+
+                                                Debug.Log($"Semua biji dari {oppositeHole.gameObject.name} dipindahkan ke Hole Left.");
+                                            }
+                                            else
+                                            {
+                                                Debug.LogError("Hole Left tidak ditemukan!");
+                                            }
                                         }
                                         else
                                         {
                                             Debug.Log("Hole berlawanan kosong.");
                                         }
-                                    }
-                                }
-
-                                // Cek jika hole yang dipilih adalah hole dengan indeks 3 (Hole 4, sebelum Hole Left)
-                                if (hitCollider.gameObject.name == "Hole 4")
-                                {
-                                    if (colliderHoleManager != null)
-                                    {
-                                        // Melewati sistme peng-aktif-an pada collider Hole Left dan langsung ke Hole 5, setelah Hole Left
-                                        colliderHoleManager.PassingLefthole();
                                     }
                                 }
                             }
