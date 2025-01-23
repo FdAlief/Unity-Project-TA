@@ -15,10 +15,19 @@ public class CongklakHole : MonoBehaviour
     [Header("Info Seed In Hole")]
     public TMP_Text seedCountText; // Referensi ke Text UI
 
+    [Header("Score Source")]
+    public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
+
     private void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
         UpdateSeedCountUI(); // Perbarui UI saat awal
+
+        // Jika lubang ini adalah sumber skor, update skor awal
+        if (isScoreSource)
+        {
+            UpdateScore();
+        }
     }
 
     // Method untuk melakukan Transfer atau pemindahan biji ke Inventory
@@ -52,7 +61,7 @@ public class CongklakHole : MonoBehaviour
         Debug.Log("Semua biji dari lubang telah dipindahkan ke inventory.");
     }
 
-    // Method untuk memindahkan seluruh biji ke lubang tertentu
+    // Method untuk memindahkan seluruh biji ke lubang tertentu (Hole Besar)
     // Disini method ini digunakan pada Script DragHandler (MouseUp)
     public void TransferSeedsToSpecificHole(CongklakHole targetHole)
     {
@@ -106,5 +115,19 @@ public class CongklakHole : MonoBehaviour
         {
             seedCountText.text = SeedsCount.ToString(); // Update jumlah biji
         }
+
+        // Jika lubang ini adalah sumber skor, perbarui skor global
+        if (isScoreSource)
+        {
+            UpdateScore();
+        }
+    }
+
+    // Method untuk mengatur score yang di dapatkan berdasarkan biji pada Hole (Hole Besar)
+    // Digunakan pada method UpdateSeedCountUI() & Start
+    private void UpdateScore()
+    {
+        // Memperbarui skor di ScoreManager berdasarkan SeedsCount
+        ScoreManager.Instance.SetScore(SeedsCount);
     }
 }
