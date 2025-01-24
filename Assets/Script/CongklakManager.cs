@@ -75,4 +75,23 @@ public class CongklakManager : MonoBehaviour
             holeScript.AddSeed(seed);  // Menambahkan biji ke lubang yang sesuai
         }
     }
+
+    // Method untuk mereset semua biji di setiap hole
+    // Untuk ketika Selesai Stage akan mereset biji pada congklak
+    // Digunakan pada script StageManager
+    public void ResetSeeds()
+    {
+        // Hapus semua biji dari setiap hole
+        foreach (Transform hole in holes)
+        {
+            CongklakHole holeScript = hole.GetComponent<CongklakHole>();
+            if (holeScript != null)
+            {
+                holeScript.ClearSeeds(); // Hapus semua biji di lubang
+            }
+        }
+
+        // Redistribusi biji
+        DistributeSeeds();
+    }
 }

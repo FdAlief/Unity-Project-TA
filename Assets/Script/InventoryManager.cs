@@ -73,6 +73,31 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Method untuk menghapus semua biji di inventory
+    // Digunakan pada script StageManager ketika selesai stage
+    public void ClearInventory()
+    {
+        for (int i = seedsInSlots.Count - 1; i >= 0; i--)
+        {
+            GameObject seed = seedsInSlots[i];
+
+            // Hapus biji dari slot
+            for (int j = 0; j < inventorySlots.Length; j++)
+            {
+                if (inventorySlots[j].activeSelf && inventorySlots[j].transform.GetChild(0).gameObject == seed)
+                {
+                    inventorySlots[j].SetActive(false); // Nonaktifkan slot
+                    break;
+                }
+            }
+
+            seedsInSlots.RemoveAt(i); // Hapus biji dari list
+            Destroy(seed); // Hapus biji dari scene
+        }
+
+        UpdateContentSize(); // Perbarui ukuran content di ScrollView
+        Debug.Log("Inventory telah dikosongkan.");
+    }
 
     // Method untuk meletakkan prefab biji ke dalam slot dan menjadi child dari slot
     // Digunakan pada method AddSeedToInventory

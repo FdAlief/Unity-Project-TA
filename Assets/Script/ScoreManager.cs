@@ -49,4 +49,11 @@ public class ScoreManager : MonoBehaviour
             scoreText.text = currentScore.ToString(); ; // Update teks UI
         }
     }
+
+    // Method untuk mendapatkan skor saat ini
+    // Digunakan pada script StageManager ketika score meraih target score akan selesai stage
+    public int GetCurrentScore()
+    {
+        return currentScore;
+    }
 }

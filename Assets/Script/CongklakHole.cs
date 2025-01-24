@@ -107,6 +107,20 @@ public class CongklakHole : MonoBehaviour
         UpdateSeedCountUI(); // Perbarui UI saat awal
     }
 
+    // Method untuk menghapus semua biji dari lubang
+    // Digunakan pada script CongklakManager
+    public void ClearSeeds()
+    {
+        for (int i = seedsInHole.Count - 1; i >= 0; i--)
+        {
+            GameObject seed = seedsInHole[i];
+            Destroy(seed); // Hapus biji dari scene
+        }
+
+        seedsInHole.Clear(); // Bersihkan list seedsInHole
+        UpdateSeedCountUI(); // Perbarui UI
+    }
+
     // Method ini berfungsi untuk menampilkan jumlah biji di dalam Hole pada UI Text
     // Digunakan pada method (AddSeed), (TransferSeedsToInventory), (Start)
     private void UpdateSeedCountUI()
