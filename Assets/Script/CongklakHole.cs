@@ -9,8 +9,9 @@ public class CongklakHole : MonoBehaviour
     private List<GameObject> seedsInHole = new List<GameObject>(); // List biji di setiap lubang
 
     private InventoryManager inventoryManager; // Referensi ke manager inventory
+    private TurnScript turnScript; // Referensi ke Turn Script
 
-    public int SeedsCount => seedsInHole.Count;
+    public int SeedsCount => seedsInHole.Count; // Variabel SeedsCount
 
     [Header("Info Seed In Hole")]
     public TMP_Text seedCountText; // Referensi ke Text UI
@@ -21,6 +22,8 @@ public class CongklakHole : MonoBehaviour
     private void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
+        turnScript = FindObjectOfType<TurnScript>();
+
         UpdateSeedCountUI(); // Perbarui UI saat awal
 
         // Jika lubang ini adalah sumber skor, update skor awal
@@ -54,6 +57,9 @@ public class CongklakHole : MonoBehaviour
             if (inventoryManager.AddSeedToInventory(seed)) // Hanya jika berhasil dimasukkan ke inventory
             {
                 seedsInHole.RemoveAt(i); // Hapus dari list seedsInHole
+
+                // Penghitungan turnCount
+                turnScript.OnSeedAddedFromHole(); // Tandai bahwa seed berasal dari hole
             }
         }
 
