@@ -135,6 +135,8 @@ public class InventoryManager : MonoBehaviour
     // Digunakan pada method AddSeedToInventory dan RemoveSeedFromInventory
     private void ChangeSeedLayer(GameObject seed, string layerName)
     {
+        if (seed == null) return; // Pastikan seed masih ada sebelum mengubah layer
+
         // Ubah layer pada seed
         seed.layer = LayerMask.NameToLayer(layerName);
         Debug.Log("Layer biji diubah menjadi: " + layerName);

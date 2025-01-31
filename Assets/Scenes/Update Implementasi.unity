@@ -2451,16 +2451,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645618812}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 1
+  targetScore: 4
+  isObjectiveComplete: 0
   PanelWin: {fileID: 1887925289}
   scriptDisable:
   - {fileID: 645618815}
   - {fileID: 645618816}
+  PanelLose: {fileID: 647857256}
 --- !u!114 &645618819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2473,6 +2475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94f3a08e80efb0428ec10ca14d84839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnCount: 0
+  maxTurns: 2
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0

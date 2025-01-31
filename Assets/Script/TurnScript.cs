@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class TurnScript : MonoBehaviour
 {
+    [SerializeField]
     private int turnCount = 0; // Jumlah kali inventory terisi
-    private bool seedAddedFromHole = false; // Flag untuk cek apakah biji berasal dari hole
+    [SerializeField]
+    private int maxTurns = 3; // Batas maksimal turnCount
+    private bool seedAddedFromHole; // Tanda untuk cek apakah biji berasal dari hole
+
+    private StageManager stageManager;
+
+    private void Start()
+    {
+        stageManager = FindObjectOfType<StageManager>();
+    }
 
     void Update()
     {
@@ -15,6 +25,19 @@ public class TurnScript : MonoBehaviour
             turnCount++;
             Debug.LogWarning("Inventory terisi dari hole, count: " + turnCount);
             seedAddedFromHole = false; // Reset flag setelah dihitung
+
+            // Jika turnCount mencapai batas maksimal, lakukan aksi
+            if (turnCount > maxTurns)
+            {
+                if (!stageManager.isObjectiveComplete) // Jika belum menang, maka game over
+                {
+                    stageManager.OnGameOver();
+                }
+                else
+                {
+                    Debug.LogWarning("Turn Sudah Maksimal, tapi menang!");
+                }
+            }
         }
     }
 
