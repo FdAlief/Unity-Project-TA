@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TurnScript : MonoBehaviour
 {
@@ -12,9 +13,14 @@ public class TurnScript : MonoBehaviour
 
     private StageManager stageManager;
 
+    [Header("UI Turn Counter")]
+    public TMP_Text turnCountText; // UI Text untuk menampilkan turn saat ini
+
     private void Start()
     {
         stageManager = FindObjectOfType<StageManager>();
+
+        UpdateTurnUI(); // Perbarui UI pertama kali
     }
 
     void Update()
@@ -25,6 +31,7 @@ public class TurnScript : MonoBehaviour
             turnCount++;
             Debug.LogWarning("Inventory terisi dari hole, count: " + turnCount);
             seedAddedFromHole = false; // Reset flag setelah dihitung
+            UpdateTurnUI(); // Perbarui UI
 
             // Jika turnCount mencapai batas maksimal, lakukan aksi
             if (turnCount > maxTurns)
@@ -52,5 +59,23 @@ public class TurnScript : MonoBehaviour
     public int GetFillCount()
     {
         return turnCount; // Mengembalikan jumlah kali inventory terisi
+    }
+
+    // Method baru untuk mereset turnCount ke 0 ketika sudah Win/Lose
+    // Digunakan pada method StageManager (OnObjectiveComplete & OnGameOver)
+    public void ResetTurnCount()
+    {
+        turnCount = 0;
+        UpdateTurnUI(); // Perbarui UI
+        Debug.Log("Turn count telah di-reset ke 0.");
+    }
+
+    // Method untuk menampilkan TurnCount pada UI dengan teks
+    private void UpdateTurnUI()
+    {
+        if (turnCountText != null)
+        {
+            turnCountText.text = $"Turn : {turnCount} / {maxTurns}";
+        }
     }
 }
