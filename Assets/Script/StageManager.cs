@@ -11,6 +11,9 @@ public class StageManager : MonoBehaviour
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
+    [Header("Coin Rewards")]
+    [SerializeField] private int[] coinRewards; // Jumlah koin yang diberikan setiap kali target skor tercapai
+
     [Header("Win Condition")]
     public GameObject PanelWin; // Panel Win ketika targetScore diraih
 
@@ -24,6 +27,7 @@ public class StageManager : MonoBehaviour
     private InventoryManager inventoryManager;
     private ColliderHoleManager colliderHoleManager;
     private TurnScript turnScript;
+    private CoinManager coinManager;
 
     private void Start()
     {
@@ -31,6 +35,7 @@ public class StageManager : MonoBehaviour
         inventoryManager = FindObjectOfType<InventoryManager>();
         colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
         turnScript = FindObjectOfType<TurnScript>();
+        coinManager = FindObjectOfType<CoinManager>();
 
         UpdateTargetScoreUI();
     }
@@ -50,8 +55,6 @@ public class StageManager : MonoBehaviour
             {
                 isObjectiveComplete = true;
                 OnObjectiveComplete();
-                currentTargetIndex++;
-                UpdateTargetScoreUI();
             }
         }
     }
@@ -61,6 +64,13 @@ public class StageManager : MonoBehaviour
     {
         // Kembalikan menjadi false agar melanjutkan ke objective selanjutnya
         isObjectiveComplete = false;
+
+        // Mendapatkan reward koin dari array sesuai dengan index yang diraih pada objective / target score
+        if (currentTargetIndex < coinRewards.Length)
+        {
+            // Menambahkan nilai Coin ke data script CoinManager
+            coinManager.AddCoins(coinRewards[currentTargetIndex]);
+        }
 
         // Aktifkan Panel Win
         PanelWin.SetActive(true);
@@ -85,6 +95,13 @@ public class StageManager : MonoBehaviour
 
         // Reset turnCount setiap kali objective tercapai
         turnScript.ResetTurnCount();
+
+        // Pindah ke targetscore / objective berikutnya jika ada
+        if (currentTargetIndex < targetScore.Length - 1)
+        {
+            currentTargetIndex++;
+            UpdateTargetScoreUI();
+        }
 
         Debug.Log("Objective Complete! Target Score Reached!");
     }

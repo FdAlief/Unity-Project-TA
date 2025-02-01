@@ -2828,9 +2828,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 030000000500000009000000
+  targetScore: 010000000200000003000000
   isObjectiveComplete: 0
   targetScoreText: {fileID: 953151063}
+  coinRewards: 05000000070000000a000000
   PanelWin: {fileID: 1887925289}
   PanelLose: {fileID: 647857256}
   scriptDisable:
@@ -2849,7 +2850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnCount: 0
-  maxTurns: 3
+  maxTurns: 5
   turnCountText: {fileID: 1228476443}
 --- !u!114 &645618820
 MonoBehaviour:
@@ -2866,6 +2867,7 @@ MonoBehaviour:
   scriptEnable:
   - {fileID: 645618815}
   - {fileID: 645618816}
+  rewardCoinText: {fileID: 403079306}
 --- !u!114 &645618821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5879,6 +5881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1514787770}
+  - component: {fileID: 1514787771}
   m_Layer: 5
   m_Name: Panel Coin
   m_TagString: Untagged
@@ -5908,6 +5911,19 @@ RectTransform:
   m_AnchoredPosition: {x: -250, y: -100}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1514787771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514787769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34eff290cea44804faede2364a786735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCoinsText: {fileID: 458065139}
 --- !u!1 &1553340904
 GameObject:
   m_ObjectHideFlags: 0
@@ -8305,7 +8321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1887925290
 RectTransform:
   m_ObjectHideFlags: 0
