@@ -9,14 +9,12 @@ public class CoinManager : MonoBehaviour
     public TMP_Text totalCoinsText; // UI untuk total koin
 
     private int totalCoins; // Menyimpan jumlah total koin
-    private int lastRewardCoins; // Menyimpan jumlah koin terakhir yang didapat
 
     // Method untuk menambahkan nilai Coin yang didapatkan
     // Digunakan pada script StageManager (OnObjectiveComplete)
     public void AddCoins(int amount)
     {
         totalCoins += amount;
-        lastRewardCoins = amount; // Simpan jumlah reward terakhir
 
         // Update UI
         UpdateUI();
@@ -31,12 +29,5 @@ public class CoinManager : MonoBehaviour
         {
             totalCoinsText.text = $"{totalCoins}";
         }
-    }
-
-    // Method menyimpan nilai Reward Coin yang didapatkan
-    // Digunakan pada script WinScript (ShowRewardCoins)
-    public int GetLastRewardCoins()
-    {
-        return lastRewardCoins;
     }
 }

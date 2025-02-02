@@ -7,6 +7,13 @@ public class LoseScript : MonoBehaviour
     [Header("Script Enable")]
     public MonoBehaviour[] scriptEnable; // Untuk me-aktifkan sistem Raycast
 
+    private TurnScript turnScript;
+
+    private void Start()
+    {
+        turnScript = FindObjectOfType<TurnScript>();
+    }
+
     // Method untuk mengaktifkan kembali sistem Raycast ketika sudah Win/Lose
     // Digunakan pada Button di Panel Lose
     public void ActiveRaycast()
@@ -19,5 +26,8 @@ public class LoseScript : MonoBehaviour
                 script.enabled = true; // Aktifkan script
             }
         }
+
+        // Reset turnCount setiap kali objective tercapai
+        turnScript.ResetTurnCount();
     }
 }

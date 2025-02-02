@@ -13,6 +13,7 @@ public class StageManager : MonoBehaviour
 
     [Header("Coin Rewards")]
     [SerializeField] private int[] coinRewards; // Jumlah koin yang diberikan setiap kali target skor tercapai
+    private int lastRewardCoins = 0; // Menyimpan reward coin terakhir
 
     [Header("Win Condition")]
     public GameObject PanelWin; // Panel Win ketika targetScore diraih
@@ -24,18 +25,17 @@ public class StageManager : MonoBehaviour
     public MonoBehaviour[] scriptDisable; // Untuk menonaktifkan sistem Raycast ketika Panel Win/Lose muncul
 
     private CongklakManager congklakManager;
+
     private InventoryManager inventoryManager;
     private ColliderHoleManager colliderHoleManager;
-    private TurnScript turnScript;
-    private CoinManager coinManager;
+    private WinScript winScript;
 
     private void Start()
     {
         congklakManager = FindObjectOfType<CongklakManager>();
         inventoryManager = FindObjectOfType<InventoryManager>();
         colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
-        turnScript = FindObjectOfType<TurnScript>();
-        coinManager = FindObjectOfType<CoinManager>();
+        winScript = FindObjectOfType<WinScript>();
 
         UpdateTargetScoreUI();
     }
@@ -65,12 +65,11 @@ public class StageManager : MonoBehaviour
         // Kembalikan menjadi false agar melanjutkan ke objective selanjutnya
         isObjectiveComplete = false;
 
-        // Mendapatkan reward koin dari array sesuai dengan index yang diraih pada objective / target score
-        if (currentTargetIndex < coinRewards.Length)
-        {
-            // Menambahkan nilai Coin ke data script CoinManager
-            coinManager.AddCoins(coinRewards[currentTargetIndex]);
-        }
+        // Simpan nilai Reward Coin berdasarkan target score yang tercapai
+        lastRewardCoins = coinRewards[currentTargetIndex];
+
+        // Menambahkan total coin manager dari hasil yang didapatkan
+        winScript.AddToCoinManager();
 
         // Aktifkan Panel Win
         PanelWin.SetActive(true);
@@ -92,9 +91,6 @@ public class StageManager : MonoBehaviour
 
         // Method untuk mereset collider yang aktif hanya deret player
         colliderHoleManager.ResetCollidersToDefault();
-
-        // Reset turnCount setiap kali objective tercapai
-        turnScript.ResetTurnCount();
 
         // Pindah ke targetscore / objective berikutnya jika ada
         if (currentTargetIndex < targetScore.Length - 1)
@@ -135,10 +131,14 @@ public class StageManager : MonoBehaviour
         // Method untuk mereset collider yang aktif hanya deret player
         colliderHoleManager.ResetCollidersToDefault();
 
-        // Reset turnCount setiap kali objective tercapai
-        turnScript.ResetTurnCount();
-
         Debug.Log("Game Over! Turn sudah maksimal tetapi target skor tidak tercapai.");
+    }
+
+    // Method untuk Mengambil Reward Coin Terakhir
+    // Digunakan pada Script WinScript (ShowRewardCoins)
+    public int GetLastRewardCoins()
+    {
+        return lastRewardCoins;
     }
 
     // Method untuk menampilkan TargetScore pada UI

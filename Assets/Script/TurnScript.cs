@@ -5,10 +5,10 @@ using TMPro;
 
 public class TurnScript : MonoBehaviour
 {
-    [SerializeField]
-    private int turnCount = 0; // Jumlah kali inventory terisi
-    [SerializeField]
-    private int maxTurns = 3; // Batas maksimal turnCount
+    [SerializeField] private int turnCount = 0; // Jumlah kali inventory terisi
+    [SerializeField] private int maxTurns = 3; // Batas maksimal turnCount
+    [SerializeField] private int coinRewardPerTurn = 2; // Nilai coin per sisa turn
+
     private bool seedAddedFromHole; // Tanda untuk cek apakah biji berasal dari hole
 
     private StageManager stageManager;
@@ -56,11 +56,6 @@ public class TurnScript : MonoBehaviour
         seedAddedFromHole = true;
     }
 
-    public int GetFillCount()
-    {
-        return turnCount; // Mengembalikan jumlah kali inventory terisi
-    }
-
     // Method baru untuk mereset turnCount ke 0 ketika sudah Win/Lose
     // Digunakan pada method StageManager (OnObjectiveComplete & OnGameOver)
     public void ResetTurnCount()
@@ -68,6 +63,21 @@ public class TurnScript : MonoBehaviour
         turnCount = 0;
         UpdateTurnUI(); // Perbarui UI
         Debug.Log("Turn count telah di-reset ke 0.");
+    }
+
+    // Method untuk mendapatkan sisa turn
+    // Digunakan pada script WinScript
+    public int GetRemainingTurns()
+    {
+        int remainingTurns = maxTurns - turnCount;
+        return remainingTurns < 0 ? 0 : remainingTurns;
+    }
+
+    // Method untuk mendapatkan total coin dari sisa turn
+    // Digunakan pada script WinScript
+    public int GetRemainingTurnCoins()
+    {
+        return GetRemainingTurns() * coinRewardPerTurn;
     }
 
     // Method untuk menampilkan TurnCount pada UI dengan teks

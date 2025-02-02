@@ -12,7 +12,8 @@ public class ScoreManager : MonoBehaviour
     [Header("UI Text Score")]
     [SerializeField] private TMP_Text scoreText; // Referensi ke Text UI untuk skor
 
-    private int currentScore = 0;
+    private int currentScore = 0; // Score yang sedang diraih
+    private int lastScore = 0; // Score terkahir yang diraih
 
     // Untuk memastikan hanya ada 1 instance, jika lebih di destroy
     private void Awake()
@@ -36,7 +37,8 @@ public class ScoreManager : MonoBehaviour
     // Digunakan pada script CongklakHole (UpdateScore)
     public void SetScore(int newScore)
     {
-        currentScore = newScore; // Set skor langsung
+        lastScore = currentScore; // Simpan skor terakhir sebelum diubah
+        currentScore = newScore;  // Update skor baru
         UpdateScoreUI();
     }
 
@@ -55,5 +57,12 @@ public class ScoreManager : MonoBehaviour
     public int GetCurrentScore()
     {
         return currentScore;
+    }
+
+    // Method untuk mendapatkan skor terakhir yang diraih
+    // Digunakan pada Script WinScript (ShowScore) ditampilkan ketika Win
+    public int GetLastScore()
+    {
+        return lastScore;
     }
 }
