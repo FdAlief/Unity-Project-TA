@@ -9,21 +9,20 @@ public class DragHandler : MonoBehaviour
     private GameObject selectedSeed; // Objek yang sedang di-drag
     private Vector3 offset; // Offset posisi antara mouse dan objek
     private Camera mainCamera; // Kamera utama
-    private RaycastManager raycastManager; // Referensi ke RaycastManager
-    private InventoryManager inventoryManager; // Referensi ke InventoryManager
-    private ColliderHoleManager colliderHoleManager; // Referensi ke ColliderHoleManager
     private Vector3 initialPosition; // Posisi awal biji di slot inventory
     private Vector3 initialScale; // Menyimpan ukuran skala awal biji
 
     [Header("ScrollView")]
     public ScrollRect scrollRect; // Reference ke Scroll Rect
 
+    [Header("Referensi Script")]
+    [SerializeField] private RaycastManager raycastManager; // Referensi ke RaycastManager
+    [SerializeField] private InventoryManager inventoryManager; // Referensi ke InventoryManager
+    [SerializeField] private ColliderHoleManager colliderHoleManager; // Referensi ke ColliderHoleManager
+
     void Start()
     {
         mainCamera = Camera.main;
-        raycastManager = FindObjectOfType<RaycastManager>(); // Cari instance RaycastManager
-        inventoryManager = FindObjectOfType<InventoryManager>(); // Cari instance InventoryManager                                                         // Panggil fungsi ResetCollidersToDefault di ColliderHoleManager
-        colliderHoleManager = FindObjectOfType<ColliderHoleManager>(); // Cari Instance ColliderHoleManager
     }
 
     void Update()

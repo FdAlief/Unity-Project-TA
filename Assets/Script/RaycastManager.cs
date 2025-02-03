@@ -8,14 +8,9 @@ public class RaycastManager : MonoBehaviour
     public LayerMask holeLayer; // Layer untuk mendeteksi lubang congklak
     public LayerMask interactableDragLayer; // Layer untuk biji yang dapat diinteraksi
 
-    private ColliderHoleManager colliderHoleManager; // Referensi ColliderManager
-    private InventoryManager inventoryManager; // Referensi InventoryManager
-
-    private void Start()
-    {
-        colliderHoleManager = FindObjectOfType<ColliderHoleManager>(); // Cari instance ColliderHoleManager
-        inventoryManager = FindObjectOfType<InventoryManager>(); // Cari instance InventoryManager
-    }
+    [Header("Referensi Script")]
+    [SerializeField] private ColliderHoleManager colliderHoleManager; // Referensi ColliderManager
+    [SerializeField] private InventoryManager inventoryManager; // Referensi InventoryManager
 
     void Update()
     {

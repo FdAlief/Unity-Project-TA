@@ -5,21 +5,21 @@ using TMPro;
 
 public class TurnScript : MonoBehaviour
 {
+    [Header("Turn Play")]
     [SerializeField] private int turnCount = 0; // Jumlah kali inventory terisi
     [SerializeField] private int maxTurns = 3; // Batas maksimal turnCount
     [SerializeField] private int coinRewardPerTurn = 2; // Nilai coin per sisa turn
 
     private bool seedAddedFromHole; // Tanda untuk cek apakah biji berasal dari hole
 
-    private StageManager stageManager;
-
     [Header("UI Turn Counter")]
     public TMP_Text turnCountText; // UI Text untuk menampilkan turn saat ini
 
+    [Header("Referensi Script")]
+    [SerializeField] private StageManager stageManager;
+
     private void Start()
     {
-        stageManager = FindObjectOfType<StageManager>();
-
         UpdateTurnUI(); // Perbarui UI pertama kali
     }
 

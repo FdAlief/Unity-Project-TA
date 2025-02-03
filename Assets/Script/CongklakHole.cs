@@ -5,11 +5,9 @@ using TMPro;
 
 public class CongklakHole : MonoBehaviour
 {
+    [Header("Isi Hole")]
     [SerializeField]
     private List<GameObject> seedsInHole = new List<GameObject>(); // List biji di setiap lubang
-
-    private InventoryManager inventoryManager; // Referensi ke manager inventory
-    private TurnScript turnScript; // Referensi ke Turn Script
 
     public int SeedsCount => seedsInHole.Count; // Variabel SeedsCount
 
@@ -19,11 +17,13 @@ public class CongklakHole : MonoBehaviour
     [Header("Score Source")]
     public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
 
+    [Header("Referensi Script")]
+    [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
+    [SerializeField] private TurnScript turnScript; // Referensi ke TurnScript
+    [SerializeField] private ScoreManager scoreManager; // Referensi ke Score Manager
+
     private void Start()
     {
-        inventoryManager = FindObjectOfType<InventoryManager>();
-        turnScript = FindObjectOfType<TurnScript>();
-
         UpdateSeedCountUI(); // Perbarui UI saat awal
 
         // Jika lubang ini adalah sumber skor, update skor awal
@@ -148,6 +148,6 @@ public class CongklakHole : MonoBehaviour
     private void UpdateScore()
     {
         // Memperbarui skor di ScoreManager berdasarkan SeedsCount
-        ScoreManager.Instance.SetScore(SeedsCount);
+        scoreManager.SetScore(SeedsCount);
     }
 }

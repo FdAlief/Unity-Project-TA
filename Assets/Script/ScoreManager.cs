@@ -5,28 +5,11 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    // Instance agar ketika digunakan pada script lain tidak perlu mencari referensi
-    // hanya satu baris kode "ScoreManager.Instance.SetScore(SeedsCount);"
-    public static ScoreManager Instance;
-
     [Header("UI Text Score")]
-    [SerializeField] private TMP_Text scoreText; // Referensi ke Text UI untuk skor
+    public TMP_Text scoreText; // Referensi ke Text UI untuk skor
 
     private int currentScore = 0; // Score yang sedang diraih
     private int lastScore = 0; // Score terkahir yang diraih
-
-    // Untuk memastikan hanya ada 1 instance, jika lebih di destroy
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Start()
     {

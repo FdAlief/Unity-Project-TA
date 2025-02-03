@@ -11,15 +11,9 @@ public class LoseScript : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
 
-    private TurnScript turnScript;
-    private StageManager stageManager;
-
-    private void Start()
-    {
-        turnScript = FindObjectOfType<TurnScript>();
-        stageManager = FindObjectOfType<StageManager>();
-    }
-
+    [Header("Referensi Script")]
+    [SerializeField] private StageManager stageManager;
+    [SerializeField] private TurnScript turnScript;
 
     // Method untuk menampilkan UI text informasi Stage Lose
     // Digunakan pada script StageManager (OnGameOver)

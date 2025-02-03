@@ -27,21 +27,16 @@ public class StageManager : MonoBehaviour
     [Header("Script Disable")]
     public MonoBehaviour[] scriptDisable; // Untuk menonaktifkan sistem Raycast ketika Panel Win/Lose muncul
 
-    private CongklakManager congklakManager;
-
-    private InventoryManager inventoryManager;
-    private ColliderHoleManager colliderHoleManager;
-    private WinScript winScript;
-    private LoseScript loseScript;
+    [Header("Referensi Script")]
+    [SerializeField] private CongklakManager congklakManager;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private ColliderHoleManager colliderHoleManager;
+    [SerializeField] private WinScript winScript;
+    [SerializeField] private LoseScript loseScript;
+    [SerializeField] private ScoreManager scoreManager;
 
     private void Start()
     {
-        congklakManager = FindObjectOfType<CongklakManager>();
-        inventoryManager = FindObjectOfType<InventoryManager>();
-        colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
-        winScript = FindObjectOfType<WinScript>();
-        loseScript = FindObjectOfType<LoseScript>();
-
         UpdateTargetScoreUI();
     }
 
@@ -54,9 +49,9 @@ public class StageManager : MonoBehaviour
     // Method untuk mengecek apakah objective sudah tercapai
     private void CheckObjective()
     {
-        if (!isObjectiveComplete && ScoreManager.Instance != null)
+        if (!isObjectiveComplete && scoreManager != null)
         {
-            if (ScoreManager.Instance.GetCurrentScore() >= targetScore[currentTargetIndex])
+            if (scoreManager.GetCurrentScore() >= targetScore[currentTargetIndex])
             {
                 isObjectiveComplete = true;
                 OnObjectiveComplete();

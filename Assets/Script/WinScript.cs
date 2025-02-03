@@ -14,16 +14,11 @@ public class WinScript : MonoBehaviour
     public TMP_Text remainingTurnText; // Tampilan UI sisa Turn
     public TMP_Text totalText; // Tampilan UI Total
 
-    private CoinManager coinManager;
-    private StageManager stageManager;
-    private TurnScript turnScript;
-
-    private void Start()
-    {
-        coinManager = FindObjectOfType<CoinManager>();
-        stageManager = FindObjectOfType<StageManager>();
-        turnScript = FindObjectOfType<TurnScript>();
-    }
+    [Header("Referensi Script")]
+    [SerializeField] private StageManager stageManager;
+    [SerializeField] private CoinManager coinManager;
+    [SerializeField] private TurnScript turnScript;
+    [SerializeField] private ScoreManager scoreManager;
 
     private void Update()
     {
@@ -37,9 +32,9 @@ public class WinScript : MonoBehaviour
     // Mengguanakn method GetLastScore() dari script ScoreManager
     private void ShowScore()
     {
-        if (ScoreManager.Instance != null && scoreText != null)
+        if (scoreManager != null && scoreText != null)
         {
-            int lastScore = ScoreManager.Instance.GetLastScore(); // Ambil skor terakhir
+            int lastScore = scoreManager.GetLastScore(); // Ambil skor terakhir
             scoreText.text = $"Kumpulkan Sebanyak {lastScore}";
         }
     }
