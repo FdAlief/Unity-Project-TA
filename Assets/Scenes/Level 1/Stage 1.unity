@@ -2870,6 +2870,7 @@ MonoBehaviour:
   scriptEnable:
   - {fileID: 645618815}
   - {fileID: 645618816}
+  stageText: {fileID: 532767681}
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0
@@ -6467,7 +6468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnCount: 0
-  maxTurns: 3
+  maxTurns: 1
   coinRewardPerTurn: 2
   turnCountText: {fileID: 1228476443}
 --- !u!1 &1677561821

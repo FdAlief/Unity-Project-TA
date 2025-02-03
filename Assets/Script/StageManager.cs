@@ -11,6 +11,9 @@ public class StageManager : MonoBehaviour
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
+    [Header("Stage Information")]
+    private int currentStage = 1; // Menyimpan informasi stage saat ini, dimulai dari nama stage 1
+
     [Header("Coin Rewards")]
     [SerializeField] private int[] coinRewards; // Jumlah koin yang diberikan setiap kali target skor tercapai
     private int lastRewardCoins = 0; // Menyimpan reward coin terakhir
@@ -29,6 +32,7 @@ public class StageManager : MonoBehaviour
     private InventoryManager inventoryManager;
     private ColliderHoleManager colliderHoleManager;
     private WinScript winScript;
+    private LoseScript loseScript;
 
     private void Start()
     {
@@ -36,6 +40,7 @@ public class StageManager : MonoBehaviour
         inventoryManager = FindObjectOfType<InventoryManager>();
         colliderHoleManager = FindObjectOfType<ColliderHoleManager>();
         winScript = FindObjectOfType<WinScript>();
+        loseScript = FindObjectOfType<LoseScript>();
 
         UpdateTargetScoreUI();
     }
@@ -96,6 +101,7 @@ public class StageManager : MonoBehaviour
         if (currentTargetIndex < targetScore.Length - 1)
         {
             currentTargetIndex++;
+            currentStage++;
             UpdateTargetScoreUI();
         }
 
@@ -106,8 +112,12 @@ public class StageManager : MonoBehaviour
     // Digunakan pada script TurnScript ketika sudah mencapai TurnCount
     public void OnGameOver()
     {
-        // Reset target score ke array pertama (indeks 0)
+        // Memanggil method pada script LoseScript untuk menampilkan UI text Stage Lose
+        loseScript.ShowStageOnGameOver();
+
+        // Reset target score ke array pertama (indeks 0) & Stage Informasi ke (index 1)
         currentTargetIndex = 0;
+        currentStage = 1;
         UpdateTargetScoreUI();
 
         // Aktifkan Panel Game Over
@@ -139,6 +149,13 @@ public class StageManager : MonoBehaviour
     public int GetLastRewardCoins()
     {
         return lastRewardCoins;
+    }
+
+    // Method untuk mengambil informasi Stage terakhir sesuai dengan TargetScore
+    // Digunakan pada script LoseScript (ShowStageOnGameOver)
+    public int GetCurrentStage()
+    {
+        return currentStage;
     }
 
     // Method untuk menampilkan TargetScore pada UI
