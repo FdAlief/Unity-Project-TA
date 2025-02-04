@@ -162,4 +162,19 @@ public class StageManager : MonoBehaviour
             targetScoreText.text = $"{targetScore[currentTargetIndex]}";
         }
     }
+
+    // Method untuk mengatur Target Score / Objective berapa yang dipilih menggunakan Button
+    // Digunakan pada script StageInput (ChooseStage)
+    public void SetTargetScoreIndex(int index)
+    {
+        if (index >= 0 && index < targetScore.Length)
+        {
+            currentTargetIndex = index;
+            UpdateTargetScoreUI();
+        }
+        else
+        {
+            Debug.LogWarning("Index target score di luar batas array!");
+        }
+    }
 }
