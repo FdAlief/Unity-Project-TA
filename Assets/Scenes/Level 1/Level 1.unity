@@ -2748,7 +2748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 030000000500000009000000
+  targetScore: 030000000400000005000000
   isObjectiveComplete: 0
   targetScoreText: {fileID: 953151063}
   coinRewards: 05000000070000000a000000
@@ -2763,6 +2763,7 @@ MonoBehaviour:
   winScript: {fileID: 645618820}
   loseScript: {fileID: 645618821}
   scoreManager: {fileID: 1574728820}
+  stageInput: {fileID: 645618822}
 --- !u!114 &645618820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2819,6 +2820,11 @@ MonoBehaviour:
   scriptEnable:
   - {fileID: 645618815}
   - {fileID: 645618816}
+  stageButtons:
+  - {fileID: 1998888284}
+  - {fileID: 1457593833}
+  - {fileID: 669168175}
+  keyPrefs: Coba8_
   stageManager: {fileID: 645618818}
 --- !u!1 &647857256
 GameObject:
@@ -3143,7 +3149,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 669168176}
   m_OnClick:
     m_PersistentCalls:
@@ -6199,7 +6205,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1457593834}
   m_OnClick:
     m_PersistentCalls:
@@ -7008,7 +7014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnCount: 0
-  maxTurns: 3
+  maxTurns: 1
   coinRewardPerTurn: 2
   turnCountText: {fileID: 1228476443}
   stageManager: {fileID: 645618818}

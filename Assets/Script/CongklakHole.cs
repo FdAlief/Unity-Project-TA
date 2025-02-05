@@ -17,7 +17,7 @@ public class CongklakHole : MonoBehaviour
     [Header("Score Source")]
     public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
 
-    [Header("Referensi Script")]
+    [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
     [SerializeField] private TurnScript turnScript; // Referensi ke TurnScript
     [SerializeField] private ScoreManager scoreManager; // Referensi ke Score Manager

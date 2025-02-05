@@ -21,7 +21,7 @@ public class LoseScript : MonoBehaviour
     {
         if (stageManager != null && stageText != null)
         {
-            stageText.text = $"Kamu Kalah di Stage {stageManager.GetCurrentStage()}";
+            stageText.text = $"Kamu Kalah di Stage {stageManager.GetCurrentTarget()}";
         }
     }
 
