@@ -10,8 +10,11 @@ public class TurnScript : MonoBehaviour
 
     [Header("Turn Play")]
     [SerializeField] private int turnCount = 0; // Jumlah kali inventory terisi
-    [SerializeField] private int maxTurns = 3; // Batas maksimal turnCount
+    [SerializeField] private int maxTurns; // Batas maksimal turnCount
     [SerializeField] private int coinRewardPerTurn = 2; // Nilai coin per sisa turn
+
+    [Header("PlayerPrefs Key to Save Data Max Turns")]
+    [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
     private bool seedAddedFromHole; // Tanda untuk cek apakah biji berasal dari hole
 
@@ -34,6 +37,8 @@ public class TurnScript : MonoBehaviour
     private void Start()
     {
         stageManager = FindObjectOfType<StageManager>();
+
+        LoadTurns(); // Load max turn saat game mulai
 
         // Panggil event pertama kali untuk update UI awal
         OnTurnChanged?.Invoke(turnCount);
@@ -94,7 +99,7 @@ public class TurnScript : MonoBehaviour
     }
 
     // Method untuk mendapatkan sisa turn
-    // Digunakan pada script WinScript
+    // Digunakan pada script WinScript (ShowRemainingTurn)
     public int GetRemainingTurns()
     {
         int remainingTurns = maxTurns - turnCount;
@@ -102,9 +107,35 @@ public class TurnScript : MonoBehaviour
     }
 
     // Method untuk mendapatkan total coin dari sisa turn
-    // Digunakan pada script WinScript
+    // Digunakan pada script WinScript (ShowTotalCoins & AddToCoinManager)
     public int GetRemainingTurnCoins()
     {
         return GetRemainingTurns() * coinRewardPerTurn;
+    }
+
+    // Method untuk menambah total max turn
+    // Digunakan pada script StoreManager (BuyMaxTurnUpgrade)
+    public void IncreaseMaxTurns(int amount)
+    {
+        maxTurns += amount;
+        SaveTurns();
+        OnTurnChanged?.Invoke(maxTurns); // Update UI setelah load
+        Debug.Log("Max Turns Bertambah: " + maxTurns);
+    }
+
+    // Simpan total coin ke PlayerPrefs
+    private void SaveTurns()
+    {
+        PlayerPrefs.SetInt(keyPrefs, maxTurns);
+        PlayerPrefs.Save();
+        Debug.Log("Max Turn Disimpan: " + maxTurns);
+    }
+
+    // Load total coin dari PlayerPrefs
+    private void LoadTurns()
+    {
+        maxTurns = PlayerPrefs.GetInt(keyPrefs, maxTurns); // 0 jika belum ada data
+        Debug.Log("Max Turn Dimuat: " + maxTurns);
+        OnTurnChanged?.Invoke(maxTurns); // Update UI setelah load
     }
 }

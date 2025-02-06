@@ -2335,7 +2335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34eff290cea44804faede2364a786735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPrefs: 
+  keyPrefs: TotalCoins
 --- !u!1 &468622486
 GameObject:
   m_ObjectHideFlags: 0
@@ -3581,6 +3581,7 @@ GameObject:
   - component: {fileID: 645618820}
   - component: {fileID: 645618821}
   - component: {fileID: 645618823}
+  - component: {fileID: 645618824}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3796,6 +3797,19 @@ MonoBehaviour:
   totalCoinsText: {fileID: 458065139}
   scoreText: {fileID: 72304587}
   turnCountText: {fileID: 1228476443}
+--- !u!114 &645618824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645618812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2089b8dfa843b0e448e94dc1bf59f6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeTurnCost: 10
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0
@@ -4450,7 +4464,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 775079888}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 645618824}
+        m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
+        m_MethodName: BuyMaxTurnUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &775079888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11653,6 +11679,7 @@ MonoBehaviour:
   turnCount: 0
   maxTurns: 1
   coinRewardPerTurn: 2
+  keyPrefs: CobaTurn
 --- !u!4 &2052943092
 Transform:
   m_ObjectHideFlags: 0

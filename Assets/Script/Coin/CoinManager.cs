@@ -6,7 +6,7 @@ using System;
 public class CoinManager : MonoBehaviour
 {
     [Header("PlayerPrefs Key to Save Data Coin")]
-    [SerializeField] private string keyPrefs = "TotalCoins"; // Key prefs yang bisa diubah di Inspector
+    [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
     public static CoinManager Instance; // Singleton agar mudah diakses
     private int totalCoins; // Menyimpan jumlah total koin
@@ -41,6 +41,18 @@ public class CoinManager : MonoBehaviour
         OnCoinChanged?.Invoke(totalCoins); // Panggil event saat koin bertambah
 
         Debug.Log($"Koin Ditambahkan: {amount}, Total Koin Sekarang: {totalCoins}");
+    }
+
+    // Method untuk mengurangi nilai Coin yang didapatkan
+    // Untuk membeli Turn dan Biji Spesial pada Store
+    // Digunakan pada script StoreManager (BuyMaxTurnUpgrade)
+    public void ReduceCoins(int amount)
+    {
+        totalCoins -= amount;
+        SaveCoins(); // Simpan koin setiap kali bertambah
+        OnCoinChanged?.Invoke(totalCoins); // Panggil event saat koin bertambah
+
+        Debug.Log($"Koin Dikurangi: {amount}, Total Koin Sekarang: {totalCoins}");
     }
 
     // Method untuk mendapatkan total coin
