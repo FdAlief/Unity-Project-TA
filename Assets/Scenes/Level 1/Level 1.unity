@@ -1687,7 +1687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34eff290cea44804faede2364a786735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPrefs: CobaCoin
+  keyPrefs: 
 --- !u!1 &468622486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1743,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2808,7 +2808,7 @@ MonoBehaviour:
   colliderHoleManager: {fileID: 645618817}
   winScript: {fileID: 645618820}
   loseScript: {fileID: 645618821}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
   stageInput: {fileID: 645618822}
 --- !u!114 &645618820
 MonoBehaviour:
@@ -2831,7 +2831,7 @@ MonoBehaviour:
   totalText: {fileID: 1291214203}
   stageManager: {fileID: 645618818}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!114 &645618821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2884,6 +2884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalCoinsText: {fileID: 458065139}
+  scoreText: {fileID: 72304587}
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0
@@ -3405,7 +3406,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3588,7 +3589,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6043,7 +6044,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6483,7 +6484,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574728819}
-  - component: {fileID: 1574728820}
   m_Layer: 5
   m_Name: Panel Score
   m_TagString: Untagged
@@ -6513,19 +6513,6 @@ RectTransform:
   m_AnchoredPosition: {x: 250, y: -100}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1574728820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574728818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd77aa6b6fc4894a8d0ceaec2f74f39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 72304587}
 --- !u!1 &1598985072
 GameObject:
   m_ObjectHideFlags: 0
@@ -7570,7 +7557,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7991,7 +7978,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8068,7 +8055,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9054,7 +9041,7 @@ MonoBehaviour:
   isScoreSource: 1
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!1 &1917176924
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,6 +9814,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013911177}
   m_CullTransparentMesh: 1
+--- !u!1 &2059882001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059882003}
+  - component: {fileID: 2059882002}
+  m_Layer: 0
+  m_Name: Score Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2059882002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059882001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd77aa6b6fc4894a8d0ceaec2f74f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2059882003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059882001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2065087296
 GameObject:
   m_ObjectHideFlags: 0
@@ -10171,7 +10202,7 @@ MonoBehaviour:
   isScoreSource: 0
   inventoryManager: {fileID: 112568644}
   turnScript: {fileID: 1657278214}
-  scoreManager: {fileID: 1574728820}
+  scoreManager: {fileID: 2059882002}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10417,3 +10448,4 @@ SceneRoots:
   - {fileID: 1206407602}
   - {fileID: 713418167}
   - {fileID: 463931057}
+  - {fileID: 2059882003}

@@ -1,19 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("UI Text Score")]
-    public TMP_Text scoreText; // Referensi ke Text UI untuk skor
+    public static ScoreManager Instance; // Singleton agar bisa diakses dari mana saja
 
-    private int currentScore = 0; // Score yang sedang diraih
-    private int lastScore = 0; // Score terkahir yang diraih
+    private int currentScore = 0; // Skor saat ini
+    private int lastScore = 0; // Skor terakhir yang diraih
 
-    private void Start()
+    public event Action<int> OnScoreChanged; // Event untuk update UI
+
+    private void Awake()
     {
-        UpdateScoreUI(); // Tampilkan skor awal
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     // Method untuk mengubah jumlah score yang didapatkan
@@ -22,17 +32,9 @@ public class ScoreManager : MonoBehaviour
     {
         lastScore = currentScore; // Simpan skor terakhir sebelum diubah
         currentScore = newScore;  // Update skor baru
-        UpdateScoreUI();
-    }
 
-    // Method untuk mengubah UI text tampilan Score
-    // Digunakan pada method SetScore & Start
-    private void UpdateScoreUI()
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = currentScore.ToString(); ; // Update teks UI
-        }
+        // Panggil event untuk memperbarui UI
+        OnScoreChanged?.Invoke(currentScore);
     }
 
     // Method untuk mendapatkan skor saat ini

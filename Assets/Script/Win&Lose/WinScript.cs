@@ -17,7 +17,6 @@ public class WinScript : MonoBehaviour
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
     [SerializeField] private TurnScript turnScript;
-    [SerializeField] private ScoreManager scoreManager;
 
     private void Update()
     {
@@ -31,9 +30,9 @@ public class WinScript : MonoBehaviour
     // Mengguanakn method GetLastScore() dari script ScoreManager
     private void ShowScore()
     {
-        if (scoreManager != null && scoreText != null)
+        if (ScoreManager.Instance != null && scoreText != null)
         {
-            int lastScore = scoreManager.GetLastScore(); // Ambil skor terakhir
+            int lastScore = ScoreManager.Instance.GetLastScore(); // Ambil skor terakhir
             scoreText.text = $"Kumpulkan Sebanyak {lastScore}";
         }
     }

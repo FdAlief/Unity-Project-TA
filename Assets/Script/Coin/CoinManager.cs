@@ -6,7 +6,7 @@ using System;
 public class CoinManager : MonoBehaviour
 {
     [Header("PlayerPrefs Key to Save Data Coin")]
-    [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
+    [SerializeField] private string keyPrefs = "TotalCoins"; // Key prefs yang bisa diubah di Inspector
 
     public static CoinManager Instance; // Singleton agar mudah diakses
     private int totalCoins; // Menyimpan jumlah total koin
@@ -53,7 +53,7 @@ public class CoinManager : MonoBehaviour
     // Simpan total coin ke PlayerPrefs
     private void SaveCoins()
     {
-        PlayerPrefs.SetInt($"{keyPrefs}", totalCoins);
+        PlayerPrefs.SetInt(keyPrefs, totalCoins);
         PlayerPrefs.Save();
         Debug.Log("Total Koin Disimpan: " + totalCoins);
     }
@@ -61,7 +61,7 @@ public class CoinManager : MonoBehaviour
     // Load total coin dari PlayerPrefs
     private void LoadCoins()
     {
-        totalCoins = PlayerPrefs.GetInt($"{keyPrefs}", 0); // 0 jika belum ada data
+        totalCoins = PlayerPrefs.GetInt(keyPrefs, 0); // 0 jika belum ada data
         Debug.Log("Total Koin Dimuat: " + totalCoins);
         OnCoinChanged?.Invoke(totalCoins); // Update UI setelah load
     }

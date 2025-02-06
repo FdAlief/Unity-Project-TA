@@ -30,7 +30,6 @@ public class StageManager : MonoBehaviour
     [SerializeField] private ColliderHoleManager colliderHoleManager;
     [SerializeField] private WinScript winScript;
     [SerializeField] private LoseScript loseScript;
-    [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private StageInput stageInput;
 
     private void Start()
@@ -47,9 +46,9 @@ public class StageManager : MonoBehaviour
     // Method untuk mengecek apakah objective sudah tercapai
     private void CheckObjective()
     {
-        if (!isObjectiveComplete && scoreManager != null)
+        if (!isObjectiveComplete && ScoreManager.Instance != null)
         {
-            if (scoreManager.GetCurrentScore() >= targetScore[currentTargetIndex])
+            if (ScoreManager.Instance.GetCurrentScore() >= targetScore[currentTargetIndex])
             {
                 isObjectiveComplete = true;
                 OnObjectiveComplete();
