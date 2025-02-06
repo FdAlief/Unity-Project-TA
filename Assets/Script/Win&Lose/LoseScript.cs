@@ -13,7 +13,6 @@ public class LoseScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
-    [SerializeField] private TurnScript turnScript;
 
     // Method untuk menampilkan UI text informasi Stage Lose
     // Digunakan pada script StageManager (OnGameOver)
@@ -39,6 +38,6 @@ public class LoseScript : MonoBehaviour
         }
 
         // Reset turnCount setiap kali objective tercapai
-        turnScript.ResetTurnCount();
+        TurnScript.Instance.ResetTurnCount();
     }
 }

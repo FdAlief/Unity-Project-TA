@@ -19,7 +19,6 @@ public class CongklakHole : MonoBehaviour
 
     [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
-    [SerializeField] private TurnScript turnScript; // Referensi ke TurnScript
 
     private void Start()
     {
@@ -58,7 +57,7 @@ public class CongklakHole : MonoBehaviour
                 seedsInHole.RemoveAt(i); // Hapus dari list seedsInHole
 
                 // Penghitungan turnCount
-                turnScript.OnSeedAddedFromHole(); // Tandai bahwa seed berasal dari hole
+                TurnScript.Instance.OnSeedAddedFromHole(); // Tandai bahwa seed berasal dari hole
             }
         }
 

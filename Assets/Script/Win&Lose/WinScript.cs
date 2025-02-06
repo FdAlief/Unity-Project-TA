@@ -16,7 +16,6 @@ public class WinScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
-    [SerializeField] private TurnScript turnScript;
 
     private void Update()
     {
@@ -52,10 +51,10 @@ public class WinScript : MonoBehaviour
     // Menggunakan method pada Script TurnScript
     private void ShowRemainingTurn()
     {
-        if (turnScript != null && remainingTurnText != null)
+        if (TurnScript.Instance != null && remainingTurnText != null)
         {
-            int sisaTurn = turnScript.GetRemainingTurns();
-            int rewardCoinsTurn = turnScript.GetRemainingTurnCoins();
+            int sisaTurn = TurnScript.Instance.GetRemainingTurns();
+            int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins();
             remainingTurnText.text = $"{sisaTurn} ({rewardCoinsTurn})";
         }
     }
@@ -64,10 +63,10 @@ public class WinScript : MonoBehaviour
     // Menggunakan method pada Script TurnScript & StageManager
     private void ShowTotalCoins()
     {
-        if (totalText != null && turnScript != null && stageManager != null)
+        if (totalText != null && TurnScript.Instance != null && stageManager != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Reward dari StageManager
-            int rewardCoinsTurn = turnScript.GetRemainingTurnCoins(); // Reward dari sisa turn
+            int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins(); // Reward dari sisa turn
 
             int totalCoins = rewardCoins + rewardCoinsTurn; // Total keseluruhan
 
@@ -80,10 +79,10 @@ public class WinScript : MonoBehaviour
     // Digunakan pada script StageManager (OnObjectiveComplete)
     public void AddToCoinManager()
     {
-        if (totalText != null && turnScript != null && stageManager != null)
+        if (totalText != null && TurnScript.Instance != null && stageManager != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Reward dari StageManager
-            int rewardCoinsTurn = turnScript.GetRemainingTurnCoins(); // Reward dari sisa turn
+            int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins(); // Reward dari sisa turn
 
             int totalCoins = rewardCoins + rewardCoinsTurn; // Total keseluruhan
 
@@ -106,6 +105,6 @@ public class WinScript : MonoBehaviour
         }
 
         // Reset turnCount
-        turnScript.ResetTurnCount();
+        TurnScript.Instance.ResetTurnCount();
     }
 }

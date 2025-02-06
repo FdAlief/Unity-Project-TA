@@ -8,11 +8,13 @@ public class GameplayUIScript : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text totalCoinsText; // UI untuk total koin
     public TMP_Text scoreText; // UI untuk total koin
+    public TMP_Text turnCountText; // UI untuk turn count
 
     private void Start()
     {
         UITextCoin();
         UITextScore();
+        UITextTurn();
     }
 
     // Method untuk mendapatkan data nilai Total Coin pada CoinManager
@@ -56,6 +58,24 @@ public class GameplayUIScript : MonoBehaviour
         }
     }
 
+    // 🔹 Update UI Turn Count dari TurnScript
+    private void UITextTurn()
+    {
+        if (TurnScript.Instance != null)
+        {
+            TurnScript.Instance.OnTurnChanged += UpdateUITurn;
+            UpdateUITurn(TurnScript.Instance.GetTurnCount()); // Set nilai awal
+        }
+    }
+
+    private void UpdateUITurn(int turnCount)
+    {
+        if (turnCountText != null)
+        {
+            turnCountText.text = $"Turn : {turnCount} / {TurnScript.Instance.GetMaxTurns()}";
+        }
+    }
+
     private void OnDestroy()
     {
         // Unsubscribe saat objek dihancurkan untuk mencegah memory leak
@@ -67,6 +87,11 @@ public class GameplayUIScript : MonoBehaviour
         if (ScoreManager.Instance != null)
         {
             ScoreManager.Instance.OnScoreChanged -= UpdateUIScore;
+        }
+
+        if (TurnScript.Instance != null)
+        {
+            TurnScript.Instance.OnTurnChanged -= UpdateUITurn;
         }
     }
 }
