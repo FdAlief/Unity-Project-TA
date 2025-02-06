@@ -11,7 +11,7 @@ public class StageInput : MonoBehaviour
     [Header("Stage Buttons")]
     [SerializeField] private Button[] stageButtons; // Array Button untuk setiap stage
 
-    [Header("Key for Stage Unlock")]
+    [Header("PlayerPrefs Key to Unlock Stage")]
     [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
     [Header("Referensi Script")]

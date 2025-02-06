@@ -16,7 +16,6 @@ public class WinScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
-    [SerializeField] private CoinManager coinManager;
     [SerializeField] private TurnScript turnScript;
     [SerializeField] private ScoreManager scoreManager;
 
@@ -90,7 +89,7 @@ public class WinScript : MonoBehaviour
             int totalCoins = rewardCoins + rewardCoinsTurn; // Total keseluruhan
 
             // Memasukkan / menambahkan ke dalam data Total Coin Manager
-            coinManager.AddCoins(totalCoins);
+            CoinManager.Instance.AddCoins(totalCoins);
         }
     }
 
