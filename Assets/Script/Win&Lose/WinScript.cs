@@ -92,7 +92,7 @@ public class WinScript : MonoBehaviour
     }
 
     // Method untuk mengaktifkan kembali sistem Raycast ketika sudah Win/Lose
-    // Digunakan pada Button di Panel Win
+    // Digunakan pada Button di Panel Store setelah dari Panel Win
     public void ActiveRaycast()
     {
         // Aktifkan script yang terdaftar

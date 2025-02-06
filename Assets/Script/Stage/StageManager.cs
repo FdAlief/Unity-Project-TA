@@ -181,4 +181,21 @@ public class StageManager : MonoBehaviour
             Debug.LogWarning("Index target score di luar batas array!");
         }
     }
+
+    // Method ini untuk mereset Game Stage ketika kembali ke Panel Stage Menu
+    // Digunakan pada Button pada Gameplay Back Stage Menu
+    public void BackStageMenu()
+    {
+        // Method untuk mereset biji pada congklak
+        congklakManager.ResetSeeds();
+
+        // Method untuk menghapus Inventory
+        inventoryManager.ClearInventory();
+
+        // Method untuk mereset collider yang aktif hanya deret player
+        colliderHoleManager.ResetCollidersToDefault();
+
+        // Mereset data TurnCount
+        TurnScript.Instance.ResetTurnCount();
+    }
 }
