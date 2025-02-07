@@ -1194,7 +1194,7 @@ MonoBehaviour:
   turnCount: 0
   maxTurns: 1
   coinRewardPerTurn: 2
-  keyPrefs: CobaTurn
+  keyPrefs: CobaTurn0
 --- !u!4 &1714632810
 Transform:
   m_ObjectHideFlags: 0

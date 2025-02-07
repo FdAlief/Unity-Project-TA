@@ -18,8 +18,6 @@ public class TurnScript : MonoBehaviour
 
     private bool seedAddedFromHole; // Tanda untuk cek apakah biji berasal dari hole
 
-    private StageManager stageManager; // Referensi Script
-
     private void Awake()
     {
         if (Instance == null)
@@ -36,8 +34,6 @@ public class TurnScript : MonoBehaviour
 
     private void Start()
     {
-        stageManager = FindObjectOfType<StageManager>();
-
         LoadTurns(); // Load max turn saat game mulai
 
         // Panggil event pertama kali untuk update UI awal
@@ -59,9 +55,9 @@ public class TurnScript : MonoBehaviour
             // Jika turnCount mencapai batas maksimal, lakukan aksi
             if (turnCount > maxTurns)
             {
-                if (!stageManager.isObjectiveComplete) // Jika belum menang, maka game over
+                if (!StageManager.Instance.isObjectiveComplete) // Jika belum menang, maka game over
                 {
-                    stageManager.OnGameOver();
+                    StageManager.Instance.OnGameOver();
                 }
                 else
                 {

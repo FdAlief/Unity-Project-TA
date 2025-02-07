@@ -5,6 +5,8 @@ using TMPro;
 
 public class StageManager : MonoBehaviour
 {
+    public static StageManager Instance; // Singleton agar mudah diakses
+
     [Header("Stage Objective")]
     [SerializeField] private int[] targetScore; // Skor yang harus dicapai untuk menyelesaikan stage
     public bool isObjectiveComplete = false; // Sinyal Apakah semua objective sudah tercapai
@@ -36,6 +38,19 @@ public class StageManager : MonoBehaviour
     [SerializeField] private LoseScript loseScript;
     [SerializeField] private StageInput stageInput;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     private void Start()
     {
         UpdateTargetScoreUI();
@@ -48,7 +63,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Method untuk mengecek apakah objective sudah tercapai
-    private void CheckObjective()
+    public void CheckObjective()
     {
         if (!isObjectiveComplete && ScoreManager.Instance != null)
         {
@@ -110,7 +125,7 @@ public class StageManager : MonoBehaviour
         }
 
         // Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
-        if (currentTargetIndex >= targetScore.Length -2)
+        if (currentTargetIndex >= targetScore.Length)
         {
             isFinalTargetReached = true; // Menandakan bahwa target terakhir / semua target sudah tercapai
             LevelManager.Instance.CompleteLevel(nextLevelCompletedIndex); // Kirim sinyal ke LevelManager berdasarkan nextLevelCompletedIndex
