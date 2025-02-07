@@ -12,6 +12,9 @@ public class StageManager : MonoBehaviour
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
+    [Header("Next Level Progress")]
+    [SerializeField] private int nextLevelCompletedIndex; // Indeks level yang akan diaktifkan di LevelManager
+
     [Header("Coin Rewards")]
     [SerializeField] private int[] coinRewards; // Jumlah koin yang diberikan setiap kali target skor tercapai
     private int lastRewardCoins = 0; // Menyimpan reward coin terakhir
@@ -107,9 +110,10 @@ public class StageManager : MonoBehaviour
         }
 
         // Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
-        if (currentTargetIndex >= targetScore.Length)
+        if (currentTargetIndex >= targetScore.Length -2)
         {
             isFinalTargetReached = true; // Menandakan bahwa target terakhir / semua target sudah tercapai
+            LevelManager.Instance.CompleteLevel(nextLevelCompletedIndex); // Kirim sinyal ke LevelManager berdasarkan nextLevelCompletedIndex
             return;
         }
 

@@ -4,63 +4,67 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager Instance;
+    public static LevelManager Instance; // Singleton agar mudah diakses dari mana saja
 
-    [Header("Level Unlocking System")]
-    [SerializeField] private bool[] levelUnlocked; // Menyimpan status apakah level tertentu sudah terbuka
+    [Header("Level Progress")]
+    public bool[] levelCompleted; // Menyimpan status apakah level sudah selesai
+
+    [Header("PlayerPrefs Key to Save Level Progress")]
+    [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
     private void Awake()
     {
-        // Singleton Pattern
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Agar LevelManager tidak hilang saat pergantian scene
+            DontDestroyOnLoad(gameObject); // Agar LevelManager tetap ada di scene yang berbeda
         }
         else
         {
             Destroy(gameObject);
         }
 
-        LoadLevelStatus(); // Load status level yang telah tersimpan
+        LoadLevelProgress(); // Memuat progres level yang telah disimpan
     }
 
-    // Mengecek apakah level tertentu sudah terbuka
-    public bool IsLevelUnlocked(int levelIndex)
+    // Method untuk menandai level telah selesai
+    // Digunakan pada script StageManager (OnObjectiveComplete)
+    public void CompleteLevel(int levelIndex)
     {
-        if (levelIndex >= 0 && levelIndex < levelUnlocked.Length)
+        if (levelIndex >= 0 && levelIndex < levelCompleted.Length)
         {
-            return levelUnlocked[levelIndex];
+            levelCompleted[levelIndex] = true;
+            SaveLevelProgress(); // Simpan progres ke PlayerPrefs
+        }
+    }
+
+    // Method untuk mengecek apakah level tertentu sudah selesai
+    // Digunakan pada script LevelInput (UpdateLevelButtons)
+    public bool IsLevelCompleted(int levelIndex)
+    {
+        if (levelIndex >= 0 && levelIndex < levelCompleted.Length)
+        {
+            return levelCompleted[levelIndex];
         }
         return false;
     }
 
-    // Membuka level berikutnya jika level sebelumnya selesai
-    public void UnlockLevel(int levelIndex)
+    // Simpan progres level ke PlayerPrefs
+    private void SaveLevelProgress()
     {
-        if (levelIndex >= 0 && levelIndex < levelUnlocked.Length)
+        for (int i = 0; i < levelCompleted.Length; i++)
         {
-            levelUnlocked[levelIndex] = true;
-            SaveLevelStatus();
-        }
-    }
-
-    // Simpan status level ke PlayerPrefs
-    private void SaveLevelStatus()
-    {
-        for (int i = 0; i < levelUnlocked.Length; i++)
-        {
-            PlayerPrefs.SetInt("LevelUnlocked_" + i, levelUnlocked[i] ? 1 : 0);
+            PlayerPrefs.SetInt(keyPrefs + i, levelCompleted[i] ? 1 : 0);
         }
         PlayerPrefs.Save();
     }
 
-    // Load status level dari PlayerPrefs
-    private void LoadLevelStatus()
+    // Load progres level dari PlayerPrefs
+    private void LoadLevelProgress()
     {
-        for (int i = 0; i < levelUnlocked.Length; i++)
+        for (int i = 0; i < levelCompleted.Length; i++)
         {
-            levelUnlocked[i] = PlayerPrefs.GetInt("LevelUnlocked_" + i, i == 0 ? 1 : 0) == 1;
+            levelCompleted[i] = PlayerPrefs.GetInt(keyPrefs + i, i == 0 ? 1 : 0) == 1; // Level 1 selalu terbuka
         }
     }
 }
