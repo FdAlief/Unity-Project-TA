@@ -186,6 +186,15 @@ public class StageManager : MonoBehaviour
     // Digunakan pada Button pada Gameplay Back Stage Menu
     public void BackStageMenu()
     {
+        // Nonaktifkan script yang terdaftar (misalnya Raycast atau kontrol)
+        foreach (MonoBehaviour script in scriptDisable)
+        {
+            if (script != null)
+            {
+                script.enabled = false;
+            }
+        }
+
         // Method untuk mereset biji pada congklak
         congklakManager.ResetSeeds();
 
