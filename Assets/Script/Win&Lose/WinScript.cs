@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WinScript : MonoBehaviour
 {
@@ -9,20 +10,35 @@ public class WinScript : MonoBehaviour
     public MonoBehaviour[] scriptEnable; // Untuk mengaktifkan kembali sistem Raycast
 
     [Header("UI Elements")]
+    public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
     public TMP_Text scoreText; // Tambahkan UI untuk menampilkan skor
     public TMP_Text rewardCoinText; // Tampilan UI Text RewardCoin
     public TMP_Text remainingTurnText; // Tampilan UI sisa Turn
     public TMP_Text totalText; // Tampilan UI Total
+
+    [Header("Next Scene Level")]
+    public string sceneNextLevel;
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
 
     private void Update()
     {
+        ShowStageWin();
         ShowScore();
         ShowRewardCoins();
         ShowRemainingTurn();
         ShowTotalCoins();
+    }
+
+    // Method untuk menampilkan UI text informasi Stage Win
+    // Mengguanakn method GetCurrentTarget() dari script StageManager
+    private void ShowStageWin()
+    {
+        if (stageManager != null && stageText != null)
+        {
+            stageText.text = $"Kamu Menang di Stage {stageManager.GetCurrentTarget() - 1}";
+        }
     }
 
     // Menampilkan skor yang diraih saat menang
@@ -106,5 +122,20 @@ public class WinScript : MonoBehaviour
 
         // Reset turnCount
         TurnScript.Instance.ResetTurnCount();
+    }
+
+    // Method pindah scene ke Level berikutnya ketika menyelesaikan Level sebelumnya
+    // Menggunakan Sinyal dari script StageManager
+    // Digunakan pada Button Lanjut Store
+    public void ChangeSceneOnWinLevel()
+    {
+        if (stageManager != null && stageManager.isFinalTargetReached)
+        {
+            SceneManager.LoadScene(sceneNextLevel); // Ganti dengan nama scene tujuan
+        }
+        else
+        {
+            Debug.Log("Belum mencapai target terakhir! Tidak bisa pindah scene.");
+        }
     }
 }

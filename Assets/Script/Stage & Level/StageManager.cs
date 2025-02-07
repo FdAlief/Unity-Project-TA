@@ -7,7 +7,8 @@ public class StageManager : MonoBehaviour
 {
     [Header("Stage Objective")]
     [SerializeField] private int[] targetScore; // Skor yang harus dicapai untuk menyelesaikan stage
-    public bool isObjectiveComplete = false; // Apakah objective sudah tercapai
+    public bool isObjectiveComplete = false; // Sinyal Apakah semua objective sudah tercapai
+    public bool isFinalTargetReached = false; // Indikator apakah target terakhir sudah tercapai
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
@@ -48,7 +49,7 @@ public class StageManager : MonoBehaviour
     {
         if (!isObjectiveComplete && ScoreManager.Instance != null)
         {
-            if (ScoreManager.Instance.GetCurrentScore() >= targetScore[currentTargetIndex])
+            if (currentTargetIndex < targetScore.Length && ScoreManager.Instance.GetCurrentScore() >= targetScore[currentTargetIndex])
             {
                 isObjectiveComplete = true;
                 OnObjectiveComplete();
@@ -105,6 +106,13 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        // Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
+        if (currentTargetIndex >= targetScore.Length)
+        {
+            isFinalTargetReached = true; // Menandakan bahwa target terakhir / semua target sudah tercapai
+            return;
+        }
+
         Debug.Log("Objective Complete! Target Score Reached!");
     }
 
@@ -151,7 +159,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Method untuk mengambil informasi Stage terakhir sesuai dengan TargetScore
-    // Digunakan pada script LoseScript (ShowStageOnGameOver)
+    // Digunakan pada script LoseScript (ShowStageOnGameOver) & WinScript (ShowStageWin)
     public int GetCurrentTarget()
     {
         return currentTargetIndex + 1; // Menyesuaikan agar Stage 1 tampil sebagai 1 bukan 0
@@ -161,7 +169,7 @@ public class StageManager : MonoBehaviour
     // Digunakan pada method Start & CheckObjective
     private void UpdateTargetScoreUI()
     {
-        if (targetScoreText != null)
+        if (targetScoreText != null && currentTargetIndex < targetScore.Length)
         {
             targetScoreText.text = $"{targetScore[currentTargetIndex]}";
         }

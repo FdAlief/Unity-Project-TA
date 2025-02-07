@@ -19,7 +19,7 @@ public class StageInput : MonoBehaviour
 
     private void Start()
     {
-        // Aktifkan script yang terdaftar
+        // Nonaktifkan script yang terdaftar
         foreach (MonoBehaviour script in scriptEnable)
         {
             if (script != null)
@@ -49,7 +49,7 @@ public class StageInput : MonoBehaviour
         }
     }
 
-    // Method untuk memilih Objective yang dijalanka
+    // Method untuk memilih Objective yang dijalankan
     // Digunakan pada UI Button Stage Input Menu
     public void ChooseStage(int index)
     {
