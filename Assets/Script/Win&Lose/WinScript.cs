@@ -16,6 +16,9 @@ public class WinScript : MonoBehaviour
     public TMP_Text remainingTurnText; // Tampilan UI sisa Turn
     public TMP_Text totalText; // Tampilan UI Total
 
+    [Header("Informasi Stage")]
+    [SerializeField] private string[] infoStage; // Array pesan kustom untuk setiap stage
+
     [Header("Next Scene Level")]
     public string sceneNextLevel;
 
@@ -37,7 +40,17 @@ public class WinScript : MonoBehaviour
     {
         if (stageManager != null && stageText != null)
         {
-            stageText.text = $"Kamu Menang di Stage {stageManager.GetCurrentTarget() - 1}";
+            int stageIndex = stageManager.GetCurrentTarget() - 1; // Sesuaikan dengan indeks array
+
+            // Pastikan index dalam batas array
+            if (stageIndex >= 0 && stageIndex < infoStage.Length)
+            {
+                stageText.text = infoStage[stageIndex];
+            }
+            else
+            {
+                stageText.text = "Game Over! Coba lagi!"; // Default jika tidak ada custom text
+            }
         }
     }
 

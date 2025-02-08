@@ -3701,6 +3701,10 @@ MonoBehaviour:
   rewardCoinText: {fileID: 403079306}
   remainingTurnText: {fileID: 1076201557}
   totalText: {fileID: 1291214203}
+  infoStage:
+  - Kamu Menang Stage 1
+  - Kamu Menang Stage 2
+  - Kamu Menang Stage 3
   sceneNextLevel: Level 2
   stageManager: {fileID: 645618818}
 --- !u!114 &645618821
@@ -3719,6 +3723,10 @@ MonoBehaviour:
   - {fileID: 645618815}
   - {fileID: 645618816}
   stageText: {fileID: 532767681}
+  infoStage:
+  - Kamu Kalah Stage 1
+  - Kamu Kalah Stage 2
+  - Kamu Kalah Stage 3
   stageManager: {fileID: 645618818}
 --- !u!114 &645618822
 MonoBehaviour:

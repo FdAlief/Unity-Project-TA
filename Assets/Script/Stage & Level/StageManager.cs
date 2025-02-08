@@ -177,11 +177,11 @@ public class StageManager : MonoBehaviour
         return lastRewardCoins;
     }
 
-    // Method untuk mengambil informasi Stage terakhir sesuai dengan TargetScore
+    // Method untuk mengambil TargetScore saat ini
     // Digunakan pada script LoseScript (ShowStageOnGameOver) & WinScript (ShowStageWin)
     public int GetCurrentTarget()
     {
-        return currentTargetIndex + 1; // Menyesuaikan agar Stage 1 tampil sebagai 1 bukan 0
+        return currentTargetIndex; // Menyesuaikan agar Stage 1 tampil sebagai 1 bukan 0
     }
 
     // Method untuk menampilkan TargetScore pada UI

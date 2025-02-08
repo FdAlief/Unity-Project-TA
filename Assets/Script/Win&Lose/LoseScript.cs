@@ -11,6 +11,9 @@ public class LoseScript : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
 
+    [Header("Informasi Stage")]
+    [SerializeField] private string[] infoStage; // Array pesan kustom untuk setiap stage
+
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
 
@@ -20,7 +23,17 @@ public class LoseScript : MonoBehaviour
     {
         if (stageManager != null && stageText != null)
         {
-            stageText.text = $"Kamu Kalah di Stage {stageManager.GetCurrentTarget()}";
+            int stageIndex = stageManager.GetCurrentTarget(); // Sesuaikan dengan indeks array
+
+            // Pastikan index dalam batas array
+            if (stageIndex >= 0 && stageIndex < infoStage.Length)
+            {
+                stageText.text = infoStage[stageIndex];
+            }
+            else
+            {
+                stageText.text = "Game Over! Coba lagi!"; // Default jika tidak ada custom text
+            }
         }
     }
 

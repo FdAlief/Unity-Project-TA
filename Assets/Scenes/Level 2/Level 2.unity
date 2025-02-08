@@ -3664,7 +3664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 030000000400000005000000
+  targetScore: 010000000200000003000000
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
@@ -3701,6 +3701,10 @@ MonoBehaviour:
   rewardCoinText: {fileID: 403079306}
   remainingTurnText: {fileID: 1076201557}
   totalText: {fileID: 1291214203}
+  infoStage:
+  - Kamu Menang Stage 4
+  - Kamu Menang Stage 5
+  - Kamu Menang Stage 6
   sceneNextLevel: Level Menu
   stageManager: {fileID: 645618818}
 --- !u!114 &645618821
@@ -3719,6 +3723,10 @@ MonoBehaviour:
   - {fileID: 645618815}
   - {fileID: 645618816}
   stageText: {fileID: 532767681}
+  infoStage:
+  - Kamu Kalah Stage 4
+  - Kamu Kalah Stage 5
+  - Kamu Kalah Stage 6
   stageManager: {fileID: 645618818}
 --- !u!114 &645618822
 MonoBehaviour:
