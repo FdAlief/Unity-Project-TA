@@ -3664,7 +3664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 010000000200000003000000
+  targetScore: 0f000000140000001e000000
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
@@ -3747,7 +3747,7 @@ MonoBehaviour:
   - {fileID: 1998888284}
   - {fileID: 1457593833}
   - {fileID: 669168175}
-  keyPrefs: Coba_Stage 2
+  keyPrefs: Test_1_Level 2
   stageManager: {fileID: 645618818}
 --- !u!114 &645618823
 MonoBehaviour:
@@ -5313,8 +5313,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

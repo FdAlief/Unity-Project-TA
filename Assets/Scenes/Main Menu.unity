@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34eff290cea44804faede2364a786735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPrefs: TotalCoins
+  keyPrefs: Test_1_Coin Manager
 --- !u!4 &351174661
 Transform:
   m_ObjectHideFlags: 0
@@ -1192,9 +1192,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnCount: 0
-  maxTurns: 1
+  maxTurns: 3
   coinRewardPerTurn: 2
-  keyPrefs: CobaTurn0
+  keyPrefs: Test_1_Turn Manager
 --- !u!4 &1714632810
 Transform:
   m_ObjectHideFlags: 0
@@ -1240,7 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelCompleted: 000000
-  keyPrefs: CobaLevel
+  keyPrefs: Test_1_Level Manager
 --- !u!4 &2079250815
 Transform:
   m_ObjectHideFlags: 0
