@@ -16,6 +16,7 @@ public class StageInput : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
+    [SerializeField] private CongklakManager congklakManager;
 
     private void Start()
     {
@@ -69,6 +70,16 @@ public class StageInput : MonoBehaviour
         else
         {
             Debug.LogError("StageManager masih null saat memilih stage!");
+        }
+
+        // Reset biji Congklak ketika stage dipilih untuk random ulang
+        if (congklakManager != null)
+        {
+            congklakManager.ResetSeeds();
+        }
+        else
+        {
+            Debug.LogError("CongklakManager belum diassign di StageInput!");
         }
     }
 

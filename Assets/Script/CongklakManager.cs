@@ -5,7 +5,7 @@ using UnityEngine;
 public class CongklakManager : MonoBehaviour
 {
     [Header("Biji")]
-    public GameObject seedCongklakPrefab; // Prefab biji congklak
+    public SeedConfig seedConfig; // Menggunakan ScriptableObject untuk seed
 
     [Header("Hole")]
     public Transform[] holes; // Array untuk lubang congklak
@@ -21,28 +21,39 @@ public class CongklakManager : MonoBehaviour
     // Method untuk men-distribusi / memasukkan biji ke Holes untuk pertama kalinya secara random
     void DistributeSeeds()
     {
-        // List biji yang sudah ditempatkan
-        List<int> seedsPerHole = new List<int>(new int[holes.Length]);
+        List<int> seedsPerHole = new List<int>(new int[holes.Length]); // Menyimpan jumlah biji per hole
+        List<GameObject> specialSeeds = new List<GameObject>(seedConfig.specialSeedPrefabs); // Copy daftar biji spesial
 
-        // Random distribution
-        for (int i = 0; i < totalSeeds; i++)
+        // Step 1: Masukkan biji spesial (hanya 1 per jenis)
+        foreach (GameObject specialSeed in specialSeeds)
         {
             int randomIndex;
             do
             {
                 randomIndex = Random.Range(0, holes.Length);
-
-                // Abaikan elemen ke-4 (Hole Left)
             } while (seedsPerHole[randomIndex] >= maxSeedsPerHole || randomIndex == 4);
 
-            // Tambahkan biji ke lubang
             seedsPerHole[randomIndex]++;
-            PlaceSeedInHole(holes[randomIndex]);
+            PlaceSeedInHole(holes[randomIndex], specialSeed);
+        }
+
+        // Step 2: Masukkan sisa biji menggunakan default seedPrefab
+        int remainingSeeds = totalSeeds - specialSeeds.Count;
+        for (int i = 0; i < remainingSeeds; i++)
+        {
+            int randomIndex;
+            do
+            {
+                randomIndex = Random.Range(0, holes.Length);
+            } while (seedsPerHole[randomIndex] >= maxSeedsPerHole || randomIndex == 4);
+
+            seedsPerHole[randomIndex]++;
+            PlaceSeedInHole(holes[randomIndex], seedConfig.defaultSeedPrefab);
         }
     }
 
     // Method untuk peletakkan posisi dan rotasi biji pada Holes pertama kalinya
-    void PlaceSeedInHole(Transform hole)
+    void PlaceSeedInHole(Transform hole, GameObject seedPrefab)
     {
         // Tentukan radius untuk distribusi biji di sekitar pusat lubang
         float radius = 0.25f;
@@ -56,7 +67,7 @@ public class CongklakManager : MonoBehaviour
         );
 
         // Buat instance biji congklak dengan posisi offset
-        GameObject seed = Instantiate(seedCongklakPrefab, hole.position + offset, Quaternion.identity);
+        GameObject seed = Instantiate(seedPrefab, hole.position + offset, Quaternion.identity);
 
         // Atur rotasi acak agar terlihat lebih alami
         seed.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));

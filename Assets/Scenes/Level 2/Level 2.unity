@@ -3571,7 +3571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e5a55d76f17de4b86becabd540cafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedCongklakPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   holes:
   - {fileID: 2141375280}
   - {fileID: 1706618423}
@@ -3749,6 +3749,7 @@ MonoBehaviour:
   - {fileID: 669168175}
   keyPrefs: Test_1_Level 2
   stageManager: {fileID: 645618818}
+  congklakManager: {fileID: 645618814}
 --- !u!114 &645618823
 MonoBehaviour:
   m_ObjectHideFlags: 0
