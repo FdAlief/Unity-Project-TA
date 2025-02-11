@@ -13,10 +13,33 @@ MonoBehaviour:
   m_Name: Seed Data
   m_EditorClassIdentifier: 
   defaultSeedPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
-  specialSeedPrefabs:
-  - {fileID: 8892554669985688653, guid: 370e20404b3eaf743a6f6495bf5601eb, type: 3}
-  - {fileID: 8892554669985688653, guid: 2582fe7a43f5d4f4ea526378417d33ec, type: 3}
-  - {fileID: 8892554669985688653, guid: 703474d91fa136e4e96545a48feaff0d, type: 3}
-  - {fileID: 8892554669985688653, guid: 18283e08809c200418f670e32cc72f05, type: 3}
-  - {fileID: 8892554669985688653, guid: 3a1c196597a98ce4cb3590ab50868ac2, type: 3}
-  - {fileID: 8892554669985688653, guid: 9b05ef7065f2d14439d7afbda13300b1, type: 3}
+  specialSeedPrefabs: []
+  seedStoreList:
+  - seedName: Monumen Nasional Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 370e20404b3eaf743a6f6495bf5601eb, type: 3}
+    price: 10
+  - seedName: Borobudur Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 2582fe7a43f5d4f4ea526378417d33ec, type: 3}
+    price: 10
+  - seedName: Komodo Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 9b05ef7065f2d14439d7afbda13300b1, type: 3}
+    price: 10
+  - seedName: Bali Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 3a1c196597a98ce4cb3590ab50868ac2, type: 3}
+    price: 10
+  - seedName: Jam Gadang Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 18283e08809c200418f670e32cc72f05, type: 3}
+    price: 10
+  - seedName: Honai Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 703474d91fa136e4e96545a48feaff0d, type: 3}
+    price: 10
+  - seedName: Patung Surabaya Seed
+    seedImage: {fileID: 0}
+    seedPrefab: {fileID: 8892554669985688653, guid: 38f70f0d2f39a9349a475949d4a91878, type: 3}
+    price: 10

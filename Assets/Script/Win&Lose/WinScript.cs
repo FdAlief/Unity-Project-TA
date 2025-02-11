@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class WinScript : MonoBehaviour
 {
-    [Header("Script Enable")]
+    [Header("Script Enable & Disable")]
     public MonoBehaviour[] scriptEnable; // Untuk mengaktifkan kembali sistem Raycast
 
     [Header("UI Elements")]
@@ -24,6 +24,7 @@ public class WinScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
+    [SerializeField] private CongklakManager congklakManager;
 
     private void Update()
     {
@@ -122,7 +123,7 @@ public class WinScript : MonoBehaviour
 
     // Method untuk mengaktifkan kembali sistem Raycast ketika sudah Win/Lose
     // Digunakan pada Button di Panel Store setelah dari Panel Win
-    public void ActiveRaycast()
+    public void ContinueGame()
     {
         // Aktifkan script yang terdaftar
         foreach (MonoBehaviour script in scriptEnable)
@@ -135,6 +136,9 @@ public class WinScript : MonoBehaviour
 
         // Reset turnCount
         TurnScript.Instance.ResetTurnCount();
+
+        // Reset Seed pada Congklak
+        congklakManager.ResetSeeds();
     }
 
     // Method pindah scene ke Level berikutnya ketika menyelesaikan Level sebelumnya

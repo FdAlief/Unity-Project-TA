@@ -5,7 +5,7 @@ using TMPro;
 
 public class LoseScript : MonoBehaviour
 {
-    [Header("Script Enable")]
+    [Header("Script Enable & Disable")]
     public MonoBehaviour[] scriptEnable; // Untuk me-aktifkan sistem Raycast
 
     [Header("UI Elements")]
@@ -39,7 +39,7 @@ public class LoseScript : MonoBehaviour
 
     // Method untuk mengaktifkan kembali sistem Raycast ketika sudah Win/Lose
     // Digunakan pada Button di Panel Lose
-    public void ActiveRaycast()
+    public void ContinueGame()
     {
         // Aktifkan script yang terdaftar
         foreach (MonoBehaviour script in scriptEnable)

@@ -1427,7 +1427,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 301582049}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 645618824}
+        m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
+        m_MethodName: BuySpecialSeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &301582049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3531,8 +3543,8 @@ GameObject:
   - component: {fileID: 645618815}
   - component: {fileID: 645618816}
   - component: {fileID: 645618817}
-  - component: {fileID: 645618818}
   - component: {fileID: 645618822}
+  - component: {fileID: 645618818}
   - component: {fileID: 645618820}
   - component: {fileID: 645618821}
   - component: {fileID: 645618823}
@@ -3664,7 +3676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 030000000500000009000000
+  targetScore: 010000000200000003000000
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
@@ -3707,6 +3719,7 @@ MonoBehaviour:
   - Kamu Menang Stage 3
   sceneNextLevel: Level 2
   stageManager: {fileID: 645618818}
+  congklakManager: {fileID: 645618814}
 --- !u!114 &645618821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3778,6 +3791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeTurnCost: 10
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
+  seedNameUI: {fileID: 1194853184}
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0
@@ -7783,8 +7798,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 909103415}
-  - {fileID: 1708316068}
   - {fileID: 775079886}
+  - {fileID: 1708316068}
   - {fileID: 301582047}
   m_Father: {fileID: 171144536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8733,7 +8748,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 645618821}
         m_TargetAssemblyTypeName: LoseScript, Assembly-CSharp
-        m_MethodName: ActiveRaycast
+        m_MethodName: ContinueGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10277,7 +10292,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 645618820}
         m_TargetAssemblyTypeName: WinScript, Assembly-CSharp
-        m_MethodName: ActiveRaycast
+        m_MethodName: ContinueGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

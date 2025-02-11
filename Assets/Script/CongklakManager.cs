@@ -89,7 +89,7 @@ public class CongklakManager : MonoBehaviour
 
     // Method untuk mereset semua biji di setiap hole
     // Untuk ketika Selesai Stage akan mereset biji pada congklak
-    // Digunakan pada script StageManager
+    // Digunakan pada script StageManager & WinScript
     public void ResetSeeds()
     {
         // Hapus semua biji dari setiap hole

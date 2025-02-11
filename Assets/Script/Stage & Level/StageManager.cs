@@ -27,8 +27,8 @@ public class StageManager : MonoBehaviour
     [Header("Win Condition")]
     public GameObject PanelLose; // Panel Lose ketika targetScore tidak dapat diraih dengan TurnCount
 
-    [Header("Script Disable")]
-    public MonoBehaviour[] scriptDisable; // Untuk menonaktifkan sistem Raycast ketika Panel Win/Lose muncul
+    [Header("Script Enable & Disable")]
+    public MonoBehaviour[] scriptDisable; // Untuk menonaktifkan & aktifkan sistem Raycast ketika Panel Win/Lose muncul
 
     [Header("Referensi Script")]
     [SerializeField] private CongklakManager congklakManager;
