@@ -12,6 +12,7 @@ public class StoreManager : MonoBehaviour
     [Header("Special Seed Store Settings")]
     [SerializeField] private SeedConfig seedConfig; // ScriptableObject yang berisi daftar seed
     [SerializeField] private TMP_Text seedNameUI; // UI untuk text nama seed
+    [SerializeField] private Button seedButtonBuyUI; // UI untuk Button Buy seed
     //[SerializeField] private Image seedImageUI; // UI untuk menampilkan gambar seed
     //[SerializeField] private Text seedPriceUI; // UI untuk harga seed
 
@@ -38,7 +39,8 @@ public class StoreManager : MonoBehaviour
     }
 
     // Method untuk pilih 1 seed secara random dari seedStoreList (SO)
-    private void SelectRandomSeed()
+    // Digunakan pada Button Lanjut di Panel Win sebelum Store
+    public void SelectRandomSpecialSeed()
     {
         if (seedConfig.seedStoreList.Count > 0)
         {
@@ -46,8 +48,9 @@ public class StoreManager : MonoBehaviour
             selectedSeed = seedConfig.seedStoreList[randomIndex];
 
             // Update UI
-            //seedImageUI.sprite = selectedSeed.seedImage;
             seedNameUI.text = selectedSeed.seedName;
+            seedButtonBuyUI.interactable = true;
+            //seedImageUI.sprite = selectedSeed.seedImage;
             //seedPriceUI.text = "$" + selectedSeed.price;
         }
         else
@@ -68,10 +71,10 @@ public class StoreManager : MonoBehaviour
             // Tambahkan ke specialSeedPrefabs
             seedConfig.specialSeedPrefabs.Add(selectedSeed.seedPrefab);
 
-            Debug.Log("Seed Dibeli: " + selectedSeed.seedName);
+            // Menonaktifkan interactable setelah membeli special seed
+            seedButtonBuyUI.interactable = false;
 
-            // Setelah pembelian, tampilkan seed lain secara random
-            SelectRandomSeed();
+            Debug.Log("Seed Dibeli: " + selectedSeed.seedName);
         }
         else
         {
