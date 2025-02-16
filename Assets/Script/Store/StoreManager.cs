@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class StoreManager : MonoBehaviour
@@ -12,11 +11,14 @@ public class StoreManager : MonoBehaviour
     [Header("Special Seed Store Settings")]
     [SerializeField] private SeedConfig seedConfig; // ScriptableObject yang berisi daftar seed
     [SerializeField] private TMP_Text seedNameUI; // UI untuk text nama seed
-    [SerializeField] private Button seedButtonBuyUI; // UI untuk Button Buy seed
+    [SerializeField] private GameObject seedBuyUI; // UI untuk Button Buy seed
     //[SerializeField] private Image seedImageUI; // UI untuk menampilkan gambar seed
     //[SerializeField] private Text seedPriceUI; // UI untuk harga seed
 
     private SeedSpecialData selectedSeed; // Seed yang dipilih secara random
+
+    [Header("Referensi Script")]
+    [SerializeField] private InventoryManager inventoryManager;
 
     // Method untuk membeli upgrade maxTurns
     // Digunakan pada Button pada Panel Store
@@ -49,7 +51,7 @@ public class StoreManager : MonoBehaviour
 
             // Update UI
             seedNameUI.text = selectedSeed.seedName;
-            seedButtonBuyUI.interactable = true;
+            seedBuyUI.SetActive(true);
             //seedImageUI.sprite = selectedSeed.seedImage;
             //seedPriceUI.text = "$" + selectedSeed.price;
         }
@@ -63,6 +65,13 @@ public class StoreManager : MonoBehaviour
     // Digunakan pada Button Beli Special Seed di Panel Store
     public void BuySpecialSeed()
     {
+        // Cek apakah specialSeedPrefabs sudah penuh (maksimal 4 biji)
+        if (seedConfig.specialSeedPrefabs.Count >= 4)
+        {
+            Debug.LogWarning("Inventory Special Seed penuh! Tidak bisa membeli lagi.");
+            return;
+        }
+
         if (selectedSeed != null && CoinManager.Instance.GetTotalCoins() >= selectedSeed.price)
         {
             // Kurangi koin
@@ -71,8 +80,11 @@ public class StoreManager : MonoBehaviour
             // Tambahkan ke specialSeedPrefabs
             seedConfig.specialSeedPrefabs.Add(selectedSeed.seedPrefab);
 
-            // Menonaktifkan interactable setelah membeli special seed
-            seedButtonBuyUI.interactable = false;
+            // Menonaktifkan Panel setelah membeli special seed
+            seedBuyUI.SetActive(false);
+
+            // Memasukkan prefab Biji Spesial ke Slot Special Inventory
+            inventoryManager.AddSpecialSeedsToInventory();
 
             Debug.Log("Seed Dibeli: " + selectedSeed.seedName);
         }
