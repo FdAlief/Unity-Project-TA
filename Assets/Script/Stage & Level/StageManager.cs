@@ -24,7 +24,7 @@ public class StageManager : MonoBehaviour
     [Header("Win Condition")]
     public GameObject PanelWin; // Panel Win ketika targetScore diraih
 
-    [Header("Win Condition")]
+    [Header("Lose Condition")]
     public GameObject PanelLose; // Panel Lose ketika targetScore tidak dapat diraih dengan TurnCount
 
     [Header("Script Enable & Disable")]

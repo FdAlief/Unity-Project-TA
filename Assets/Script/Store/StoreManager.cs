@@ -44,10 +44,13 @@ public class StoreManager : MonoBehaviour
     // Digunakan pada Button Lanjut di Panel Win sebelum Store
     public void SelectRandomSpecialSeed()
     {
-        if (seedConfig.seedStoreList.Count > 0)
+        // Buat list sementara berisi seed yang belum dibeli
+        List<SeedSpecialData> availableSeeds = seedConfig.seedStoreList.FindAll(seed => !seedConfig.specialSeedPrefabs.Contains(seed.seedPrefab));
+
+        if (availableSeeds.Count > 0)
         {
-            int randomIndex = Random.Range(0, seedConfig.seedStoreList.Count);
-            selectedSeed = seedConfig.seedStoreList[randomIndex];
+            int randomIndex = Random.Range(0, availableSeeds.Count);
+            selectedSeed = availableSeeds[randomIndex];
 
             // Update UI
             seedNameUI.text = selectedSeed.seedName;
@@ -57,7 +60,9 @@ public class StoreManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Store kosong, tidak ada seed yang tersedia!");
+            Debug.LogWarning("Semua seed sudah dibeli! Tidak ada seed yang tersedia di store.");
+            selectedSeed = null;
+            seedBuyUI.SetActive(false);
         }
     }
 
