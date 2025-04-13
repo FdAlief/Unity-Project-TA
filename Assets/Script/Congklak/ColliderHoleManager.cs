@@ -10,8 +10,8 @@ public class ColliderHoleManager : MonoBehaviour
 
     [Header("Info Non-Active Collider")]
     public List<Image> colliderImagesInfo; // List Image UI yang sesuai dengan collider
-    public Color activeColor = Color.green; // Warna untuk collider aktif
-    public Color inactiveColor = Color.red; // Warna untuk collider nonaktif
+    public Sprite activeSprite; // Sprite untuk collider aktif
+    public Sprite inactiveSprite; // Sprite untuk collider nonaktif
 
     [Header("Opposite Holes Mapping")]
     public Dictionary<int, int> oppositeHoles = new Dictionary<int, int>(); // Data untuk menentuka Hole yang Berlawanan
@@ -116,11 +116,11 @@ public class ColliderHoleManager : MonoBehaviour
         {
             if (colliders[i].enabled)
             {
-                colliderImagesInfo[i].color = activeColor; // Ubah ke warna aktif
+                colliderImagesInfo[i].sprite = activeSprite; // Ubah ke sprite aktif
             }
             else
             {
-                colliderImagesInfo[i].color = inactiveColor; // Ubah ke warna nonaktif
+                colliderImagesInfo[i].sprite = inactiveSprite; // Ubah ke sprite nonaktif
             }
         }
     }

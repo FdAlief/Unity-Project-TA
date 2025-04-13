@@ -58,7 +58,7 @@ public class GameplayUIScript : MonoBehaviour
         }
     }
 
-    // 🔹 Update UI Turn Count dari TurnScript
+    // Update UI Turn Count dari TurnScript
     private void UITextTurn()
     {
         if (TurnScript.Instance != null)
@@ -68,11 +68,15 @@ public class GameplayUIScript : MonoBehaviour
         }
     }
 
+    // Method untuk menghitung Turn yang ditampilkan
     private void UpdateUITurn(int turnCount)
     {
-        if (turnCountText != null)
+        if (turnCountText != null && TurnScript.Instance != null)
         {
-            turnCountText.text = $"Turn : {turnCount} / {TurnScript.Instance.GetMaxTurns()}";
+            int maxTurns = TurnScript.Instance.GetMaxTurns();
+            int remainingTurns = maxTurns - turnCount;
+            remainingTurns = Mathf.Max(remainingTurns, 0); // Jangan sampai negatif
+            turnCountText.text = remainingTurns.ToString();
         }
     }
 

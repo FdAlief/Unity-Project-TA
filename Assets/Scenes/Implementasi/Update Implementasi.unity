@@ -613,6 +613,8 @@ MonoBehaviour:
   - {fileID: 337065219}
   - {fileID: 186807927}
   seedsInSlots: []
+  specialSeedSlots: []
+  seedConfig: {fileID: 0}
   contentRect: {fileID: 2065087297}
   slotWidth: 40
   spacing: 40
@@ -1560,6 +1562,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 2013911179}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2368,7 +2371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e5a55d76f17de4b86becabd540cafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedCongklakPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
+  seedConfig: {fileID: 0}
   holes:
   - {fileID: 2141375280}
   - {fileID: 1706618423}
@@ -2393,10 +2396,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holeLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   interactableDragLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
+  colliderHoleManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
 --- !u!114 &645618816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,6 +2415,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollRect: {fileID: 1057811221}
+  raycastManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
+  colliderHoleManager: {fileID: 0}
 --- !u!114 &645618817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2456,13 +2464,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 4
+  targetScore: 
   isObjectiveComplete: 0
+  isFinalTargetReached: 0
+  targetScoreText: {fileID: 0}
+  nextLevelCompletedIndex: 0
+  coinRewards: 
   PanelWin: {fileID: 1887925289}
+  PanelLose: {fileID: 647857256}
   scriptDisable:
   - {fileID: 645618815}
   - {fileID: 645618816}
-  PanelLose: {fileID: 647857256}
+  congklakManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
+  colliderHoleManager: {fileID: 0}
+  winScript: {fileID: 0}
+  loseScript: {fileID: 0}
+  stageInput: {fileID: 0}
 --- !u!114 &645618819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2477,6 +2495,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnCount: 0
   maxTurns: 2
+  coinRewardPerTurn: 2
+  keyPrefs: 
 --- !u!1 &647857256
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,6 +2871,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 592372795}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3000,6 +3021,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1699019412}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4733,6 +4755,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 963892518}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4994,7 +5017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd77aa6b6fc4894a8d0ceaec2f74f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 72304587}
 --- !u!1 &1598985072
 GameObject:
   m_ObjectHideFlags: 0
@@ -5598,6 +5620,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 846362903}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6016,6 +6039,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1712273461}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6090,6 +6114,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1060110161}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6805,6 +6830,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1715557220}
   isScoreSource: 1
+  inventoryManager: {fileID: 0}
 --- !u!1 &1945992053
 GameObject:
   m_ObjectHideFlags: 0
@@ -7543,8 +7569,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 582372391}
   m_HandleRect: {fileID: 582372390}
   m_Direction: 0
-  m_Value: 0.8275861
-  m_Size: 0.4528302
+  m_Value: 0.8275862
+  m_Size: 0.45283023
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7640,6 +7666,7 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1641866683}
   isScoreSource: 0
+  inventoryManager: {fileID: 0}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0

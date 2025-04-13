@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Unity-Project-TA.sln"
+    "dotnet.defaultSolution": "Unity-Project-TA.sln",
+    "dotnet.preferCSharpExtension": true
 }

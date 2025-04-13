@@ -234,4 +234,30 @@ public class StageManager : MonoBehaviour
         // Mereset data TurnCount
         TurnScript.Instance.ResetTurnCount();
     }
+
+    // Method ini untuk mereset Game ketika Restart pada Pause Menu
+    // Digunakan pada Button pada Restart di Pause Menu
+    public void RestartGame()
+    {
+        // Aktifkan script yang terdaftar (misalnya Raycast atau kontrol)
+        foreach (MonoBehaviour script in scriptDisable)
+        {
+            if (script != null)
+            {
+                script.enabled = true;
+            }
+        }
+
+        // Method untuk mereset biji pada congklak
+        congklakManager.ResetSeeds();
+
+        // Method untuk menghapus Inventory
+        inventoryManager.ClearInventory();
+
+        // Method untuk mereset collider yang aktif hanya deret player
+        colliderHoleManager.ResetCollidersToDefault();
+
+        // Mereset data TurnCount
+        TurnScript.Instance.ResetTurnCount();
+    }
 }
