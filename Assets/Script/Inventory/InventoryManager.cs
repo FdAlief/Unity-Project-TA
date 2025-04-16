@@ -257,6 +257,13 @@ public class InventoryManager : MonoBehaviour
         return seedsInSlots.Count == 0; // Inventory kosong jika list kosong
     }
 
+    // Method untuk mengecek apakah seed ini adalah biji terakhir yang ada di Inventory (Last Seed)
+    // Digunakan pada Script CongklakHole (MonasSpecialSeed) dan DragHandler (GetMouseButtonUp)
+    public bool IsLastSeed(GameObject seed)
+    {
+        return seedsInSlots.Count == 0; // Biji terakhir pada Inventory
+    }
+
     // Method untuk mengubah layer prefab biji
     // Digunakan pada method AddSeedToInventory dan RemoveSeedFromInventory
     private void ChangeSeedLayer(GameObject seed, string layerName)

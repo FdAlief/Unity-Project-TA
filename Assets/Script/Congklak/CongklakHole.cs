@@ -108,7 +108,11 @@ public class CongklakHole : MonoBehaviour
     {
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
-        UpdateSeedCountUI(); // Perbarui UI saat awal
+        
+        // Panggil method Special Seed (Monas )untuk melipat gandakan biji pada Hole biasa
+        MonasSpecialSeed(seed);
+
+        UpdateSeedCountUI(); // Perbarui UI
     }
 
     // Method untuk menghapus semua biji dari lubang
@@ -147,5 +151,31 @@ public class CongklakHole : MonoBehaviour
     {
         // Memperbarui skor di ScoreManager berdasarkan SeedsCount
         ScoreManager.Instance.SetScore(SeedsCount);
+    }
+
+    // Method untuk Biji Spesial (Monas)
+    // Berfungsi melipat gandakan biji hanya pada Hole biasa, tidak pada Hole Besar dan bukan Biji terahir
+    // Digunakan pada Method AddSeed()
+    private void MonasSpecialSeed(GameObject seed)
+    {
+        // Cek apakah seed adalah seed special dan bukan pada hole sumber skor dan bukan biji terakhir
+        bool isSpecial = seed.CompareTag("Monumen Nasional Seed");
+        bool isLastSeed = inventoryManager.IsLastSeed(seed);
+
+        if (isSpecial && !isScoreSource && !isLastSeed)
+        {
+            Debug.Log("Seed Special terdeteksi dan akan menggandakan biji.");
+
+            int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
+
+            for (int i = 0; i < jumlahAsli; i++)
+            {
+                GameObject originalSeed = seedsInHole[i];
+                GameObject duplicatedSeed = Instantiate(originalSeed, transform.position, Quaternion.identity, transform);
+                seedsInHole.Add(duplicatedSeed);
+            }
+
+            UpdateSeedCountUI(); // Update UI setelah menggandakan biji
+        }
     }
 }

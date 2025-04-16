@@ -111,7 +111,7 @@ public class DragHandler : MonoBehaviour
                         Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
 
                         // Cek apakah ini adalah biji terakhir di inventory
-                        if (inventoryManager.seedsInSlots.Count == 0)
+                        if (inventoryManager.IsLastSeed(selectedSeed))
                         {
                             // Jika pada Congklak Hole berisi lebih dari 1
                             if (hole.SeedsCount > 1)
