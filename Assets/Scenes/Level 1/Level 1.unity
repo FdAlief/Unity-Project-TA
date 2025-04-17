@@ -2456,10 +2456,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 2013911179}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3872,6 +3870,7 @@ GameObject:
   - component: {fileID: 645618821}
   - component: {fileID: 645618823}
   - component: {fileID: 645618824}
+  - component: {fileID: 645618825}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4117,6 +4116,22 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   seedNameUI: {fileID: 1194853184}
   seedBuyUI: {fileID: 1230691882}
+  inventoryManager: {fileID: 276093643}
+--- !u!114 &645618825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645618812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b6521d42317624fbaad92a4dab0d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
+  congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
   inventoryManager: {fileID: 276093643}
 --- !u!1 &647248989
 GameObject:
@@ -4816,10 +4831,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 592372795}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5177,10 +5190,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1699019412}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8371,10 +8382,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 963892518}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10310,10 +10319,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 846362903}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10808,10 +10815,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1712273461}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10886,10 +10891,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1060110161}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12332,10 +12335,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1715557220}
   isScoreSource: 1
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!1 &1917176924
 GameObject:
   m_ObjectHideFlags: 0
@@ -13902,10 +13903,8 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1641866683}
   isScoreSource: 0
-  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
-  congklakManager: {fileID: 645618814}
-  colliderHole: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class CongklakHole : MonoBehaviour
 {
     [Header("Isi Hole")]
     [SerializeField]
-    private List<GameObject> seedsInHole = new List<GameObject>(); // List biji di setiap lubang
+    public List<GameObject> seedsInHole = new List<GameObject>(); // List biji di setiap lubang
 
     public int SeedsCount => seedsInHole.Count; // Variabel SeedsCount
 
@@ -17,13 +17,9 @@ public class CongklakHole : MonoBehaviour
     [Header("Score Source")]
     public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
 
-    [Header("Data Biji")]
-    [SerializeField] private SeedConfig seedConfig; // Data biji default dan spesial
-
     [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
-    [SerializeField] private CongklakManager congklakManager; // Referensi ke congklak manager
-    [SerializeField] private ColliderHoleManager colliderHole; // Referensi ke collider hole manager
+    [SerializeField] private SpecialSeedHandler specialSeedHandler; // Referensi ke Special Seed Handler
 
     private void Start()
     {
@@ -113,18 +109,9 @@ public class CongklakHole : MonoBehaviour
     {
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
-        
-        // Panggil method Special Seed (Monas) untuk melipat gandakan biji pada Hole biasa
-        MonasSpecialSeed(seed);
 
-        // Panggil method Special Seed (Komodo) untuk melipat gandakan biji pada Hole besar
-        KomodoSpecialSeed(seed);
-
-        // Panggil method Special Seed (Bali) untuk menambahkan biji random (1-10) pada Hole besar
-        BaliSpecialSeed(seed);
-
-        // Panggil method Special Seed (Jam Gadang) untuk melipat gandakan biji pada Hole Berlawanan
-        JamGadangSpecialSeed(seed);
+        // Memanggil Method untuk pengecekan Biji Spesial
+        specialSeedHandler.HandleSpecialSeed(seed, this);
 
         UpdateSeedCountUI(); // Perbarui UI
     }
@@ -144,8 +131,8 @@ public class CongklakHole : MonoBehaviour
     }
 
     // Method ini berfungsi untuk menampilkan jumlah biji di dalam Hole pada UI Text
-    // Digunakan pada method (AddSeed), (TransferSeedsToInventory), (Start)
-    private void UpdateSeedCountUI()
+    // Digunakan pada method (AddSeed), (TransferSeedsToInventory), (Start) dan Script SpecialSeedHandler
+    public void UpdateSeedCountUI()
     {
         if (seedCountText != null)
         {
@@ -165,130 +152,5 @@ public class CongklakHole : MonoBehaviour
     {
         // Memperbarui skor di ScoreManager berdasarkan SeedsCount
         ScoreManager.Instance.SetScore(SeedsCount);
-    }
-
-    // Method untuk Biji Spesial (Monas)
-    // Berfungsi melipat gandakan biji hanya pada Hole biasa, tidak pada Hole Besar dan bukan Biji terahir
-    // Digunakan pada Method AddSeed()
-    private void MonasSpecialSeed(GameObject seed)
-    {
-        // Cek apakah seed adalah seed special dan bukan pada hole sumber skor dan bukan biji terakhir
-        bool isSpecial = seed.CompareTag("Monumen Nasional Seed");
-        bool isLastSeed = inventoryManager.IsLastSeed(seed);
-
-        if (isSpecial && !isScoreSource && !isLastSeed)
-        {
-            Debug.Log("Monas Seed Special terdeteksi dan akan menggandakan biji di Hole biasa");
-
-            int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
-
-            for (int i = 0; i < jumlahAsli; i++)
-            {
-                GameObject originalSeed = seedsInHole[i];
-                GameObject duplicatedSeed = Instantiate(originalSeed, transform.position, Quaternion.identity, transform);
-                seedsInHole.Add(duplicatedSeed);
-            }
-
-            UpdateSeedCountUI(); // Update UI setelah menggandakan biji
-        }
-    }
-
-    // Method untuk Biji Spesial (Komodo)
-    // Berfungsi melipat gandakan biji hanya pada Hole Besar
-    // Digunakan pada Method AddSeed()
-    private void KomodoSpecialSeed(GameObject seed)
-    {
-        // Cek apakah seed adalah seed special dan berada pada hole sumber skor (Hole Besar)
-        bool isSpecial = seed.CompareTag("Komodo Seed");
-
-        if (isSpecial && isScoreSource)
-        {
-            Debug.Log("Komodo Seed Special terdeteksi dan akan menggandakan biji di Hole Besar");
-
-            int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
-
-            for (int i = 0; i < jumlahAsli; i++)
-            {
-                GameObject originalSeed = seedsInHole[i];
-                GameObject duplicatedSeed = Instantiate(originalSeed, transform.position, Quaternion.identity, transform);
-                seedsInHole.Add(duplicatedSeed);
-            }
-
-            UpdateSeedCountUI(); // Update UI setelah menggandakan biji
-        }
-    }
-
-    // Method untuk Biji Spesial (Bali)
-    // Berfungsi menambahkan biji random (1-10) hanya pada Hole Besar
-    // Digunakan pada Method AddSeed()
-    private void BaliSpecialSeed(GameObject seed)
-    {
-        // Cek apakah seed adalah seed special dan berada pada hole sumber skor (Hole Besar)
-        bool isSpecial = seed.CompareTag("Bali Seed");
-
-        if (isSpecial && isScoreSource)
-        {
-            Debug.Log("Bali Seed terdeteksi. Menambahkan biji random ke Hole.");
-
-            int jumlahRandom = Random.Range(1, 11); // 1 hingga 10 biji baru (karena max exclusive)
-
-            for (int i = 0; i < jumlahRandom; i++)
-            {
-                // Melakukan penambahan dan peletakkan biji default pada Hole Besar
-                congklakManager.PlaceSeedInHole(transform, seedConfig.defaultSeedPrefab);
-            }
-
-            UpdateSeedCountUI(); // Update UI setelah menambahkan biji
-        }
-    }
-
-    // Method untuk Biji Spesial (Jam Gadang)
-    // Berfungsi melipat gandakan biji pada Hole Berlawanan, tidak pada Hole Besar dan bukan Biji terahir
-    // Digunakan pada Method AddSeed()
-    private void JamGadangSpecialSeed(GameObject seed)
-    {
-        // Cek apakah seed adalah seed spesial dan bukan pada hole besar serta bukan biji terakhir
-        bool isSpecial = seed.CompareTag("Jam Gadang Seed");
-        bool isLastSeed = inventoryManager.IsLastSeed(seed);
-
-        if (isSpecial && !isScoreSource && !isLastSeed)
-        {
-            Debug.Log("Jam Gadang Seed Spesial berlawanan terdeteksi. Menggandakan biji di hole lawan.");
-
-            // Cari index hole saat ini
-            int currentIndex = colliderHole.colliders.IndexOf(GetComponent<Collider>());
-            if (currentIndex == -1)
-            {
-                Debug.LogError("Hole saat ini tidak ditemukan dalam daftar colliders.");
-                return;
-            }
-
-            // Cek apakah ada mapping hole berlawanan
-            if (colliderHole.oppositeHoles.TryGetValue(currentIndex + 1, out int oppositeIndex))
-            {
-                // Ambil hole berlawanan
-                Collider oppositeCollider = colliderHole.colliders[oppositeIndex - 1];
-                CongklakHole oppositeHole = oppositeCollider.GetComponent<CongklakHole>();
-
-                if (oppositeHole != null)
-                {
-                    int jumlahAsli = oppositeHole.seedsInHole.Count;
-
-                    for (int i = 0; i < jumlahAsli; i++)
-                    {
-                        GameObject originalSeed = oppositeHole.seedsInHole[i];
-                        GameObject duplicatedSeed = Instantiate(originalSeed, oppositeHole.transform.position, Quaternion.identity, oppositeHole.transform);
-                        oppositeHole.seedsInHole.Add(duplicatedSeed);
-                    }
-
-                    oppositeHole.UpdateSeedCountUI(); // Update UI di hole berlawanan
-                    Debug.Log($"Berhasil menggandakan {jumlahAsli} biji di hole berlawanan: {oppositeHole.name}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Tidak ada mapping hole berlawanan untuk hole ini.");
-            }
-        }
     }
 }
