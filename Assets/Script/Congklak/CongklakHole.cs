@@ -22,7 +22,8 @@ public class CongklakHole : MonoBehaviour
 
     [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
-    [SerializeField] private CongklakManager congklakManager ; // Referensi ke congklak manager
+    [SerializeField] private CongklakManager congklakManager; // Referensi ke congklak manager
+    [SerializeField] private ColliderHoleManager colliderHole; // Referensi ke collider hole manager
 
     private void Start()
     {
@@ -121,6 +122,9 @@ public class CongklakHole : MonoBehaviour
 
         // Panggil method Special Seed (Bali) untuk menambahkan biji random (1-10) pada Hole besar
         BaliSpecialSeed(seed);
+
+        // Panggil method Special Seed (Jam Gadang) untuk melipat gandakan biji pada Hole Berlawanan
+        JamGadangSpecialSeed(seed);
 
         UpdateSeedCountUI(); // Perbarui UI
     }
@@ -235,6 +239,56 @@ public class CongklakHole : MonoBehaviour
             }
 
             UpdateSeedCountUI(); // Update UI setelah menambahkan biji
+        }
+    }
+
+    // Method untuk Biji Spesial (Jam Gadang)
+    // Berfungsi melipat gandakan biji pada Hole Berlawanan, tidak pada Hole Besar dan bukan Biji terahir
+    // Digunakan pada Method AddSeed()
+    private void JamGadangSpecialSeed(GameObject seed)
+    {
+        // Cek apakah seed adalah seed spesial dan bukan pada hole besar serta bukan biji terakhir
+        bool isSpecial = seed.CompareTag("Jam Gadang Seed");
+        bool isLastSeed = inventoryManager.IsLastSeed(seed);
+
+        if (isSpecial && !isScoreSource && !isLastSeed)
+        {
+            Debug.Log("Jam Gadang Seed Spesial berlawanan terdeteksi. Menggandakan biji di hole lawan.");
+
+            // Cari index hole saat ini
+            int currentIndex = colliderHole.colliders.IndexOf(GetComponent<Collider>());
+            if (currentIndex == -1)
+            {
+                Debug.LogError("Hole saat ini tidak ditemukan dalam daftar colliders.");
+                return;
+            }
+
+            // Cek apakah ada mapping hole berlawanan
+            if (colliderHole.oppositeHoles.TryGetValue(currentIndex + 1, out int oppositeIndex))
+            {
+                // Ambil hole berlawanan
+                Collider oppositeCollider = colliderHole.colliders[oppositeIndex - 1];
+                CongklakHole oppositeHole = oppositeCollider.GetComponent<CongklakHole>();
+
+                if (oppositeHole != null)
+                {
+                    int jumlahAsli = oppositeHole.seedsInHole.Count;
+
+                    for (int i = 0; i < jumlahAsli; i++)
+                    {
+                        GameObject originalSeed = oppositeHole.seedsInHole[i];
+                        GameObject duplicatedSeed = Instantiate(originalSeed, oppositeHole.transform.position, Quaternion.identity, oppositeHole.transform);
+                        oppositeHole.seedsInHole.Add(duplicatedSeed);
+                    }
+
+                    oppositeHole.UpdateSeedCountUI(); // Update UI di hole berlawanan
+                    Debug.Log($"Berhasil menggandakan {jumlahAsli} biji di hole berlawanan: {oppositeHole.name}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Tidak ada mapping hole berlawanan untuk hole ini.");
+            }
         }
     }
 }

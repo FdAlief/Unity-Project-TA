@@ -2459,6 +2459,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4818,6 +4819,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5178,6 +5180,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8371,6 +8374,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10309,6 +10313,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10806,6 +10811,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10883,6 +10889,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12328,6 +12335,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!1 &1917176924
 GameObject:
   m_ObjectHideFlags: 0
@@ -13897,6 +13905,7 @@ MonoBehaviour:
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
   congklakManager: {fileID: 645618814}
+  colliderHole: {fileID: 645618817}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0
