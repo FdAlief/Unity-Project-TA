@@ -17,8 +17,12 @@ public class CongklakHole : MonoBehaviour
     [Header("Score Source")]
     public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
 
+    [Header("Data Biji")]
+    [SerializeField] private SeedConfig seedConfig; // Data biji default dan spesial
+
     [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
+    [SerializeField] private CongklakManager congklakManager ; // Referensi ke congklak manager
 
     private void Start()
     {
@@ -115,6 +119,9 @@ public class CongklakHole : MonoBehaviour
         // Panggil method Special Seed (Komodo) untuk melipat gandakan biji pada Hole besar
         KomodoSpecialSeed(seed);
 
+        // Panggil method Special Seed (Bali) untuk menambahkan biji random (1-10) pada Hole besar
+        BaliSpecialSeed(seed);
+
         UpdateSeedCountUI(); // Perbarui UI
     }
 
@@ -167,7 +174,7 @@ public class CongklakHole : MonoBehaviour
 
         if (isSpecial && !isScoreSource && !isLastSeed)
         {
-            Debug.Log("Seed Special terdeteksi dan akan menggandakan biji.");
+            Debug.Log("Monas Seed Special terdeteksi dan akan menggandakan biji di Hole biasa");
 
             int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
 
@@ -192,7 +199,7 @@ public class CongklakHole : MonoBehaviour
 
         if (isSpecial && isScoreSource)
         {
-            Debug.Log("Seed Special terdeteksi dan akan menggandakan biji.");
+            Debug.Log("Komodo Seed Special terdeteksi dan akan menggandakan biji di Hole Besar");
 
             int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
 
@@ -204,6 +211,30 @@ public class CongklakHole : MonoBehaviour
             }
 
             UpdateSeedCountUI(); // Update UI setelah menggandakan biji
+        }
+    }
+
+    // Method untuk Biji Spesial (Bali)
+    // Berfungsi menambahkan biji random (1-10) hanya pada Hole Besar
+    // Digunakan pada Method AddSeed()
+    private void BaliSpecialSeed(GameObject seed)
+    {
+        // Cek apakah seed adalah seed special dan berada pada hole sumber skor (Hole Besar)
+        bool isSpecial = seed.CompareTag("Bali Seed");
+
+        if (isSpecial && isScoreSource)
+        {
+            Debug.Log("Bali Seed terdeteksi. Menambahkan biji random ke Hole.");
+
+            int jumlahRandom = Random.Range(1, 11); // 1 hingga 10 biji baru (karena max exclusive)
+
+            for (int i = 0; i < jumlahRandom; i++)
+            {
+                // Melakukan penambahan dan peletakkan biji default pada Hole Besar
+                congklakManager.PlaceSeedInHole(transform, seedConfig.defaultSeedPrefab);
+            }
+
+            UpdateSeedCountUI(); // Update UI setelah menambahkan biji
         }
     }
 }

@@ -53,7 +53,8 @@ public class CongklakManager : MonoBehaviour
     }
 
     // Method untuk peletakkan posisi dan rotasi biji pada Holes pertama kalinya
-    void PlaceSeedInHole(Transform hole, GameObject seedPrefab)
+    // Digunakan pada Script CongklakHole (BaliSpecialSeed)
+    public void PlaceSeedInHole(Transform hole, GameObject seedPrefab)
     {
         // Tentukan radius untuk distribusi biji di sekitar pusat lubang
         float radius = 0.25f;

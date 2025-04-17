@@ -2456,7 +2456,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 2013911179}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &468622490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3996,7 +3998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 010000000200000003000000
+  targetScore: 01000000020000001e000000
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
@@ -4813,7 +4815,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 592372795}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &707606898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5171,7 +5175,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1699019412}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &796549624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8362,7 +8368,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 963892518}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &1383048828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10298,7 +10306,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 846362903}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &1706618426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10793,7 +10803,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1712273461}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &1717137170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10868,7 +10880,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1060110161}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &1762205084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12311,7 +12325,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1715557220}
   isScoreSource: 1
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!1 &1917176924
 GameObject:
   m_ObjectHideFlags: 0
@@ -13878,7 +13894,9 @@ MonoBehaviour:
   seedsInHole: []
   seedCountText: {fileID: 1641866683}
   isScoreSource: 0
+  seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
   inventoryManager: {fileID: 276093643}
+  congklakManager: {fileID: 645618814}
 --- !u!65 &2141375283
 BoxCollider:
   m_ObjectHideFlags: 0
