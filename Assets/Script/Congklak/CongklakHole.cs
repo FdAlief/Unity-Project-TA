@@ -109,8 +109,11 @@ public class CongklakHole : MonoBehaviour
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
         
-        // Panggil method Special Seed (Monas )untuk melipat gandakan biji pada Hole biasa
+        // Panggil method Special Seed (Monas) untuk melipat gandakan biji pada Hole biasa
         MonasSpecialSeed(seed);
+
+        // Panggil method Special Seed (Komodo) untuk melipat gandakan biji pada Hole besar
+        KomodoSpecialSeed(seed);
 
         UpdateSeedCountUI(); // Perbarui UI
     }
@@ -163,6 +166,31 @@ public class CongklakHole : MonoBehaviour
         bool isLastSeed = inventoryManager.IsLastSeed(seed);
 
         if (isSpecial && !isScoreSource && !isLastSeed)
+        {
+            Debug.Log("Seed Special terdeteksi dan akan menggandakan biji.");
+
+            int jumlahAsli = seedsInHole.Count - 1; // Kurangi 1 karena seed special baru saja ditambahkan
+
+            for (int i = 0; i < jumlahAsli; i++)
+            {
+                GameObject originalSeed = seedsInHole[i];
+                GameObject duplicatedSeed = Instantiate(originalSeed, transform.position, Quaternion.identity, transform);
+                seedsInHole.Add(duplicatedSeed);
+            }
+
+            UpdateSeedCountUI(); // Update UI setelah menggandakan biji
+        }
+    }
+
+    // Method untuk Biji Spesial (Komodo)
+    // Berfungsi melipat gandakan biji hanya pada Hole Besar
+    // Digunakan pada Method AddSeed()
+    private void KomodoSpecialSeed(GameObject seed)
+    {
+        // Cek apakah seed adalah seed special dan berada pada hole sumber skor (Hole Besar)
+        bool isSpecial = seed.CompareTag("Komodo Seed");
+
+        if (isSpecial && isScoreSource)
         {
             Debug.Log("Seed Special terdeteksi dan akan menggandakan biji.");
 
