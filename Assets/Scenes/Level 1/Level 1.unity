@@ -3952,6 +3952,7 @@ MonoBehaviour:
   raycastManager: {fileID: 645618815}
   inventoryManager: {fileID: 276093643}
   colliderHoleManager: {fileID: 645618817}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!114 &645618817
 MonoBehaviour:
   m_ObjectHideFlags: 0

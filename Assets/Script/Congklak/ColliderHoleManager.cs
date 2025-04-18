@@ -19,7 +19,7 @@ public class ColliderHoleManager : MonoBehaviour
     void Start()
     {
         // Mapping hole berlawanan (1 -> 8, 2 -> 7, dll.)
-        // Digunakan pada Script DragHandler (HandleDrag - MouseUp)
+        // Digunakan pada Script DragHandler (HandleDrag - MouseUp) dan SpecialSeedHandler (JamGadangSpecialSeed)
         oppositeHoles[1] = 9;
         oppositeHoles[2] = 8;
         oppositeHoles[3] = 7;
@@ -109,8 +109,8 @@ public class ColliderHoleManager : MonoBehaviour
 
     // Method ini berfungsi untuk menampilkan info UI Collider yang aktif dan nonaktif
     // Dengan merubah warna UI Infonya
-    // Digunakan pada method (ResetCollidersToDefault), (OnColliderChoose), (Start)
-    private void UpdateUICollider()
+    // Digunakan pada method (ResetCollidersToDefault), (OnColliderChoose), (Start) dan Script SpecialSeedHandler (HonaiSpecialSeed)
+    public void UpdateUICollider()
     {
         for (int i = 0; i < colliders.Count; i++)
         {

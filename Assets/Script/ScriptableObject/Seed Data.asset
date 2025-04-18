@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSeedPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
   specialSeedPrefabs:
-  - {fileID: 8892554669985688653, guid: 370e20404b3eaf743a6f6495bf5601eb, type: 3}
+  - {fileID: 8892554669985688653, guid: 703474d91fa136e4e96545a48feaff0d, type: 3}
   seedStoreList:
   - seedName: Monumen Nasional Seed
     seedImage: {fileID: 0}

@@ -19,6 +19,7 @@ public class DragHandler : MonoBehaviour
     [SerializeField] private RaycastManager raycastManager; // Referensi ke RaycastManager
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke InventoryManager
     [SerializeField] private ColliderHoleManager colliderHoleManager; // Referensi ke ColliderHoleManager
+    [SerializeField] private SpecialSeedHandler specialSeedHandler; // Referensi ke SpecialSeedHandler
 
     void Start()
     {
@@ -120,6 +121,9 @@ public class DragHandler : MonoBehaviour
                                 if (hitCollider.gameObject.name != "Hole Left") // Pastikan bukan Hole Left
                                 {
                                     hole.HandleClick(); // Transfer semua biji dari hole ke inventory
+
+                                    // Pengecekan Biji Spesial (Honai) dan Efek Aktif Collider Prevs & Next
+                                    specialSeedHandler.HonaiSpecialSeed(selectedSeed, hole);
                                 }
                                 else
                                 {
