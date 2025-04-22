@@ -23,6 +23,7 @@ public class SpecialSeedHandler : MonoBehaviour
         KomodoSpecialSeed(seed, congklakHole);
         BaliSpecialSeed(seed, congklakHole);
         JamGadangSpecialSeed(seed, congklakHole);
+        PatungSurabayaSpecialSeed(seed, congklakHole);
     }
 
     // Method untuk Biji Spesial (Monas)
@@ -213,6 +214,35 @@ public class SpecialSeedHandler : MonoBehaviour
 
             // Update UI Collider juga
             colliderHole.UpdateUICollider();
+        }
+    }
+
+    // Method untuk Biji Spesial (Patung Surabaya)
+    // Berfungsi mengubah nilai Target Score sesuai dengan nilai Total Coins ketika diletakkan pada Hole Besar
+    // Digunakan pada Method HandleSpecialSeed()
+    private void PatungSurabayaSpecialSeed(GameObject seed, CongklakHole congklakHole)
+    {
+        bool isSpecial = seed.CompareTag("Patung Surabaya Seed");
+
+        if (isSpecial && congklakHole.isScoreSource)
+        {
+            int currentScore = ScoreManager.Instance.GetCurrentScore();
+            int scoreToAdd = 1; // Nilai per biji, sesuaikan kalau beda
+            int predictedScore = currentScore + scoreToAdd;
+
+            int currentTarget = StageManager.Instance.GetTargetScoreValue();
+
+            // Jika belum memenuhi target setelah penambahan, maka target bisa diubah
+            if (predictedScore < currentTarget)
+            {
+                int totalCoin = CoinManager.Instance.GetTotalCoins(); // Atau dari mana pun koinnya
+                StageManager.Instance.ReplaceTargetScoreWithCoin(totalCoin);
+                Debug.Log("Patung Surabaya aktif! Target Score diubah menjadi: " + totalCoin);
+            }
+            else
+            {
+                Debug.Log("Patung Surabaya diletakkan saat skor sudah hampir cukup. Efek dibatalkan.");
+            }
         }
     }
 }

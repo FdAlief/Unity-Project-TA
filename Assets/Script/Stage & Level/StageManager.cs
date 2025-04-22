@@ -12,6 +12,7 @@ public class StageManager : MonoBehaviour
     [HideInInspector] public bool isObjectiveComplete = false; // Sinyal Apakah semua objective sudah tercapai
     [HideInInspector] public bool isFinalTargetReached = false; // Indikator apakah target terakhir (semua objective) sudah tercapai
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
+    private int[] originalTargetScore; // Menyimpan nilai asli targetScore
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
     [Header("Next Level Progress")]
@@ -54,6 +55,7 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
+        originalTargetScore = (int[])targetScore.Clone(); // Copy nilai Target Score aslinya
         UpdateTargetScoreUI();
     }
 
@@ -192,21 +194,22 @@ public class StageManager : MonoBehaviour
         return lastRewardCoins;
     }
 
-    // Method untuk mengambil TargetScore saat ini
+    // Method untuk mengambil TargetScore saat ini berdasarkan index
     // Digunakan pada script LoseScript (ShowStageOnGameOver) & WinScript (ShowStageWin)
     public int GetCurrentTarget()
     {
         return currentTargetIndex; // Menyesuaikan agar Stage 1 tampil sebagai 1 bukan 0
     }
 
-    // Method untuk menampilkan TargetScore pada UI
-    // Digunakan pada method Start & CheckObjective
-    private void UpdateTargetScoreUI()
+    // Method untuk mengambil data nilai dari Target Score
+    // Digunakan pada Script SpecialSeedHandler (PatungSurabayaSpecialSeed)
+    public int GetTargetScoreValue()
     {
-        if (targetScoreText != null && currentTargetIndex < targetScore.Length)
+        if (currentTargetIndex < targetScore.Length)
         {
-            targetScoreText.text = $"{targetScore[currentTargetIndex]}";
+            return targetScore[currentTargetIndex];
         }
+        return 0;
     }
 
     // Method untuk mengatur Target Score / Objective berapa yang dipilih menggunakan Button
@@ -221,6 +224,47 @@ public class StageManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Index target score di luar batas array!");
+        }
+    }
+
+    // Method untuk merubah data nilai Target Score sesuai dengan nilai Total Coins
+    // Digunakan pada Script SpecialSeedHandler (PatungSurabayaSpecialSeed)
+    public void ReplaceTargetScoreWithCoin(int coinAmount)
+    {
+        if (currentTargetIndex < targetScore.Length)
+        {
+            targetScore[currentTargetIndex] = coinAmount;
+            UpdateTargetScoreUI(); // Biar UI juga ikut update
+            Debug.Log("Target Score diganti dengan nilai coin: " + coinAmount);
+        }
+        else
+        {
+            Debug.LogWarning("Gagal mengganti target score, index di luar batas.");
+        }
+    }
+
+    // Method untuk mereset data nilai Target Score ke nilai Awal / Original
+    // Digunakan pada Method (BackStageMenu) & (RestartGame)
+    private void ResetTargetScoreToOriginal()
+    {
+        if (originalTargetScore != null && originalTargetScore.Length == targetScore.Length)
+        {
+            for (int i = 0; i < targetScore.Length; i++)
+            {
+                targetScore[i] = originalTargetScore[i];
+            }
+            UpdateTargetScoreUI();
+            Debug.Log("Target score berhasil direset ke nilai awal.");
+        }
+    }
+
+    // Method untuk menampilkan TargetScore pada UI
+    // Digunakan pada method Start & CheckObjective dan lainnya
+    private void UpdateTargetScoreUI()
+    {
+        if (targetScoreText != null && currentTargetIndex < targetScore.Length)
+        {
+            targetScoreText.text = $"{targetScore[currentTargetIndex]}";
         }
     }
 
@@ -248,6 +292,8 @@ public class StageManager : MonoBehaviour
 
         // Mereset data TurnCount
         TurnScript.Instance.ResetTurnCount();
+
+        ResetTargetScoreToOriginal(); // Reset Target Score menjadi Awal / Original
     }
 
     // Method ini untuk mereset Game ketika Restart pada Pause Menu
@@ -274,5 +320,7 @@ public class StageManager : MonoBehaviour
 
         // Mereset data TurnCount
         TurnScript.Instance.ResetTurnCount();
+
+        ResetTargetScoreToOriginal(); // Reset Target Score menjadi Awal / Original
     }
 }
