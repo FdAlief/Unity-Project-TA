@@ -7,6 +7,8 @@ public class SpecialSeedHandler : MonoBehaviour
     [Header("Data Biji")]
     [SerializeField] private SeedConfig seedConfig; // Data biji default dan spesial
 
+    [HideInInspector] public bool isBorobudurSeedUsed = false; // Flag untuk biji Borobudur ketika digunakan
+
     [Header("Referensi Script")]   
     [SerializeField] private CongklakManager congklakManager; // Referensi ke congklak manager
     [SerializeField] private ColliderHoleManager colliderHole; // Referensi ke collider hole manager
@@ -17,6 +19,7 @@ public class SpecialSeedHandler : MonoBehaviour
     public void HandleSpecialSeed(GameObject seed, CongklakHole congklakHole)
     {
         MonasSpecialSeed(seed, congklakHole);
+        BorobudurSpecialSeed(seed, congklakHole);
         KomodoSpecialSeed(seed, congklakHole);
         BaliSpecialSeed(seed, congklakHole);
         JamGadangSpecialSeed(seed, congklakHole);
@@ -45,6 +48,21 @@ public class SpecialSeedHandler : MonoBehaviour
             }
 
             congklakHole.UpdateSeedCountUI(); // Update UI setelah menggandakan biji
+        }
+    }
+
+    // Method untuk Biji Spesial (Borobudur)
+    // Berfungsi melipat gandakan reward coin yang di dapatkan ketika diletakkan pada Hole Besar dan Objective Complete
+    // Digunakan pada Method HandleSpecialSeed() & Script StageManager (OnObjectiveComplete)
+    private void BorobudurSpecialSeed(GameObject seed, CongklakHole congklakHole)
+    {
+        bool isSpecial = seed.CompareTag("Borobudur Seed");
+
+        if (isSpecial && congklakHole.isScoreSource)
+        {
+            Debug.Log("Borobudur Seed diletakkan di Hole Besar. Reward akan digandakan di akhir.");
+
+            isBorobudurSeedUsed = true;
         }
     }
 

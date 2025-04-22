@@ -3999,7 +3999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cf7b0a8fde6854291d65fdd47b0177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScore: 01000000020000001e000000
+  targetScore: 010000000200000003000000
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
@@ -4016,6 +4016,7 @@ MonoBehaviour:
   winScript: {fileID: 645618820}
   loseScript: {fileID: 645618821}
   stageInput: {fileID: 645618822}
+  specialSeedHandler: {fileID: 645618825}
 --- !u!114 &645618820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4131,6 +4132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
+  isBorobudurSeedUsed: 0
   congklakManager: {fileID: 645618814}
   colliderHole: {fileID: 645618817}
   inventoryManager: {fileID: 276093643}

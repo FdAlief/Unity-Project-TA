@@ -9,8 +9,8 @@ public class StageManager : MonoBehaviour
 
     [Header("Stage Objective")]
     [SerializeField] private int[] targetScore; // Skor yang harus dicapai untuk menyelesaikan stage
-    public bool isObjectiveComplete = false; // Sinyal Apakah semua objective sudah tercapai
-    public bool isFinalTargetReached = false; // Indikator apakah target terakhir sudah tercapai
+    [HideInInspector] public bool isObjectiveComplete = false; // Sinyal Apakah semua objective sudah tercapai
+    [HideInInspector] public bool isFinalTargetReached = false; // Indikator apakah target terakhir (semua objective) sudah tercapai
     private int currentTargetIndex; // Indeks target skor yang sedang dicapai
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
@@ -37,6 +37,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private WinScript winScript;
     [SerializeField] private LoseScript loseScript;
     [SerializeField] private StageInput stageInput;
+    [SerializeField] private SpecialSeedHandler specialSeedHandler;
 
     private void Awake()
     {
@@ -83,6 +84,20 @@ public class StageManager : MonoBehaviour
 
         // Simpan nilai Reward Coin berdasarkan target score yang tercapai
         lastRewardCoins = coinRewards[currentTargetIndex];
+
+        // Cek apakah Borobudur Seed digunakan dan menggandakan reward jika ya
+        if (specialSeedHandler != null && specialSeedHandler.isBorobudurSeedUsed)
+        {
+            int bonusCoins = lastRewardCoins; // nilai awal sebelum dikali 2
+            int bonusToAdd = Mathf.Min(bonusCoins, 20); // bonus tambahan maksimal 20
+
+            lastRewardCoins += bonusToAdd;
+
+            Debug.Log("Borobudur Seed aktif! Bonus coin ditambahkan: " + bonusToAdd + ". Total reward: " + lastRewardCoins);
+
+            // Reset flag agar tidak terbawa ke level berikutnya
+            specialSeedHandler.isBorobudurSeedUsed = false;
+        }
 
         // Menambahkan total coin manager dari hasil yang didapatkan
         winScript.AddToCoinManager();
