@@ -874,7 +874,7 @@ MonoBehaviour:
   - {fileID: 1424254745}
   - {fileID: 1194461105}
   - {fileID: 620986068}
-  completedIndicators:
+  completedInfo:
   - {fileID: 938906379}
   - {fileID: 1653000677}
   - {fileID: 1917093235}

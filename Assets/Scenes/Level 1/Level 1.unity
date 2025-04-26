@@ -4078,6 +4078,7 @@ MonoBehaviour:
   isObjectiveComplete: 0
   isFinalTargetReached: 0
   targetScoreText: {fileID: 953151063}
+  currentLevelIndex: 0
   nextLevelCompletedIndex: 1
   coinRewards: 05000000070000000a000000
   PanelWin: {fileID: 1887925289}
@@ -4163,7 +4164,7 @@ MonoBehaviour:
   - {fileID: 1413842103}
   - {fileID: 52265940}
   - {fileID: 711882014}
-  keyPrefs: Test_1.2_Level 1
+  keyPrefs: Test_1.5_Level 1
   stageManager: {fileID: 645618818}
   congklakManager: {fileID: 645618814}
 --- !u!114 &645618823

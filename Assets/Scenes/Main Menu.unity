@@ -1681,8 +1681,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fd98f1cb120bc47bc17997ad450b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCompleted: 000000
-  keyPrefs: Test_1.2_Level Manager
+  levelUnlocked: 000000
+  lastCompletedLevel: 000000
+  keyPrefs: Test_1.5_Level Manager
 --- !u!4 &2079250815
 Transform:
   m_ObjectHideFlags: 0

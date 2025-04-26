@@ -7,7 +7,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance; // Singleton agar mudah diakses dari mana saja
 
     [Header("Level Progress")]
-    public bool[] levelCompleted; // Menyimpan status apakah level sudah selesai
+    public bool[] levelUnlocked; // Menyimpan status apakah level sudah selesai
+    public bool[] lastCompletedLevel; // status Level yang sudah selesai
 
     [Header("PlayerPrefs Key to Save Level Progress")]
     [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
@@ -31,10 +32,11 @@ public class LevelManager : MonoBehaviour
     // Digunakan pada script StageManager (OnObjectiveComplete)
     public void CompleteLevel(int levelIndex)
     {
-        if (levelIndex >= 0 && levelIndex < levelCompleted.Length)
+        if (levelIndex >= 0 && levelIndex < levelUnlocked.Length)
         {
-            levelCompleted[levelIndex] = true;
-            SaveLevelProgress(); // Simpan progres ke PlayerPrefs
+            levelUnlocked[levelIndex] = true;
+            lastCompletedLevel[levelIndex] = true; // Sekarang, completed array juga diaktifkan
+            SaveLevelProgress();
         }
     }
 
@@ -42,29 +44,37 @@ public class LevelManager : MonoBehaviour
     // Digunakan pada script LevelInput (UpdateLevelButtons)
     public bool IsLevelCompleted(int levelIndex)
     {
-        if (levelIndex >= 0 && levelIndex < levelCompleted.Length)
+        if (levelIndex >= 0 && levelIndex < levelUnlocked.Length)
         {
-            return levelCompleted[levelIndex];
+            return levelUnlocked[levelIndex];
         }
         return false;
     }
 
     // Simpan progres level ke PlayerPrefs
-    private void SaveLevelProgress()
+    // Digunakan pada Method CompleteLevel & Script StageManager (OnObjectiveComplete)
+    public void SaveLevelProgress()
     {
-        for (int i = 0; i < levelCompleted.Length; i++)
+        for (int i = 0; i < levelUnlocked.Length; i++)
         {
-            PlayerPrefs.SetInt(keyPrefs + i, levelCompleted[i] ? 1 : 0);
+            PlayerPrefs.SetInt(keyPrefs + "_unlocked_" + i, levelUnlocked[i] ? 1 : 0);
+            PlayerPrefs.SetInt(keyPrefs + "_completed_" + i, lastCompletedLevel[i] ? 1 : 0);
         }
         PlayerPrefs.Save();
     }
 
     // Load progres level dari PlayerPrefs
+    // Digunakan pada Method Awake
     private void LoadLevelProgress()
     {
-        for (int i = 0; i < levelCompleted.Length; i++)
+        for (int i = 0; i < levelUnlocked.Length; i++)
         {
-            levelCompleted[i] = PlayerPrefs.GetInt(keyPrefs + i, i == 0 ? 1 : 0) == 1; // Level 1 selalu terbuka
+            // Default: Level 0 selalu terbuka, lainnya tertutup
+            int defaultUnlock = (i == 0) ? 1 : 0;
+            levelUnlocked[i] = PlayerPrefs.GetInt(keyPrefs + "_unlocked_" + i, defaultUnlock) == 1;
+
+            // Default completed: semua false
+            lastCompletedLevel[i] = PlayerPrefs.GetInt(keyPrefs + "_completed_" + i, 0) == 1;
         }
     }
 }

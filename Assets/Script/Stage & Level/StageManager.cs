@@ -15,6 +15,9 @@ public class StageManager : MonoBehaviour
     private int[] originalTargetScore; // Menyimpan nilai asli targetScore
     public TMP_Text targetScoreText; // UI Text untuk menampilkan target score
 
+    [Header("Level Index Saat Ini")]
+    [SerializeField] private int currentLevelIndex; // indikator index Level untuk di Level Manager
+
     [Header("Next Level Progress")]
     [SerializeField] private int nextLevelCompletedIndex; // Indeks level yang akan diaktifkan di LevelManager
 
@@ -150,9 +153,35 @@ public class StageManager : MonoBehaviour
         }
         else
         {
-            // Semua target selesai, Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
-            isFinalTargetReached = true; // Menandakan bahwa target terakhir / semua target sudah tercapai
-            LevelManager.Instance.CompleteLevel(nextLevelCompletedIndex); // Kirim sinyal ke LevelManager berdasarkan nextLevelCompletedIndex
+            // Semua target selesai
+            isFinalTargetReached = true;
+
+            // Periksa apakah level ini adalah level 0
+            if (currentLevelIndex == 0)
+            {
+                // Paksa aktifkan level 0 di LevelManager
+                LevelManager.Instance.CompleteLevel(0);
+                Debug.Log("Level 0 telah diselesaikan! Status unlocked diaktifkan.");
+            }
+            else
+            {
+                // Simpan level berdasarkan index normal
+                LevelManager.Instance.CompleteLevel(currentLevelIndex);
+            }
+
+            // Setelah selesai, UNLOCK next level berdasarkan nextLevelCompletedIndex
+            if (nextLevelCompletedIndex >= 0 && nextLevelCompletedIndex < LevelManager.Instance.levelUnlocked.Length)
+            {
+                LevelManager.Instance.levelUnlocked[nextLevelCompletedIndex] = true;
+                LevelManager.Instance.SaveLevelProgress(); // Pastikan langsung save ke PlayerPrefs
+                Debug.Log($"Level berikutnya ({nextLevelCompletedIndex}) sudah di-UNLOCK!");
+            }
+            else
+            {
+                Debug.LogWarning("Next Level Completed Index di luar batas! Cek nextLevelCompletedIndex di Inspector.");
+            }
+
+            Debug.Log("Semua objective selesai! Level diselesaikan.");
             return;
         }
 

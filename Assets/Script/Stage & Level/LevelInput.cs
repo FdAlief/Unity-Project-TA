@@ -8,6 +8,9 @@ public class LevelInput : MonoBehaviour
     [Header("Level Buttons")]
     public Button[] levelButtons; // Semua button level
 
+    [Header("UI Indicator")]
+    public GameObject[] completedInfo; // Sama jumlahnya dengan levelButtons
+
     private void Start()
     {
         UpdateLevelButtons();
@@ -18,14 +21,12 @@ public class LevelInput : MonoBehaviour
     {
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            if (LevelManager.Instance.IsLevelCompleted(i))
-            {
-                levelButtons[i].interactable = true;
-            }
-            else
-            {
-                levelButtons[i].interactable = false;
-            }
+            bool isUnlocked = LevelManager.Instance.IsLevelCompleted(i); // Gunakan isUnlocked untuk button
+            levelButtons[i].interactable = isUnlocked;
+
+            // Cek apakah level sudah selesai, untuk UI indikator
+            bool isCompleted = LevelManager.Instance.lastCompletedLevel[i];
+            completedInfo[i].SetActive(isCompleted);
         }
     }
 }
