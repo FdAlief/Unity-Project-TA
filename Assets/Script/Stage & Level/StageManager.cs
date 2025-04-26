@@ -125,25 +125,32 @@ public class StageManager : MonoBehaviour
         // Method untuk mereset collider yang aktif hanya deret player
         colliderHoleManager.ResetCollidersToDefault();
 
-        // Pindah ke targetscore / objective berikutnya jika ada
-        if (currentTargetIndex < targetScore.Length)
+        // Simpan stage yang barusan diselesaikan
+        int completedIndex = currentTargetIndex;
+        if (stageInput != null)
         {
-            currentTargetIndex++;
-            UpdateTargetScoreUI();
-
-            // Unlock UI Button stage berikutnya
-            if (stageInput != null)
+            if (completedIndex >= 0)
             {
-                stageInput.UnlockNextStage(currentTargetIndex);
+                stageInput.MarkStageAsCompleted(completedIndex); // Menandakan stage selesai
+            }
 
-                // Simpan stage yang sudah dibuka
-                stageInput.SaveStageUnlock(currentTargetIndex);  // Menyimpan status stage yang telah dibuka
+            int nextStageIndex = completedIndex + 1;
+            if (nextStageIndex < targetScore.Length) // Pastikan tidak lewat batas
+            {
+                stageInput.UnlockNextStage(nextStageIndex); // Aktifkan stage berikutnya
+                stageInput.SaveStageUnlock(nextStageIndex); // Simpan status unlock untuk stage berikutnya
             }
         }
 
-        // Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
-        if (currentTargetIndex >= targetScore.Length)
+        currentTargetIndex++; // Naik ke target berikutnya
+
+        if (currentTargetIndex < targetScore.Length)
         {
+            UpdateTargetScoreUI();
+        }
+        else
+        {
+            // Semua target selesai, Memberi sinyal ke WinScript untuk dapat pindah scene Level berikutnya
             isFinalTargetReached = true; // Menandakan bahwa target terakhir / semua target sudah tercapai
             LevelManager.Instance.CompleteLevel(nextLevelCompletedIndex); // Kirim sinyal ke LevelManager berdasarkan nextLevelCompletedIndex
             return;

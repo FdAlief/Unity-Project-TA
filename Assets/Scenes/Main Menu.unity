@@ -1682,7 +1682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelCompleted: 000000
-  keyPrefs: Test_1_Level Manager
+  keyPrefs: Test_1.2_Level Manager
 --- !u!4 &2079250815
 Transform:
   m_ObjectHideFlags: 0

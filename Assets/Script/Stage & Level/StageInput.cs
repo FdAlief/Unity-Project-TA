@@ -11,6 +11,9 @@ public class StageInput : MonoBehaviour
     [Header("Stage Buttons")]
     [SerializeField] private Button[] stageButtons; // Array Button untuk setiap stage
 
+    [Header("UI Completed")]
+    [SerializeField] private GameObject[] completedInfo; // UI indicator "Completed"
+
     [Header("PlayerPrefs Key to Unlock Stage")]
     [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
@@ -34,18 +37,20 @@ public class StageInput : MonoBehaviour
         {
             if (stageButtons[i] != null)
             {
-                if (i == 0)
+                bool isUnlocked = (i == 0) || LoadStageUnlock(i); // Stage pertama selalu unlocked
+                stageButtons[i].interactable = isUnlocked;
+
+                bool isCompleted = LoadStageCompleted(i);
+                if (isCompleted && completedInfo.Length > i && completedInfo[i] != null)
                 {
-                    // Pastikan stage index 0 selalu aktif
-                    stageButtons[i].interactable = true;
-                    SaveStageUnlock(0); // Simpan ke PlayerPrefs agar tetap terbuka
+                    completedInfo[i].SetActive(true); // Aktifkan Completed UI hanya jika stage selesai
                 }
                 else
                 {
-                    // Muat / load dari PlayerPrefs
-                    bool isUnlocked = LoadStageUnlock(i);
-                    stageButtons[i].interactable = isUnlocked;
+                    completedInfo[i].SetActive(false); // Nonaktifkan UI Completed jika stage belum selesai
                 }
+
+                if (i == 0) SaveStageUnlock(0); // Pastikan stage 0 selalu disimpan
             }
         }
     }
@@ -90,6 +95,20 @@ public class StageInput : MonoBehaviour
         if (stageIndex < stageButtons.Length)
         {
             stageButtons[stageIndex].interactable = true;
+
+            // Pastikan hanya stage yang sudah selesai yang menampilkan UI Completed
+            if (completedInfo.Length > stageIndex && completedInfo[stageIndex] != null)
+            {
+                bool isCompleted = LoadStageCompleted(stageIndex);
+                completedInfo[stageIndex].SetActive(isCompleted); // Hanya aktif jika stage selesai
+            }
+
+            // Simpan ke PlayerPrefs untuk status stage
+            SaveStageUnlock(stageIndex);
+        }
+        else
+        {
+            Debug.LogWarning("StageIndex di luar jangkauan button/ UI Completed.");
         }
     }
 
@@ -97,7 +116,7 @@ public class StageInput : MonoBehaviour
     // Digunakan dan dipanggil oleh StageManager (OnObjectiveComplete) ketika stage objective selesai
     public void SaveStageUnlock(int stageIndex)
     {
-        string key = keyPrefs + stageIndex; // Gabungkan key prefix dengan index stage
+        string key = keyPrefs + "Unlock_" + stageIndex; // Gabungkan key prefix dengan index stage
         PlayerPrefs.SetInt(key, 1);
         PlayerPrefs.Save(); // Pastikan perubahan disimpan
         Debug.Log($"Saved: {key} = 1");
@@ -107,9 +126,41 @@ public class StageInput : MonoBehaviour
     // Digunakan ketika Start
     private bool LoadStageUnlock(int stageIndex)
     {
-        string key = keyPrefs + stageIndex; // Gabungkan key prefix dengan index stage
+        string key = keyPrefs + "Unlock_" + stageIndex; // Gabungkan key prefix dengan index stage
         bool isUnlocked = PlayerPrefs.GetInt(key, 0) == 1; // Default 0 jika tidak ditemukan
         Debug.Log($"Loaded: {key} = {isUnlocked}");
         return isUnlocked;
+    }
+
+    // Method untuk menyimpan UI Compelted stage playerprefs
+    // Digunakan ketika pada Method MarkStageAsCompleted
+    private void SaveStageCompleted(int stageIndex)
+    {
+        string key = keyPrefs + "Completed_" + stageIndex;
+        PlayerPrefs.SetInt(key, 1);
+        PlayerPrefs.Save();
+        Debug.Log($"Stage Completed Saved: {key} = 1");
+    }
+
+    // Method untuk memuat / load status UI Completed stage yang sudah disimpan
+    // Digunakan ketika pada Method Start dan UnlockedStage
+    private bool LoadStageCompleted(int stageIndex)
+    {
+        string key = keyPrefs + "Completed_" + stageIndex;
+        bool completed = PlayerPrefs.GetInt(key, 0) == 1;
+        Debug.Log($"Stage Completed Loaded: {key} = {completed}");
+        return completed;
+    }
+
+    // Method untuk menandakan UI Completed Stage
+    // Digunakan pada Script StageManager (OnObjectiveCompleted)
+    public void MarkStageAsCompleted(int stageIndex)
+    {
+        if (completedInfo.Length > stageIndex && completedInfo[stageIndex] != null)
+        {
+            completedInfo[stageIndex].SetActive(true);
+        }
+
+        SaveStageCompleted(stageIndex);
     }
 }
