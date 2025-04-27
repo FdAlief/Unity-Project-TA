@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,14 @@ public class InventoryManager : MonoBehaviour
     public float slotWidth;    // Tinggi setiap slot
     public float spacing;        // Spasi antar slot
 
+    [Header("Delete Special Seed")]
+    public Button[] deleteButtons;
+    public GameObject panelDeleteSeed;
+    public TMP_Text specialSeedName;
+    public TMP_Text specialSeedPrice;
+    private int currentDiscountedPrice = 0; // Simpan harga jual sementara
+    private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
+
     void Start()
     {
         // Set semua slot menjadi tidak aktif jika kosong prefab biji
@@ -32,6 +41,11 @@ public class InventoryManager : MonoBehaviour
         AddSpecialSeedsToInventory();
 
         UpdateContentSize();
+    }
+
+    void Update()
+    {
+        UpdateDeleteButtons();
     }
 
     // Method untuk memasukkan biji ke dalam slot inventory yang ada
@@ -118,8 +132,8 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Method untuk menghapus data Special Seed dari slot tertentu
-    // Menggunakan parameter index dan digunakan pada setiap Button Remove SlotSpecial (1,2,3,4)
-    public void RemoveSpecialSeedFromInventory(int slotIndex)
+    // Menggunakan parameter index dari Method ConfirmDeleteSpecialSeed
+    private void RemoveSpecialSeedFromInventory(int slotIndex)
     {
         // Cek apakah index valid dalam batas array specialSeedSlots
         if (slotIndex < 0 || slotIndex >= specialSeedSlots.Length)
@@ -301,5 +315,89 @@ public class InventoryManager : MonoBehaviour
 
         // Perbarui ukuran Content
         contentRect.sizeDelta = new Vector2(contentWidth, contentRect.sizeDelta.y);
+    }
+
+    // Method untuk menon-aktifkan Button Delete ketika Slot Kosong
+    // Digunakan pada Method Update
+    private void UpdateDeleteButtons()
+    {
+        for (int i = 0; i < specialSeedSlots.Length; i++)
+        {
+            if (deleteButtons[i] != null)
+            {
+                // Slot dianggap kosong kalau child count <= 1 (cuma background)
+                bool isSlotFilled = specialSeedSlots[i].transform.childCount > 1;
+                deleteButtons[i].interactable = isSlotFilled;
+            }
+        }
+    }
+
+    // Method untuk membuka Pane Delete Special Seed ketika klik Button Delete di setiap Slot sesuai dengan Slot
+    // Digunakan pada OnClick setiap Button Delete Slot
+    public void OpenPanelDeleteSpecialSeed(GameObject slot)
+    {
+        panelDeleteSeed.SetActive(true);
+
+        // Simpan slot index yang dipilih
+        selectedSpecialSeedSlotIndex = System.Array.IndexOf(specialSeedSlots, slot);
+
+        // Cek apakah slot punya seed (pastikan child lebih dari background doang)
+        if (slot.transform.childCount > 1)
+        {
+            GameObject seedObject = slot.transform.GetChild(1).gameObject;
+            string seedNameRaw = seedObject.name.Replace("(Clone)", "").Trim();
+
+            SeedSpecialData seedData = seedConfig.GetSeedDataByPrefabName(seedNameRaw);
+
+            if (seedData != null)
+            {
+                specialSeedName.text = seedData.seedName;
+                currentDiscountedPrice = seedData.price / 2;
+                specialSeedPrice.text = currentDiscountedPrice.ToString();
+
+                Debug.Log($"[INFO] Biji spesial ditemukan: {seedData.seedName}, Harga: {seedData.price}");
+            }
+            else
+            {
+                Debug.LogWarning($"[WARNING] Data Seed '{seedNameRaw}' tidak ditemukan di SeedStoreList.");
+                specialSeedName.text = "-";
+                specialSeedPrice.text = "-";
+                currentDiscountedPrice = 0; // Reset kalau datanya null
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Slot tidak memiliki seed spesial untuk dihapus.");
+            specialSeedName.text = "-";
+            specialSeedPrice.text = "-";
+        }
+    }
+
+    // Method untuk Konfirmasi Penghapusan Special Seed
+    // Digunakan pada OnClick Button Yes di Panel Delete Special Seed
+    public void ConfirmDeleteSpecialSeed()
+    {
+        if (selectedSpecialSeedSlotIndex != -1)
+        {
+            RemoveSpecialSeedFromInventory(selectedSpecialSeedSlotIndex);
+
+            if (currentDiscountedPrice > 0)
+            {
+                CoinManager.Instance.AddCoins(currentDiscountedPrice);
+                Debug.Log($"[SUCCESS] Tambahkan {currentDiscountedPrice} koin ke player.");
+            }
+            else
+            {
+                Debug.LogWarning("[WARNING] Harga seed tidak valid, tidak ada koin yang ditambahkan.");
+            }
+
+            panelDeleteSeed.SetActive(false); // Tutup panel setelah hapus
+            selectedSpecialSeedSlotIndex = -1; // Reset pilihan
+            currentDiscountedPrice = 0; // Reset harga jual
+        }
+        else
+        {
+            Debug.LogWarning("[WARNING] Tidak ada slot yang dipilih untuk dihapus.");
+        }
     }
 }
