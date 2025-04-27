@@ -186,29 +186,28 @@ public class InventoryManager : MonoBehaviour
     // Digunakan pada method RemoveSpecialSeedFromInventory ketika sudah menghapus data dari Slot
     public void ShiftSpecialSeedsUp()
     {
-        // Loop melalui semua slot kecuali slot terakhir
-        for (int i = 0; i < specialSeedSlots.Length - 1; i++)
+        if (selectedSpecialSeedSlotIndex == -1) return; // Kalau gak ada yang dipilih, keluar aja.
+
+        for (int i = selectedSpecialSeedSlotIndex; i < specialSeedSlots.Length - 1; i++)
         {
-            // Jika slot kosong (hanya berisi background atau UI), cari slot berikutnya yang berisi seed
+            // Kalau slot ini kosong
             if (specialSeedSlots[i].transform.childCount <= 2)
             {
                 for (int j = i + 1; j < specialSeedSlots.Length; j++)
                 {
-                    // Jika ditemukan slot yang memiliki seed
                     if (specialSeedSlots[j].transform.childCount > 1)
                     {
-                        // Ambil seed dari slot bawah
+                        // Pindahkan seed dari slot bawah ke slot kosong
                         Transform seedToMove = specialSeedSlots[j].transform.GetChild(1);
 
-                        // Pindahkan seed ke slot kosong di atasnya
                         seedToMove.SetParent(specialSeedSlots[i].transform);
-                        seedToMove.localPosition = Vector3.zero; // Reset posisi agar sesuai dengan slot
-                        seedToMove.localRotation = Quaternion.identity; // Reset rotasi agar tidak berubah
-                        seedToMove.localScale = new Vector3(5f, 5f, 5f); // Pastikan ukuran tetap sesuai
+                        seedToMove.localPosition = Vector3.zero;
+                        seedToMove.localRotation = Quaternion.identity;
+                        seedToMove.localScale = new Vector3(5f, 5f, 5f);
 
-                        Debug.Log($"Memindahkan {seedToMove.name} dari slot {j} ke slot {i}.");
+                        Debug.Log($"[SHIFT] Memindahkan {seedToMove.name} dari slot {j} ke slot {i}.");
 
-                        break; // Keluar dari loop dalam setelah menemukan seed yang bisa dipindahkan
+                        break; // Setelah pindah, langsung keluar loop dalam
                     }
                 }
             }
