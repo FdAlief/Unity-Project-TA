@@ -26,6 +26,7 @@ public class SeedConfig : ScriptableObject
 public class SeedSpecialData
 {
     public string seedName;
+    [TextArea] public string seedInfo;
     public Sprite seedImage;
     public GameObject seedPrefab;
     public int price;

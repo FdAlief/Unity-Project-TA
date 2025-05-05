@@ -13,37 +13,50 @@ MonoBehaviour:
   m_Name: Seed Data
   m_EditorClassIdentifier: 
   defaultSeedPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
-  specialSeedPrefabs:
-  - {fileID: 8892554669985688653, guid: 18283e08809c200418f670e32cc72f05, type: 3}
-  - {fileID: 8892554669985688653, guid: 9b05ef7065f2d14439d7afbda13300b1, type: 3}
-  - {fileID: 8892554669985688653, guid: 370e20404b3eaf743a6f6495bf5601eb, type: 3}
-  - {fileID: 8892554669985688653, guid: 38f70f0d2f39a9349a475949d4a91878, type: 3}
+  specialSeedPrefabs: []
   seedStoreList:
   - seedName: Monumen Nasional Seed
+    seedInfo: Melipat-gandakan jumlah biji di lubang kecil tempat biji spesial ini
+      diletakkan.
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 370e20404b3eaf743a6f6495bf5601eb, type: 3}
     price: 10
   - seedName: Borobudur Seed
+    seedInfo: Melipat-gandakan jumlah koin ketika biji spesial ini diletakkan di
+      lubang besar, dengan jumlah maksimal koin yang didapatkan adalah 20
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 2582fe7a43f5d4f4ea526378417d33ec, type: 3}
     price: 10
   - seedName: Komodo Seed
+    seedInfo: 'Melipat-gandakan jumlah biji pada lubang
+
+      besar ketika biji
+      spesial ini diletakkan pada lubang besar'
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 9b05ef7065f2d14439d7afbda13300b1, type: 3}
     price: 10
   - seedName: Bali Seed
+    seedInfo: Menambahkan jumlah biji pada lubang besar berkisar antara 1 hingga
+      10 ketika biji spesial ini diletakkan pada lubang besar
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 3a1c196597a98ce4cb3590ab50868ac2, type: 3}
     price: 15
   - seedName: Jam Gadang Seed
+    seedInfo: "Melipat-gandakan jumlah biji di lubang\r\nkecil yang berseberangan
+      dengan tempat biji spesial ini diletakkan\r"
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 18283e08809c200418f670e32cc72f05, type: 3}
     price: 10
   - seedName: Honai Seed
+    seedInfo: "Ketika biji spesial ini diletakkan pada lubang terakhir, pemain dapat
+      memilih salah satu lubang antara 9 lubang sebelum atau selanjutnya dari lubang
+      tempat biji spesial ini diletakkan\r"
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 703474d91fa136e4e96545a48feaff0d, type: 3}
     price: 10
   - seedName: Patung Surabaya Seed
+    seedInfo: Ketika biji spesial ini diletakkan pada lubang besar, pemain bisa mendapatkan
+      tambahan skor dari jumlah koin yang dimiliki
     seedImage: {fileID: 0}
     seedPrefab: {fileID: 8892554669985688653, guid: 38f70f0d2f39a9349a475949d4a91878, type: 3}
     price: 10

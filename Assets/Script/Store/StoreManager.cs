@@ -11,6 +11,7 @@ public class StoreManager : MonoBehaviour
     [Header("Special Seed Store Settings")]
     [SerializeField] private SeedConfig seedConfig; // ScriptableObject yang berisi daftar seed
     [SerializeField] private TMP_Text seedNameUI; // UI untuk text nama seed
+    [SerializeField] private TMP_Text seedInfoUI; // UI untuk text info seed
     [SerializeField] private GameObject seedBuyUI; // UI untuk Button Buy seed
     //[SerializeField] private Image seedImageUI; // UI untuk menampilkan gambar seed
     //[SerializeField] private Text seedPriceUI; // UI untuk harga seed
@@ -54,6 +55,7 @@ public class StoreManager : MonoBehaviour
 
             // Update UI
             seedNameUI.text = selectedSeed.seedName;
+            seedInfoUI.text = selectedSeed.seedInfo;
             seedBuyUI.SetActive(true);
             //seedImageUI.sprite = selectedSeed.seedImage;
             //seedPriceUI.text = "$" + selectedSeed.price;
