@@ -263,22 +263,6 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // Method untuk merubah data nilai Target Score sesuai dengan nilai Total Coins
-    // Digunakan pada Script SpecialSeedHandler (PatungSurabayaSpecialSeed)
-    public void ReplaceTargetScoreWithCoin(int coinAmount)
-    {
-        if (currentTargetIndex < targetScore.Length)
-        {
-            targetScore[currentTargetIndex] = coinAmount;
-            UpdateTargetScoreUI(); // Biar UI juga ikut update
-            Debug.Log("Target Score diganti dengan nilai coin: " + coinAmount);
-        }
-        else
-        {
-            Debug.LogWarning("Gagal mengganti target score, index di luar batas.");
-        }
-    }
-
     // Method untuk mereset data nilai Target Score ke nilai Awal / Original
     // Digunakan pada Method (BackStageMenu) & (RestartGame)
     private void ResetTargetScoreToOriginal()

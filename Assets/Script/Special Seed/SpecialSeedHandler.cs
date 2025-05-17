@@ -218,7 +218,7 @@ public class SpecialSeedHandler : MonoBehaviour
     }
 
     // Method untuk Biji Spesial (Patung Surabaya)
-    // Berfungsi mengubah nilai Target Score sesuai dengan nilai Total Coins ketika diletakkan pada Hole Besar
+    // Berfungsi menambah jumlah seed pada Hole Besar / Score sesuai dengan nilai Total Coins ketika diletakkan pada Hole Besar
     // Digunakan pada Method HandleSpecialSeed()
     private void PatungSurabayaSpecialSeed(GameObject seed, CongklakHole congklakHole)
     {
@@ -226,23 +226,29 @@ public class SpecialSeedHandler : MonoBehaviour
 
         if (isSpecial && congklakHole.isScoreSource)
         {
-            int currentScore = ScoreManager.Instance.GetCurrentScore();
-            int scoreToAdd = 1; // Nilai per biji, sesuaikan kalau beda
-            int predictedScore = currentScore + scoreToAdd;
+            int totalCoins = CoinManager.Instance.GetTotalCoins(); // Ambil jumlah koin saat ini
 
-            int currentTarget = StageManager.Instance.GetTargetScoreValue();
+            for (int i = 0; i < totalCoins; i++)
+            {
+                // Tentukan radius untuk distribusi biji di sekitar pusat lubang
+                float radius = 0.25f;
 
-            // Jika belum memenuhi target setelah penambahan, maka target bisa diubah
-            if (predictedScore < currentTarget)
-            {
-                int totalCoin = CoinManager.Instance.GetTotalCoins(); // Atau dari mana pun koinnya
-                StageManager.Instance.ReplaceTargetScoreWithCoin(totalCoin);
-                Debug.Log("Patung Surabaya aktif! Target Score diubah menjadi: " + totalCoin);
+                // Hitung sudut acak untuk penempatan biji
+                float angle = Random.Range(0f, 360f);
+                Vector3 offset = new Vector3(
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+                    Mathf.Sin(angle * Mathf.Deg2Rad) * radius,
+                    0
+                );
+
+                GameObject newSeed = Instantiate(seed, congklakHole.transform.position + offset, Quaternion.identity, congklakHole.transform);
+                congklakHole.seedsInHole.Add(newSeed); // Simbolik, kita gak pakai prefab
             }
-            else
-            {
-                Debug.Log("Patung Surabaya diletakkan saat skor sudah hampir cukup. Efek dibatalkan.");
-            }
+
+            // Update UI dan skor
+            congklakHole.UpdateSeedCountUI();
+
+            Debug.Log($"Menambahkan {totalCoins} biji ke {congklakHole.name} dari seed Patung Surabaya.");
         }
     }
 }
