@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerScript : MonoBehaviour
 {
+    [Header("Referensi Script")]
+    [SerializeField] private AudioManagerScript audioManager;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) // Tombol back di Android
@@ -25,6 +28,17 @@ public class SceneManagerScript : MonoBehaviour
     // Method Pindah Scene
     public void ChangeScene(string scene)
     {
+        StartCoroutine(DelayChangeScene(scene));
+    }
+
+    // Method untuk Aktif dan Nonaktif Panel Coin Not Enough
+    // Digunakan pada Method Buy
+    private IEnumerator DelayChangeScene(string scene)
+    {
+        audioManager.PlayAudioByIndex(0);
+
+        yield return new WaitForSeconds(0.5f);
+
         SceneManager.LoadScene(scene);
     }
 

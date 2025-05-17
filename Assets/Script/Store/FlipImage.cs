@@ -5,11 +5,15 @@ using UnityEngine;
 public class FlipImage : MonoBehaviour
 {
     public float flipDuration; // Total waktu animasi rotasi (dari 0 ke 180 derajat)
-    public GameObject textFront; // Objek teks sisi depan (0 derajat)
+    public GameObject textNameFront; // Objek teks sisi depan (0 derajat)
+    public GameObject textPriceFront; // Objek teks sisi depan (0 derajat)
     public GameObject textBack; // Objek teks sisi belakang (180 derajat)
 
     private bool isFlipped = false; // Status posisi kartu, true = belakang, false = depan
     private bool isRotating = false; // Lock agar tidak bisa klik saat sedang animasi
+
+    [Header("Referensi Script")]
+    [SerializeField] private AudioManagerScript audioManager;
 
     // Dipanggil saat object disentuh atau diklik
     // Digunakan pada Object "Option Biji Spesial" use Event Trigger
@@ -17,6 +21,16 @@ public class FlipImage : MonoBehaviour
     {
         if (isRotating) return; // Cegah double tap saat animasi belum selesai
         StartCoroutine(FlipCard()); // Mulai proses rotasi
+
+        // Panggil Audio
+        if (audioManager != null)
+        {
+            audioManager.PlayAudioByIndex(8); // Misalnya index 0 adalah SFX coin
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager belum di-assign di inspector!");
+        }
     }
 
     // Coroutine untuk animasi flip kartu 2 arah
@@ -42,7 +56,8 @@ public class FlipImage : MonoBehaviour
         transform.rotation = midRot; // Pastikan posisi pas 90°
 
         // Di tengah animasi: sembunyikan semua teks
-        textFront.SetActive(false);
+        textNameFront.SetActive(false);
+        textPriceFront.SetActive(false);
         textBack.SetActive(false);
 
         // Toggle status flip
@@ -69,8 +84,10 @@ public class FlipImage : MonoBehaviour
         }
         else
         {
-            textFront.SetActive(true); // Teks depan muncul
-            textFront.transform.rotation = Quaternion.identity;
+            textNameFront.SetActive(true); // Teks depan muncul
+            textPriceFront.SetActive(true);
+            textNameFront.transform.rotation = Quaternion.identity;
+            textPriceFront.transform.rotation = Quaternion.identity;
         }
 
         isRotating = false; // Unlock input
@@ -81,8 +98,10 @@ public class FlipImage : MonoBehaviour
     public void ResetFlip()
     {
         transform.rotation = Quaternion.Euler(0f, 0f, 0f); // Rotasi balik ke depan (0 derajat)
-        textFront.SetActive(true); // Aktifkan teks depan
-        textFront.transform.rotation = Quaternion.identity;
+        textNameFront.SetActive(true); // Aktifkan teks depan
+        textPriceFront.SetActive(true);
+        textNameFront.transform.rotation = Quaternion.identity;
+        textPriceFront.transform.rotation = Quaternion.identity;
 
         textBack.SetActive(false); // Matikan teks belakang
 

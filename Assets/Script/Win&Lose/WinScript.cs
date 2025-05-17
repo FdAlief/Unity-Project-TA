@@ -25,6 +25,7 @@ public class WinScript : MonoBehaviour
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
     [SerializeField] private CongklakManager congklakManager;
+    [SerializeField] private AudioManagerScript audioManager;
 
     private void Update()
     {
@@ -118,6 +119,16 @@ public class WinScript : MonoBehaviour
 
             // Memasukkan / menambahkan ke dalam data Total Coin Manager
             CoinManager.Instance.AddCoins(totalCoins);
+
+            // Panggil Audio
+            if (audioManager != null)
+            {
+                audioManager.PlayAudioByIndex(3); // Misalnya index 0 adalah SFX coin
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager belum di-assign di inspector!");
+            }
         }
     }
 

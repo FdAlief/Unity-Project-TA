@@ -16,6 +16,7 @@ public class LoseScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
+    [SerializeField] private AudioManagerScript audioManager;
 
     // Method untuk menampilkan UI text informasi Stage Lose
     // Digunakan pada script StageManager (OnGameOver)
@@ -33,6 +34,16 @@ public class LoseScript : MonoBehaviour
             else
             {
                 stageText.text = "Game Over! Coba lagi!"; // Default jika tidak ada custom text
+            }
+
+            // Panggil Audio
+            if (audioManager != null)
+            {
+                audioManager.PlayAudioByIndex(7); // Misalnya index 0 adalah SFX coin
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager belum di-assign di inspector!");
             }
         }
     }

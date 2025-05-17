@@ -29,6 +29,9 @@ public class InventoryManager : MonoBehaviour
     private int currentDiscountedPrice = 0; // Simpan harga jual sementara
     private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
 
+    [Header("Referensi Script")]
+    [SerializeField] private AudioManagerScript audioManager;
+
     void Start()
     {
         // Set semua slot menjadi tidak aktif jika kosong prefab biji
@@ -52,6 +55,16 @@ public class InventoryManager : MonoBehaviour
     // Digubakan pada script Congklak Hole (TransferSeedsToInventory)
     public bool AddSeedToInventory(GameObject seed)
     {
+        // Panggil Audio
+        if (audioManager != null)
+        {
+            audioManager.PlayAudioByIndex(5);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager belum di-assign di inspector!");
+        }
+
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             if (!inventorySlots[i].activeSelf) // Jika slot kosong
