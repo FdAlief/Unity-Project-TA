@@ -90,20 +90,6 @@ public class StageManager : MonoBehaviour
         // Simpan nilai Reward Coin berdasarkan target score yang tercapai
         lastRewardCoins = coinRewards[currentTargetIndex];
 
-        // Cek apakah Borobudur Seed digunakan dan menggandakan reward jika ya
-        if (specialSeedHandler != null && specialSeedHandler.isBorobudurSeedUsed)
-        {
-            int bonusCoins = lastRewardCoins; // nilai awal sebelum dikali 2
-            int bonusToAdd = Mathf.Min(bonusCoins, 20); // bonus tambahan maksimal 20
-
-            lastRewardCoins += bonusToAdd;
-
-            Debug.Log("Borobudur Seed aktif! Bonus coin ditambahkan: " + bonusToAdd + ". Total reward: " + lastRewardCoins);
-
-            // Reset flag agar tidak terbawa ke level berikutnya
-            specialSeedHandler.isBorobudurSeedUsed = false;
-        }
-
         // Menambahkan total coin manager dari hasil yang didapatkan
         winScript.AddToCoinManager();
 
