@@ -5,15 +5,13 @@ using TMPro;
 
 public class GameplayUIScript : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TMP_Text totalCoinsText; // UI untuk total koin
-    public TMP_Text scoreText; // UI untuk total koin
-    public TMP_Text turnCountText; // UI untuk turn count
+    [Header("Counter Number")]
+    public CounterNumber coinEffect;
+    public CounterNumber turnEffect;
 
     private void Start()
     {
         UITextCoin();
-        UITextScore();
         UITextTurn();
     }
 
@@ -30,35 +28,16 @@ public class GameplayUIScript : MonoBehaviour
         }
     }
 
-    // Method untuk memperbarui UI Text saat total coin berubah
+    // Method untuk menghitung Coin yang ditampilkan beserta Effect
     private void UpdateUICoin(int totalCoins)
     {
-        if (totalCoinsText != null)
+        if (coinEffect != null)
         {
-            totalCoinsText.text = totalCoins.ToString();
+            coinEffect.EffectToValue(totalCoins);
         }
     }
 
-    // Method untuk mendapatkan nilai Score dari ScoreManager
-    private void UITextScore()
-    {
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.OnScoreChanged += UpdateUIScore;
-            UpdateUIScore(ScoreManager.Instance.GetCurrentScore()); // Set nilai awal
-        }
-    }
-
-    // Method untuk memperbarui UI Text saat Score berubah
-    private void UpdateUIScore(int score)
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = score.ToString();
-        }
-    }
-
-    // Update UI Turn Count dari TurnScript
+    // Method untuk mendapatkan data nilai Turn Count pada TurnScript
     private void UITextTurn()
     {
         if (TurnScript.Instance != null)
@@ -68,15 +47,14 @@ public class GameplayUIScript : MonoBehaviour
         }
     }
 
-    // Method untuk menghitung Turn yang ditampilkan
+    // Method untuk menghitung Turn yang ditampilkan beserta Effect
     private void UpdateUITurn(int turnCount)
     {
-        if (turnCountText != null && TurnScript.Instance != null)
+        if (turnEffect != null && TurnScript.Instance != null)
         {
             int maxTurns = TurnScript.Instance.GetMaxTurns();
-            int remainingTurns = maxTurns - turnCount;
-            remainingTurns = Mathf.Max(remainingTurns, 0); // Jangan sampai negatif
-            turnCountText.text = remainingTurns.ToString();
+            int remainingTurns = Mathf.Max(maxTurns - turnCount, 0);
+            turnEffect.EffectToValue(remainingTurns);
         }
     }
 
@@ -86,11 +64,6 @@ public class GameplayUIScript : MonoBehaviour
         if (CoinManager.Instance != null)
         {
             CoinManager.Instance.OnCoinChanged -= UpdateUICoin;
-        }
-
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.OnScoreChanged -= UpdateUIScore;
         }
 
         if (TurnScript.Instance != null)

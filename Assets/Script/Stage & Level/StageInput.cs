@@ -14,6 +14,13 @@ public class StageInput : MonoBehaviour
     [Header("UI Completed")]
     [SerializeField] private GameObject[] completedInfo; // UI indicator "Completed"
 
+    [Header("UI Stage Menu")]
+    [SerializeField] private GameObject stageMenuPanel; // Panel Stage Menu
+
+    [Header("Effect Angka UI")]
+    [SerializeField] private CounterNumber coinEffect;
+    [SerializeField] private CounterNumber turnEffect;
+
     [Header("PlayerPrefs Key to Unlock Stage")]
     [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
 
@@ -59,6 +66,15 @@ public class StageInput : MonoBehaviour
     // Digunakan pada UI Button Stage Input Menu
     public void ChooseStage(int index)
     {
+        StartCoroutine(ClosePanelStageMenu(index));
+    }
+
+    // Courutine untuk memilih Stage
+    // Digunakan pada Method ChooseStage();
+    private IEnumerator ClosePanelStageMenu(int index)
+    {
+        stageMenuPanel.SetActive(false);
+
         // Aktifkan script yang terdaftar
         foreach (MonoBehaviour script in scriptEnable)
         {
@@ -67,25 +83,18 @@ public class StageInput : MonoBehaviour
                 script.enabled = true; // Aktifkan script
             }
         }
-
-        if (stageManager != null)
-        {
-            stageManager.SetTargetScoreIndex(index);
-        }
-        else
-        {
-            Debug.LogError("StageManager masih null saat memilih stage!");
-        }
+        
+        // Atur Target Score
+        stageManager.SetTargetScoreIndex(index);
 
         // Reset biji Congklak ketika stage dipilih untuk random ulang
-        if (congklakManager != null)
-        {
-            congklakManager.ResetSeeds();
-        }
-        else
-        {
-            Debug.LogError("CongklakManager belum diassign di StageInput!");
-        }
+        congklakManager.ResetSeeds();
+
+        yield return new WaitForSeconds(0.05f);
+
+        // Jalankan Efeect Counter dan Shake,Rotate,Scale
+        coinEffect.EffectToValue(CoinManager.Instance.GetTotalCoins());
+        turnEffect.EffectToValue(TurnScript.Instance.GetMaxTurns());
     }
 
     // Method ini untuk mengaktifkan Button Stage selanjutnya

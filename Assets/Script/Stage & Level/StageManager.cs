@@ -34,6 +34,9 @@ public class StageManager : MonoBehaviour
     [Header("Script Enable & Disable")]
     public MonoBehaviour[] scriptDisable; // Untuk menonaktifkan & aktifkan sistem Raycast ketika Panel Win/Lose muncul
 
+    [Header("Effect Angka UI")]
+    [SerializeField] private CounterNumber coinEffect;
+
     [Header("Referensi Script")]
     [SerializeField] private CongklakManager congklakManager;
     [SerializeField] private InventoryManager inventoryManager;
@@ -274,36 +277,8 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // Method ini untuk mereset Game Stage ketika kembali ke Panel Stage Menu
-    // Digunakan pada Button pada Gameplay Back Stage Menu
-    public void BackStageMenu()
-    {
-        // Nonaktifkan script yang terdaftar (misalnya Raycast atau kontrol)
-        foreach (MonoBehaviour script in scriptDisable)
-        {
-            if (script != null)
-            {
-                script.enabled = false;
-            }
-        }
-
-        // Method untuk mereset biji pada congklak
-        congklakManager.ResetSeeds();
-
-        // Method untuk menghapus Inventory
-        inventoryManager.ClearInventory();
-
-        // Method untuk mereset collider yang aktif hanya deret player
-        colliderHoleManager.ResetCollidersToDefault();
-
-        // Mereset data TurnCount
-        TurnScript.Instance.ResetTurnCount();
-
-        ResetTargetScoreToOriginal(); // Reset Target Score menjadi Awal / Original
-    }
-
     // Method ini untuk mereset Game ketika Restart pada Pause Menu
-    // Digunakan pada Button pada Restart di Pause Menu
+    // Digunakan pada Button pada Restart di Pause Menu dan Button BackStage Menu
     public void RestartGame()
     {
         // Aktifkan script yang terdaftar (misalnya Raycast atau kontrol)
@@ -326,6 +301,9 @@ public class StageManager : MonoBehaviour
 
         // Mereset data TurnCount
         TurnScript.Instance.ResetTurnCount();
+
+        // Menjalankan Effect Count dan Shaking,Rotate,Scale
+        coinEffect.EffectToValue(CoinManager.Instance.GetTotalCoins());
 
         ResetTargetScoreToOriginal(); // Reset Target Score menjadi Awal / Original
     }

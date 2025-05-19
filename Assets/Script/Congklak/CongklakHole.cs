@@ -11,11 +11,11 @@ public class CongklakHole : MonoBehaviour
 
     public int SeedsCount => seedsInHole.Count; // Variabel SeedsCount
 
-    [Header("Info Seed In Hole")]
-    public TMP_Text seedCountText; // Referensi ke Text UI
-
     [Header("Score Source")]
     public bool isScoreSource; // Menandai apakah lubang ini adalah sumber untuk jumlah skor
+
+    [Header("Effect Angka UI")]
+    [SerializeField] private CounterNumber angkaEffect;
 
     [Header("Referensi Script")]   
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke manager inventory
@@ -134,9 +134,9 @@ public class CongklakHole : MonoBehaviour
     // Digunakan pada method (AddSeed), (TransferSeedsToInventory), (Start) dan Script SpecialSeedHandler
     public void UpdateSeedCountUI()
     {
-        if (seedCountText != null)
+        if (angkaEffect != null)
         {
-            seedCountText.text = SeedsCount.ToString(); // Update jumlah biji
+            angkaEffect.EffectToValue(SeedsCount); // Jalankan effect dan update angka
         }
 
         // Jika lubang ini adalah sumber skor, perbarui skor global

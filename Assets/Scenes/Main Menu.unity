@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34eff290cea44804faede2364a786735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPrefs: Test_Alpha_Coin Manager
+  keyPrefs: TestLagi_Coin Manager
 --- !u!4 &351174661
 Transform:
   m_ObjectHideFlags: 0
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   turnCount: 0
   maxTurns: 3
   coinRewardPerTurn: 2
-  keyPrefs: Test_Alpha_Turn Manager
+  keyPrefs: TestLagi_Turn Manager
 --- !u!4 &1714632810
 Transform:
   m_ObjectHideFlags: 0

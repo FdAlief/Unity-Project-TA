@@ -10,6 +10,8 @@ public class SpecialSeedHandler : MonoBehaviour
 
     [Header("Borobudur Seed Effect")]
     public TMP_Text bonusCoin;
+    public float fadeTime;
+    public float displayTime;
 
     [Header("Referensi Script")]   
     [SerializeField] private CongklakManager congklakManager; // Referensi ke congklak manager
@@ -73,7 +75,7 @@ public class SpecialSeedHandler : MonoBehaviour
             if (bonusCoin != null)
             {
                 bonusCoin.text = $"+ {bonus}";
-                StartCoroutine(BonusCoinBorobudurUI(0.25f, 0.7f)); // Clear dalam 2 detik
+                StartCoroutine(BonusCoinBorobudurUI(fadeTime, displayTime)); // Clear dalam 2 detik
             }
 
             Debug.Log("Borobudur Seed diletakkan di Hole Besar. Reward akan digandakan di akhir.");

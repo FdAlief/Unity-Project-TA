@@ -12,9 +12,6 @@ public class WinScript : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
     public TMP_Text scoreText; // Tambahkan UI untuk menampilkan skor
-    public TMP_Text rewardCoinText; // Tampilan UI Text RewardCoin
-    public TMP_Text remainingTurnText; // Tampilan UI sisa Turn
-    public TMP_Text totalText; // Tampilan UI Total
 
     [Header("Informasi Stage")]
     [SerializeField] private string[] infoStage; // Array pesan kustom untuk setiap stage
@@ -22,17 +19,49 @@ public class WinScript : MonoBehaviour
     [Header("Next Scene Level")]
     public string sceneNextLevel;
 
+    [Header("Effect Angka UI")]
+    [SerializeField] private CounterNumber rewardCoinEffect;
+    [SerializeField] private CounterNumber sisaTurnEffect;
+    [SerializeField] private CounterNumber rewardTurnEffect;
+    [SerializeField] private CounterNumber totalEffect;
+
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
     [SerializeField] private CongklakManager congklakManager;
     [SerializeField] private AudioManagerScript audioManager;
 
-    private void Update()
+    void Update()
     {
         ShowStageWin();
         ShowScore();
+    }
+
+    // Method untuk menjalankan Coroutine ketika Panel Win Enable
+    void OnEnable()
+    {
+        StartCoroutine(DelayShowUI(0.5f, 1f));
+    }
+
+    // Method untuk mereset Hasil menjadi 0 ketika Panel Win Disable
+    void OnDisable()
+    {
+        rewardCoinEffect.SetInitialValue(0);
+        sisaTurnEffect.SetInitialValue(0);
+        rewardTurnEffect.SetInitialValue(0);
+        totalEffect.SetInitialValue(0);
+    }
+
+    // Coroutine untuk menampilkan Hasil yang diraih beseta Effect
+    // Digunakan pada Method OnEnable
+    private IEnumerator DelayShowUI(float delay1, float delay2)
+    {
+        yield return new WaitForSeconds(delay1);
         ShowRewardCoins();
+        yield return new WaitForSeconds(delay2);
         ShowRemainingTurn();
+        yield return new WaitForSeconds(delay2);
+        ShowRewardTurn();
+        yield return new WaitForSeconds(delay2);
         ShowTotalCoins();
     }
 
@@ -71,22 +100,38 @@ public class WinScript : MonoBehaviour
     // Menggunakan nilai pada script StageManager (GetLastRewardCoins) 
     private void ShowRewardCoins()
     {
-        if (stageManager != null && rewardCoinText != null)
+        if (stageManager != null && rewardCoinEffect != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Ambil nilai reward dari StageManager
-            rewardCoinText.text = $"{rewardCoins}";
+            rewardCoinEffect.EffectToValue(rewardCoins); // UI tampilan beserta Effect
         }
     }
 
-    // Method untuk menampilkan sisa turn (reward turn coin) di UI
+    // Method untuk menampilkan sisa turn di UI
     // Menggunakan method pada Script TurnScript
     private void ShowRemainingTurn()
     {
-        if (TurnScript.Instance != null && remainingTurnText != null)
+        if (TurnScript.Instance != null && sisaTurnEffect != null)
         {
             int sisaTurn = TurnScript.Instance.GetRemainingTurns();
+
+            // UI tampilan beserta Effect
+            sisaTurnEffect.EffectToValue(sisaTurn); 
+
+        }
+    }
+
+    // Method untuk menampilkan reward coin dari sisa turn (reward turn coin) di UI
+    // Menggunakan method pada Script TurnScript
+    private void ShowRewardTurn()
+    {
+        if (TurnScript.Instance != null && rewardTurnEffect != null)
+        {
             int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins();
-            remainingTurnText.text = $"{sisaTurn} ({rewardCoinsTurn})";
+
+            // UI tampilan beserta Effect
+            rewardTurnEffect.EffectToValue(rewardCoinsTurn);
+
         }
     }
 
@@ -94,14 +139,14 @@ public class WinScript : MonoBehaviour
     // Menggunakan method pada Script TurnScript & StageManager
     private void ShowTotalCoins()
     {
-        if (totalText != null && TurnScript.Instance != null && stageManager != null)
+        if (totalEffect != null && TurnScript.Instance != null && stageManager != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Reward dari StageManager
             int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins(); // Reward dari sisa turn
 
             int totalCoins = rewardCoins + rewardCoinsTurn; // Total keseluruhan
 
-            totalText.text = $"{totalCoins}"; // Update UI
+            totalEffect.EffectToValue(totalCoins); // UI tampilan beserta Effect
         }
     }
 
@@ -110,7 +155,7 @@ public class WinScript : MonoBehaviour
     // Digunakan pada script StageManager (OnObjectiveComplete)
     public void AddToCoinManager()
     {
-        if (totalText != null && TurnScript.Instance != null && stageManager != null)
+        if (totalEffect != null && TurnScript.Instance != null && stageManager != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Reward dari StageManager
             int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins(); // Reward dari sisa turn
