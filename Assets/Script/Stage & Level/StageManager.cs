@@ -303,7 +303,7 @@ public class StageManager : MonoBehaviour
         TurnScript.Instance.ResetTurnCount();
 
         // Menjalankan Effect Count dan Shaking,Rotate,Scale
-        coinEffect.EffectToValue(CoinManager.Instance.GetTotalCoins());
+        coinEffect.EffectToAll(CoinManager.Instance.GetTotalCoins());
 
         ResetTargetScoreToOriginal(); // Reset Target Score menjadi Awal / Original
     }

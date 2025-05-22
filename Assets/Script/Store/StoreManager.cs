@@ -23,9 +23,43 @@ public class StoreManager : MonoBehaviour
 
     private SeedSpecialData selectedSeed; // Seed yang dipilih secara random
 
+    [Header("Effect Angka UI")]
+    public CounterNumber coinStoreEffect;
+    public CounterNumber reduceCoinEffect;
+    public TMP_Text reduceCoinText;
+
     [Header("Referensi Script")]
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private AudioManagerScript audioManager;
+
+    // Ketika Aktif akan Update UI Coin Store menggunakan data dari CoinManager
+    void OnEnable()
+    {
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.OnCoinChanged += UpdateStoreUICoin;
+        }
+
+        UpdateStoreUICoin(CoinManager.Instance.GetTotalCoins());
+    }
+
+    // Ketika NonAktif akan Stop Update UI Coin Store menggunakan data dari CoinManager
+    void OnDisable()
+    {
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.OnCoinChanged -= UpdateStoreUICoin;
+        }
+    }
+
+    // Method untuk memberi Effect pada Coin Store
+    private void UpdateStoreUICoin(int totalCoins)
+    {
+        if (coinStoreEffect != null)
+        {
+            coinStoreEffect.EffectToAll(totalCoins);
+        }
+    }
 
     // Method untuk membeli upgrade maxTurns
     // Digunakan pada Button pada Panel Store
@@ -35,6 +69,10 @@ public class StoreManager : MonoBehaviour
         {
             // Kurangi koin
             CoinManager.Instance.ReduceCoins(upgradeTurnCost);
+
+            // Effect Reduce Coin
+            reduceCoinText.text = $"- {upgradeTurnCost}";
+            reduceCoinEffect.EffectToShake();
 
             // Tambah maxTurns
             TurnScript.Instance.IncreaseMaxTurns(1);
@@ -97,6 +135,10 @@ public class StoreManager : MonoBehaviour
         {
             // Kurangi koin
             CoinManager.Instance.ReduceCoins(selectedSeed.price);
+
+            // Effect Reduce Coin
+            reduceCoinText.text = $"- {selectedSeed.price}";
+            reduceCoinEffect.EffectToShake();
 
             // Tambahkan ke specialSeedPrefabs
             seedConfig.specialSeedPrefabs.Add(selectedSeed.seedPrefab);

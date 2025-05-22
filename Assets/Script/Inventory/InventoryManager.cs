@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Special Seed Data")]
     public SeedConfig seedConfig; // Referensi ke SeedConfig ScriptableObject
+    private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
 
     [Header("ScrollView")]
     public RectTransform contentRect;  // Referensi RectTransform dari Content di ScrollView
@@ -27,10 +28,14 @@ public class InventoryManager : MonoBehaviour
     public TMP_Text specialSeedName;
     public TMP_Text specialSeedPrice;
     private int currentDiscountedPrice = 0; // Simpan harga jual sementara
-    private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
+
+    [Header("Counter Number")]
+    public TMP_Text refundCoin;
+    public CounterNumber refundEffect;
 
     [Header("Referensi Script")]
     [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private GameplayUIScript gameplayUIScript;
 
     void Start()
     {
@@ -349,6 +354,7 @@ public class InventoryManager : MonoBehaviour
     public void OpenPanelDeleteSpecialSeed(GameObject slot)
     {
         panelDeleteSeed.SetActive(true);
+        gameplayUIScript.ClosePanelInfoSpecialSeed();
 
         // Simpan slot index yang dipilih
         selectedSpecialSeedSlotIndex = System.Array.IndexOf(specialSeedSlots, slot);
@@ -395,7 +401,13 @@ public class InventoryManager : MonoBehaviour
 
             if (currentDiscountedPrice > 0)
             {
+                refundCoin.text = $"+ {currentDiscountedPrice}";
+
+                // Menambhakan Total Coin
                 CoinManager.Instance.AddCoins(currentDiscountedPrice);
+
+                // Jalankan Effect
+                refundEffect.EffectToShake();
                 Debug.Log($"[SUCCESS] Tambahkan {currentDiscountedPrice} koin ke player.");
             }
             else

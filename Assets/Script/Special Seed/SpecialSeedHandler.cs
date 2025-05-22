@@ -9,6 +9,7 @@ public class SpecialSeedHandler : MonoBehaviour
     [SerializeField] private SeedConfig seedConfig; // Data biji default dan spesial
 
     [Header("Borobudur Seed Effect")]
+    public CounterNumber bonusCoinEffect;
     public TMP_Text bonusCoin;
     public float fadeTime;
     public float displayTime;
@@ -72,92 +73,14 @@ public class SpecialSeedHandler : MonoBehaviour
             CoinManager.Instance.AddCoins(bonus);
 
             // Tampilkan di UI bonusCoin jika referensinya ada
-            if (bonusCoin != null)
+            if (bonusCoinEffect != null && bonusCoin != null)
             {
                 bonusCoin.text = $"+ {bonus}";
-                StartCoroutine(BonusCoinBorobudurUI(fadeTime, displayTime)); // Clear dalam 2 detik
+                bonusCoinEffect.EffectToShake();
             }
 
             Debug.Log("Borobudur Seed diletakkan di Hole Besar. Reward akan digandakan di akhir.");
         }
-    }
-
-    // Coroutine untuk efek UI Text Bonus Coin (Fade in/out, Shaking position & rotation)
-    // Digunakan pada Method BorobudurSpecialSeed()
-    private IEnumerator BonusCoinBorobudurUI(float fadeDuration, float displayDuration)
-    {
-        // Setup awal
-        float timer = 0f; // Waktu Realtime
-
-        Transform bonusTransform = bonusCoin.transform; // Ambil Transform
-        Vector3 originalScale = Vector3.one; // Ambil Scale awal
-        Vector3 originalPosition = bonusTransform.localPosition; // Ambil Posisi awal
-        Quaternion originalRotation = Quaternion.identity; // Ambil Rotasi awal
-
-        Vector3 maxScale = originalScale * 1.2f; // scale up saat muncul
-
-        // Fade In + Scale Up + Shake + Rotate
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / fadeDuration;
-
-            // Fade in
-            bonusCoin.alpha = Mathf.Lerp(0f, 1f, t);
-
-            // Scale up
-            bonusTransform.localScale = Vector3.Lerp(originalScale, maxScale, t);
-
-            // Sedikit rotasi bolak-balik
-            float rotationZ = Mathf.Sin(Time.time * 20f) * 5f; // +-5 derajat
-            bonusTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
-
-            // Shake horizontal, berbasis posisi awal
-            float shakeOffsetX = Mathf.Sin(Time.time * 50f) * 3f;
-            bonusTransform.localPosition = originalPosition + new Vector3(shakeOffsetX, 0f, 0f);
-
-            yield return null;
-        }
-
-        // Pastikan nilai akhir
-        bonusCoin.alpha = 1f;
-        bonusTransform.localScale = maxScale;
-        bonusTransform.rotation = Quaternion.Euler(0, 0, 0);
-        bonusTransform.localPosition = originalPosition;
-
-        // Tahan beberapa detik
-        yield return new WaitForSeconds(displayDuration);
-
-        // Fade Out + Scale Down + Rotate balik
-        timer = 0f;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / fadeDuration;
-
-            // Fade out
-            bonusCoin.alpha = Mathf.Lerp(1f, 0f, t);
-
-            // Scale down
-            bonusTransform.localScale = Vector3.Lerp(maxScale, originalScale, t);
-
-            // Rotasi kecil lagi
-            float rotationZ = Mathf.Sin(Time.time * 15f) * 3f;
-            bonusTransform.rotation = Quaternion.Euler(0, 0, rotationZ);
-
-            // Shake saat keluar, tetap berbasis posisi awal
-            float shakeOffsetX = Mathf.Sin(Time.time * 40f) * 2f;
-            bonusTransform.localPosition = originalPosition + new Vector3(shakeOffsetX, 0f, 0f);
-
-            yield return null;
-        }
-
-        // Reset semua
-        bonusCoin.alpha = 0f;
-        bonusTransform.localScale = originalScale;
-        bonusTransform.rotation = originalRotation;
-        bonusTransform.localPosition = originalPosition;
-        bonusCoin.text = "";
     }
 
     // Method untuk Biji Spesial (Komodo)

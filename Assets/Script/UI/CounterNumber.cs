@@ -12,16 +12,19 @@ public class CounterNumber : MonoBehaviour
     [SerializeField] private bool effectShake; // Apakah teks akan bergoyang
     [SerializeField] private bool effectScale; // Apakah teks akan membesar
     [SerializeField] private bool effectRotate; // Apakah teks akan berotasi
+    [SerializeField] private bool effectOpacity; // Apakah teks akan fade in/out
 
     [Header("Efek Parameter")]
-    [SerializeField] private float shakeAmount = 2f; // Jarak shake horizontal
-    [SerializeField] private float shakeSpeed = 50f; // Kecepatan shake
+    [SerializeField] private float shakeAmount; // Jarak shake horizontal
+    [SerializeField] private float shakeSpeed; // Kecepatan shake
 
-    [SerializeField] private float scaleMultiplier = 1.2f; // Ukuran maksimum scale
-    [SerializeField] private float scaleCurvePower = 1f; // Mengontrol bentuk kurva scale
+    [SerializeField] private float scaleMultiplier; // Ukuran maksimum scale
+    [SerializeField] private float scaleCurvePower; // Mengontrol bentuk kurva scale
 
-    [SerializeField] private float rotationAmount = 5f; // Sudut rotasi maksimal (Z)
-    [SerializeField] private float rotationSpeed = 20f; // Kecepatan rotasi
+    [SerializeField] private float rotationAmount; // Sudut rotasi maksimal (Z)
+    [SerializeField] private float rotationSpeed; // Kecepatan rotasi
+
+    [SerializeField] private float displayDuration; // Waktu tampilan
 
     // Nilai saat ini, coroutine aktif, dan transform asli
     private int currentValue;
@@ -39,7 +42,7 @@ public class CounterNumber : MonoBehaviour
     }
 
     /// Memulai effect perubahan nilai angka ke nilai baru.
-    public void EffectToValue(int newValue)
+    public void EffectToCount(int newValue)
     {
         // Hentikan effect sebelumnya jika masih berjalan
         if (effectCoroutine != null)
@@ -48,17 +51,41 @@ public class CounterNumber : MonoBehaviour
         }
 
         // Mulai effect baru
-        effectCoroutine = StartCoroutine(EffectValueRoutine(newValue));
+        effectCoroutine = StartCoroutine(CountRoutine(newValue));
+    }
+
+    /// Memulai effect Shake, Rotate, Scale.
+    public void EffectToShake()
+    {
+        // Hentikan effect sebelumnya jika masih berjalan
+        if (effectCoroutine != null)
+        {
+            StopCoroutine(effectCoroutine);
+        }
+
+        // Mulai effect baru
+        effectCoroutine = StartCoroutine(ShakeRotationScaleRoutine());
+    }
+
+    /// Memulai effect Shake, Rotate, Scale.
+    public void EffectToAll(int newValue)
+    {
+        // Hentikan effect sebelumnya jika masih berjalan
+        if (effectCoroutine != null)
+        {
+            StopCoroutine(effectCoroutine);
+        }
+
+        // Mulai effect baru
+        effectCoroutine = StartCoroutine(ShakeRotationScaleRoutine());
+        effectCoroutine = StartCoroutine(CountRoutine(newValue));
     }
 
     /// Coroutine utama untuk mengubah angka dengan interpolasi + memulai efek visual.
-    private IEnumerator EffectValueRoutine(int targetValue)
+    private IEnumerator CountRoutine(int targetValue)
     {
         int startValue = currentValue;
         float timer = 0f;
-
-        // Mulai efek visual shake/scale/rotate
-        StartCoroutine(ShakeRotationScaleRoutine());
 
         // Interpolasi angka dari startValue ke targetValue selama durasi animasi
         while (timer < CounterDuration)
@@ -81,6 +108,11 @@ public class CounterNumber : MonoBehaviour
     /// Coroutine untuk menjalankan efek visual (shake, scale, rotate) saat angka berubah.
     private IEnumerator ShakeRotationScaleRoutine()
     {
+        if (effectOpacity)
+        {
+            StartCoroutine(FadeInOutRoutine());
+        }
+
         float timer = 0f;
         float duration = effectDuration;
 
@@ -118,6 +150,39 @@ public class CounterNumber : MonoBehaviour
         transform.localScale = originalScale;
         transform.localPosition = originalPosition;
         transform.localRotation = originalRotation;
+    }
+
+    // Coroutine untuk effect Fade in / out
+    // Digunakan pada Coroutine ShakeRotationScaleRoutine()
+    private IEnumerator FadeInOutRoutine()
+    {
+        float timer = 0f;
+
+        // Fade In
+        while (timer < effectDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / effectDuration;
+            valueText.alpha = Mathf.Lerp(0f, 1f, t);
+            yield return null;
+        }
+
+        valueText.alpha = 1f;
+
+        // Tahan teks selama displayDuration
+        yield return new WaitForSeconds(displayDuration);
+
+        // Fade Out
+        timer = 0f;
+        while (timer < effectDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / effectDuration;
+            valueText.alpha = Mathf.Lerp(1f, 0f, t);
+            yield return null;
+        }
+
+        valueText.alpha = 0f;
     }
 
     /// Method untuk mengatur nilai awal angka **tanpa effect**, biasanya dipanggil saat Start.

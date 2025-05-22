@@ -136,7 +136,7 @@ public class CongklakHole : MonoBehaviour
     {
         if (angkaEffect != null)
         {
-            angkaEffect.EffectToValue(SeedsCount); // Jalankan effect dan update angka
+            angkaEffect.EffectToAll(SeedsCount); // Jalankan effect dan update angka
         }
 
         // Jika lubang ini adalah sumber skor, perbarui skor global

@@ -93,8 +93,8 @@ public class StageInput : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
 
         // Jalankan Efeect Counter dan Shake,Rotate,Scale
-        coinEffect.EffectToValue(CoinManager.Instance.GetTotalCoins());
-        turnEffect.EffectToValue(TurnScript.Instance.GetMaxTurns());
+        coinEffect.EffectToAll(CoinManager.Instance.GetTotalCoins());
+        turnEffect.EffectToAll(TurnScript.Instance.GetMaxTurns());
     }
 
     // Method ini untuk mengaktifkan Button Stage selanjutnya

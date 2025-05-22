@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class WinScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class WinScript : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
     public TMP_Text scoreText; // Tambahkan UI untuk menampilkan skor
+    public Button nextButton;
 
     [Header("Informasi Stage")]
     [SerializeField] private string[] infoStage; // Array pesan kustom untuk setiap stage
@@ -49,6 +51,7 @@ public class WinScript : MonoBehaviour
         sisaTurnEffect.SetInitialValue(0);
         rewardTurnEffect.SetInitialValue(0);
         totalEffect.SetInitialValue(0);
+        nextButton.interactable = false;
     }
 
     // Coroutine untuk menampilkan Hasil yang diraih beseta Effect
@@ -63,6 +66,8 @@ public class WinScript : MonoBehaviour
         ShowRewardTurn();
         yield return new WaitForSeconds(delay2);
         ShowTotalCoins();
+        yield return new WaitForSeconds(delay2);
+        nextButton.interactable = true;
     }
 
     // Method untuk menampilkan UI text informasi Stage Win
@@ -103,7 +108,7 @@ public class WinScript : MonoBehaviour
         if (stageManager != null && rewardCoinEffect != null)
         {
             int rewardCoins = stageManager.GetLastRewardCoins(); // Ambil nilai reward dari StageManager
-            rewardCoinEffect.EffectToValue(rewardCoins); // UI tampilan beserta Effect
+            rewardCoinEffect.EffectToAll(rewardCoins); // UI tampilan beserta Effect
         }
     }
 
@@ -116,7 +121,7 @@ public class WinScript : MonoBehaviour
             int sisaTurn = TurnScript.Instance.GetRemainingTurns();
 
             // UI tampilan beserta Effect
-            sisaTurnEffect.EffectToValue(sisaTurn); 
+            sisaTurnEffect.EffectToAll(sisaTurn); 
 
         }
     }
@@ -130,7 +135,7 @@ public class WinScript : MonoBehaviour
             int rewardCoinsTurn = TurnScript.Instance.GetRemainingTurnCoins();
 
             // UI tampilan beserta Effect
-            rewardTurnEffect.EffectToValue(rewardCoinsTurn);
+            rewardTurnEffect.EffectToAll(rewardCoinsTurn);
 
         }
     }
@@ -146,7 +151,7 @@ public class WinScript : MonoBehaviour
 
             int totalCoins = rewardCoins + rewardCoinsTurn; // Total keseluruhan
 
-            totalEffect.EffectToValue(totalCoins); // UI tampilan beserta Effect
+            totalEffect.EffectToAll(totalCoins); // UI tampilan beserta Effect
         }
     }
 
