@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSeedPrefab: {fileID: 8892554669985688653, guid: 3b28820f8970180429f2768bc2b98b7e, type: 3}
   specialSeedPrefabs:
-  - {fileID: 8892554669985688653, guid: 2582fe7a43f5d4f4ea526378417d33ec, type: 3}
+  - {fileID: 8892554669985688653, guid: 3a1c196597a98ce4cb3590ab50868ac2, type: 3}
   seedStoreList:
   - seedName: Monumen Nasional Seed
     seedInfo: Melipat-gandakan jumlah biji di lubang kecil tempat biji spesial ini

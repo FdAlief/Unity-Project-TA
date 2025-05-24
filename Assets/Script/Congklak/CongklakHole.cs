@@ -105,7 +105,7 @@ public class CongklakHole : MonoBehaviour
 
     // Method untuk memasukkan data biji ke dalam list data hole atau lubang
     // Digunakan pada script Congklak Manager (PlaceSeedInHole) dan DragHandler (HandleDrag - GetMouseUp/Tounch Ended)
-    public void AddSeed(GameObject seed)
+    public void AddSeed(GameObject seed, bool onlyShakeNewSeed = false)
     {
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
@@ -114,6 +114,21 @@ public class CongklakHole : MonoBehaviour
         specialSeedHandler.HandleSpecialSeed(seed, this);
 
         UpdateSeedCountUI(); // Perbarui UI
+
+        // Shake hanya seed baru jika diminta
+        if (onlyShakeNewSeed)
+        {
+            StartCoroutine(MoveSeedToRandomPosition(seed));
+        }
+        else
+        {
+            // Default: shake semua
+            foreach (GameObject s in seedsInHole)
+            {
+                if (s != null)
+                    StartCoroutine(ShakeSeed(s));
+            }
+        }
     }
 
     // Method untuk menghapus semua biji dari lubang
@@ -152,5 +167,81 @@ public class CongklakHole : MonoBehaviour
     {
         // Memperbarui skor di ScoreManager berdasarkan SeedsCount
         ScoreManager.Instance.SetScore(SeedsCount);
+    }
+
+    // Coroutine untuk membuat efek goyang (shake) pada GameObject seed
+    // Digunakan pada Methdo AddSeed()
+    private IEnumerator ShakeSeed(GameObject seed, float duration = 0.5f, float magnitude = 1f)
+    {
+        // Cegah error jika objek seed sudah dihancurkan atau null
+        if (seed == null || seed.transform == null) yield break;
+
+        // Simpan posisi awal untuk mengembalikan posisi setelah efek shake selesai
+        Vector3 originalPos = seed.transform.localPosition;
+
+        float elapsed = 0f; // Waktu yang telah berlalu selama shake
+
+        // Loop selama waktu shake belum selesai
+        while (elapsed < duration)
+        {
+            // Cek ulang apakah objek masih valid selama loop (bisa saja dihancurkan di tengah efek)
+            if (seed == null || seed.transform == null) yield break;
+
+            // Buat posisi acak pada sumbu X dan Y, dikalikan dengan magnitude agar bisa dikontrol seberapa kuat goyangannya
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
+            float offsetY = Random.Range(-1f, 1f) * magnitude;
+
+            // Ubah posisi seed menjadi posisi awal + offset acak (shake effect)
+            seed.transform.localPosition = originalPos + new Vector3(offsetX, offsetY, 0f);
+
+            // Tambahkan waktu yang telah berlalu
+            elapsed += Time.deltaTime;
+
+            // Tunggu frame berikutnya
+            yield return null;
+        }
+
+        // Setelah selesai shake, kembalikan ke posisi semula (hanya jika seed masih ada)
+        if (seed != null && seed.transform != null)
+            seed.transform.localPosition = originalPos;
+    }
+
+    // Coroutine untuk menggerakkan seed secara halus ke posisi acak dalam radius tertentu
+    // Digunakan pada Method AddSeed
+    private IEnumerator MoveSeedToRandomPosition(GameObject seed, float duration = 0.5f, float radius = 5f)
+    {
+        // Kalau seed atau transform-nya null (sudah dihancurkan?), hentikan coroutine
+        if (seed == null || seed.transform == null) yield break;
+
+        // Posisi awal sebelum bergerak
+        Vector3 startPos = seed.transform.localPosition;
+
+        // Buat offset acak dalam bentuk lingkaran 2D (x dan y), lalu dikali radius
+        Vector2 randomOffset = Random.insideUnitCircle * radius;
+
+        // Tentukan posisi target berdasarkan offset dari posisi awal
+        Vector3 targetPos = startPos + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+        float elapsed = 0f; // Waktu yang telah berlalu sejak mulai animasi
+
+        // Selama waktu berjalan belum melebihi durasi yang ditentukan
+        while (elapsed < duration)
+        {
+            // Jika seed-nya hilang di tengah jalan, hentikan coroutine
+            if (seed == null) yield break;
+
+            // Interpolasi posisi antara start dan target berdasarkan waktu
+            seed.transform.localPosition = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+
+            // Tambah waktu berdasarkan deltaTime
+            elapsed += Time.deltaTime;
+
+            // Tunggu 1 frame sebelum melanjutkan
+            yield return null;
+        }
+
+        // Pastikan posisi akhir diset ke target jika belum pas
+        if (seed != null)
+            seed.transform.localPosition = targetPos;
     }
 }

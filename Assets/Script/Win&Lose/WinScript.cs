@@ -200,19 +200,16 @@ public class WinScript : MonoBehaviour
 
         // Reset Seed pada Congklak
         congklakManager.ResetSeeds();
-    }
 
-    // Method pindah scene ke Level berikutnya ketika menyelesaikan Level sebelumnya
-    // Menggunakan Sinyal dari script StageManager
-    // Digunakan pada Button Lanjut Store
-    public void ChangeSceneOnWinLevel()
-    {
+        // Pindah scene ke Level berikutnya ketika menyelesaikan Level sebelumnya
         if (stageManager != null && stageManager.isFinalTargetReached)
         {
+            audioManager.PlayAudioByIndex(0); // Play SFX
             SceneManager.LoadScene(sceneNextLevel); // Ganti dengan nama scene tujuan
         }
         else
         {
+            audioManager.PlayAudioByIndex(4); // Play SFX
             Debug.Log("Belum mencapai target terakhir! Tidak bisa pindah scene.");
         }
     }

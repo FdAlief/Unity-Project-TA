@@ -52,39 +52,62 @@ public class CongklakManager : MonoBehaviour
         }
     }
 
-    // Method untuk peletakkan posisi dan rotasi biji pada Holes pertama kalinya
+    // Method untuk meletakkan biji pada lubang congklak secara acak dan memberikan efek muncul dari atas
     // Digunakan pada Script CongklakHole (BaliSpecialSeed)
     public void PlaceSeedInHole(Transform hole, GameObject seedPrefab)
     {
-        // Tentukan radius untuk distribusi biji di sekitar pusat lubang
-        float radius = 0.25f;
+        float radius = 0.25f; // Radius jarak dari titik pusat lubang untuk posisi awal biji
+        float angle = Random.Range(0f, 360f); // Sudut acak untuk menentukan posisi biji di sekitar lubang
 
-        // Hitung sudut acak untuk penempatan biji
-        float angle = Random.Range(0f, 360f);
+        // Hitung offset posisi berdasarkan sudut dan radius, untuk menyebar biji di sekitar lubang
         Vector3 offset = new Vector3(
             Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
             Mathf.Sin(angle * Mathf.Deg2Rad) * radius,
             0
         );
 
-        // Buat instance biji congklak dengan posisi offset
-        GameObject seed = Instantiate(seedPrefab, hole.position + offset, Quaternion.identity);
+        Vector3 targetPosition = hole.position + offset; // Posisi akhir biji di lubang
 
-        // Atur rotasi acak agar terlihat lebih alami
-        seed.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+        // Posisi awal biji, muncul dari atas secara acak
+        Vector3 startPosition = targetPosition + new Vector3(Random.Range(-1f, 1f), 1.5f, 0f);
 
-        // Atur scale biji untuk pertama kali
-        seed.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
+        // Instantiate prefab biji di posisi awal dengan rotasi default
+        GameObject seed = Instantiate(seedPrefab, startPosition, Quaternion.identity);
+        seed.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f); // Skala kecil untuk biji
 
-        // Set prefab sebagai child dari lubang
-        seed.transform.SetParent(hole);
+        // Mulai animasi perpindahan biji ke lubang
+        StartCoroutine(AnimateSeedToHole(seed, targetPosition, hole));
+    }
 
-        // Menggunakan method pada script Congklak Hole
-        // Tambahkan biji ke dalam list seedsInHole pada lubang
-        CongklakHole holeScript = hole.GetComponent<CongklakHole>();
+    // Coroutine untuk menganimasikan perpindahan dan rotasi biji menuju lubang secara halus
+    private IEnumerator AnimateSeedToHole(GameObject seed, Vector3 targetPosition, Transform parentHole)
+    {
+        float duration = 0.25f; // Durasi animasi
+        float elapsed = 0f; // Waktu yang telah berlalu selama animasi
+        Vector3 startPosition = seed.transform.position; // Posisi awal animasi
+        Quaternion startRotation = seed.transform.rotation; // Rotasi awal biji
+        Quaternion targetRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f)); // Rotasi acak sebagai efek visual
+
+        // Loop animasi
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration; // Nilai interpolasi 0–1
+            seed.transform.position = Vector3.Lerp(startPosition, targetPosition, t); // Interpolasi posisi
+            seed.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t); // Interpolasi rotasi
+            elapsed += Time.deltaTime; // Tambahkan waktu frame ini
+            yield return null; // Tunggu frame berikutnya
+        }
+
+        // Set posisi dan rotasi akhir
+        seed.transform.position = targetPosition;
+        seed.transform.rotation = targetRotation;
+        seed.transform.SetParent(parentHole); // Parent biji ke lubang (untuk organisasi di hierarchy)
+
+        // Tambahkan biji ke skrip lubang, jika ada
+        CongklakHole holeScript = parentHole.GetComponent<CongklakHole>();
         if (holeScript != null)
         {
-            holeScript.AddSeed(seed);  // Menambahkan biji ke lubang yang sesuai
+            holeScript.AddSeed(seed, false);
         }
     }
 

@@ -108,7 +108,7 @@ public class DragHandler : MonoBehaviour
                     if (hole != null)
                     {
                         inventoryManager.RemoveSeedFromInventory(selectedSeed);
-                        hole.AddSeed(selectedSeed);
+                        hole.AddSeed(selectedSeed, true);
                         audioManager.PlayAudioByIndex(6); // Play Audio
                         selectedSeed.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                         Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
