@@ -1863,7 +1863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelUnlocked: 000000
   lastCompletedLevel: 000000
-  keyPrefs: Test_Alpha_Level Manager
+  keyPrefs: Test_Lagi_Level Manager
 --- !u!4 &2079250815
 Transform:
   m_ObjectHideFlags: 0

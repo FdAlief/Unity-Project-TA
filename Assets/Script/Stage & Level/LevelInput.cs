@@ -21,11 +21,13 @@ public class LevelInput : MonoBehaviour
     {
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            bool isUnlocked = LevelManager.Instance.IsLevelCompleted(i); // Gunakan isUnlocked untuk button
-            levelButtons[i].interactable = isUnlocked;
+            bool isCompleted = LevelManager.Instance.lastCompletedLevel[i]; // Sudah complete?
+            bool isUnlocked = LevelManager.Instance.IsLevelCompleted(i); // Dianggap "unlocked"?
 
-            // Cek apakah level sudah selesai, untuk UI indikator
-            bool isCompleted = LevelManager.Instance.lastCompletedLevel[i];
+            // Tombol hanya aktif kalau level unlocked dan belum completed
+            levelButtons[i].interactable = isUnlocked && !isCompleted;
+
+            // Tampilkan indikator "Completed" jika level sudah selesai
             completedInfo[i].SetActive(isCompleted);
         }
     }

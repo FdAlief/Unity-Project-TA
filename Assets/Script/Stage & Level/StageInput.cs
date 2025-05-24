@@ -44,17 +44,16 @@ public class StageInput : MonoBehaviour
         {
             if (stageButtons[i] != null)
             {
-                bool isUnlocked = (i == 0) || LoadStageUnlock(i); // Stage pertama selalu unlocked
-                stageButtons[i].interactable = isUnlocked;
-
+                bool isUnlocked = (i == 0) || LoadStageUnlock(i);
                 bool isCompleted = LoadStageCompleted(i);
-                if (isCompleted && completedInfo.Length > i && completedInfo[i] != null)
+
+                // Stage hanya bisa diakses kalau unlocked dan belum completed
+                stageButtons[i].interactable = isUnlocked && !isCompleted;
+
+                // Tampilkan UI completed kalau sudah selesai
+                if (completedInfo.Length > i && completedInfo[i] != null)
                 {
-                    completedInfo[i].SetActive(true); // Aktifkan Completed UI hanya jika stage selesai
-                }
-                else
-                {
-                    completedInfo[i].SetActive(false); // Nonaktifkan UI Completed jika stage belum selesai
+                    completedInfo[i].SetActive(isCompleted);
                 }
 
                 if (i == 0) SaveStageUnlock(0); // Pastikan stage 0 selalu disimpan
@@ -161,13 +160,20 @@ public class StageInput : MonoBehaviour
         return completed;
     }
 
-    // Method untuk menandakan UI Completed Stage
+    // Method untuk menandakan UI Completed Stage dan Disbale Button Stage ketika Completed
     // Digunakan pada Script StageManager (OnObjectiveCompleted)
     public void MarkStageAsCompleted(int stageIndex)
     {
+        // Mengaktifkan UI Info Completed ketika Stage Completed
         if (completedInfo.Length > stageIndex && completedInfo[stageIndex] != null)
         {
             completedInfo[stageIndex].SetActive(true);
+        }
+
+        // Disbale Stage Button ketika Stage Completed
+        if (stageButtons.Length > stageIndex && stageButtons[stageIndex] != null)
+        {
+            stageButtons[stageIndex].interactable = false;
         }
 
         SaveStageCompleted(stageIndex);
