@@ -130,8 +130,16 @@ public class TurnScript : MonoBehaviour
     // Load total coin dari PlayerPrefs
     private void LoadTurns()
     {
-        maxTurns = PlayerPrefs.GetInt(keyPrefs, maxTurns); // 0 jika belum ada data
+        maxTurns = PlayerPrefs.GetInt(keyPrefs, maxTurns);
         Debug.Log("Max Turn Dimuat: " + maxTurns);
         OnTurnChanged?.Invoke(maxTurns); // Update UI setelah load
+    }
+
+    // Method Reload Save Data untuk ketika Restart
+    // Digunakan pada Script MainMenuManager (OnClickRestart)
+    public void ReloadTurns()
+    {
+        turnCount = 0;
+        maxTurns = 3;
     }
 }

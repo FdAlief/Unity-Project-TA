@@ -77,4 +77,11 @@ public class CoinManager : MonoBehaviour
         Debug.Log("Total Koin Dimuat: " + totalCoins);
         OnCoinChanged?.Invoke(totalCoins); // Update UI setelah load
     }
+
+    // Method Reload Save Data untuk ketika Restart
+    // Digunakan pada Script MainMenuManager (OnClickRestart)
+    public void ReloadCoins()
+    {
+        LoadCoins(); // Panggil ulang dari PlayerPrefs
+    }
 }

@@ -105,7 +105,7 @@ public class CongklakHole : MonoBehaviour
 
     // Method untuk memasukkan data biji ke dalam list data hole atau lubang
     // Digunakan pada script Congklak Manager (PlaceSeedInHole) dan DragHandler (HandleDrag - GetMouseUp/Tounch Ended)
-    public void AddSeed(GameObject seed, bool onlyShakeNewSeed = false)
+    public void AddSeed(GameObject seed, bool seedFromInventory = false)
     {
         seedsInHole.Add(seed); // Tambahkan ke list seedsInHole
         seed.transform.SetParent(transform); // Set parent ke lubang
@@ -116,8 +116,9 @@ public class CongklakHole : MonoBehaviour
         UpdateSeedCountUI(); // Perbarui UI
 
         // Shake hanya seed baru jika diminta
-        if (onlyShakeNewSeed)
+        if (seedFromInventory)
         {
+             // Jalankan dua efek ke seed baru
             StartCoroutine(MoveSeedToRandomPosition(seed));
         }
         else
@@ -243,5 +244,12 @@ public class CongklakHole : MonoBehaviour
         // Pastikan posisi akhir diset ke target jika belum pas
         if (seed != null)
             seed.transform.localPosition = targetPos;
+
+        // Shake semua seed
+        foreach (GameObject s in seedsInHole)
+        {
+            if (s != null)
+            StartCoroutine(ShakeSeed(s));
+        }
     }
 }

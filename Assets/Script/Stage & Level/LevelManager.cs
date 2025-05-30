@@ -77,4 +77,11 @@ public class LevelManager : MonoBehaviour
             lastCompletedLevel[i] = PlayerPrefs.GetInt(keyPrefs + "_completed_" + i, 0) == 1;
         }
     }
+
+    // Method Reload Save Data untuk ketika Restart
+    // Digunakan pada Script MainMenuManager (OnClickRestart)
+    public void ReloadLevelProgress()
+    {
+        LoadLevelProgress(); // Panggil ulang dari PlayerPrefs
+    }
 }
