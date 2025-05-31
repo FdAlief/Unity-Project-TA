@@ -31,3 +31,11 @@ public class SeedSpecialData
     public GameObject seedPrefab;
     public int price;
 }
+
+// Class untuk System Save Data Special Seed berdasarkan Prefabs
+// Digunakan pada Script InventoryManager (SaveSpecialSeeds) & (LoadSpecialSeeds)
+[System.Serializable]
+public class SpecialSeedSaveData
+{
+    public List<string> specialSeedPrefabNames = new List<string>();
+}

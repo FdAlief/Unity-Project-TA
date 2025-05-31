@@ -1787,6 +1787,7 @@ MonoBehaviour:
   - {fileID: 536234766}
   - {fileID: 2000764723}
   seedConfig: {fileID: 11400000, guid: 0d7e9bf449cc44e4f94ef61fcb171dde, type: 2}
+  keyPrefs: Test Edit Special Seed
   contentRect: {fileID: 2065087297}
   slotWidth: 40
   spacing: 40
@@ -2120,6 +2121,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManagerScript, Assembly-CSharp
         m_MethodName: PlayAudioByIndex
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 645618823}
+        m_TargetAssemblyTypeName: GameplayUIScript, Assembly-CSharp
+        m_MethodName: ClosePanelInfoSpecialSeed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8341,7 +8354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueText: {fileID: 1076201557}
   CounterDuration: 1
-  effectDuration: 1
+  effectDuration: 1.5
   effectShake: 1
   effectScale: 1
   effectRotate: 1
@@ -8561,7 +8574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueText: {fileID: 1079910991}
   CounterDuration: 1
-  effectDuration: 1
+  effectDuration: 1.5
   effectShake: 1
   effectScale: 1
   effectRotate: 1
@@ -10260,7 +10273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueText: {fileID: 1291214203}
   CounterDuration: 1
-  effectDuration: 1
+  effectDuration: 1.5
   effectShake: 1
   effectScale: 1
   effectRotate: 1
@@ -15126,7 +15139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueText: {fileID: 1780280985}
   CounterDuration: 1
-  effectDuration: 1
+  effectDuration: 1.5
   effectShake: 1
   effectScale: 1
   effectRotate: 1
@@ -18535,6 +18548,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManagerScript, Assembly-CSharp
         m_MethodName: PlayAudioByIndex
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 645618823}
+        m_TargetAssemblyTypeName: GameplayUIScript, Assembly-CSharp
+        m_MethodName: ClosePanelInfoSpecialSeed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

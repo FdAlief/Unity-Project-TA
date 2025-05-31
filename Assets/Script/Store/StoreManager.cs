@@ -149,6 +149,9 @@ public class StoreManager : MonoBehaviour
             // Memasukkan prefab Biji Spesial ke Slot Special Inventory
             inventoryManager.AddSpecialSeedsToInventory();
 
+            // Save Data Special Seed
+            inventoryManager.SaveSpecialSeeds();
+
             // Play SFX
             audioManager.PlayAudioByIndex(1);
 

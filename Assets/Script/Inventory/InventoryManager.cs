@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Special Seed Data")]
     public SeedConfig seedConfig; // Referensi ke SeedConfig ScriptableObject
+    [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
     private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
 
     [Header("ScrollView")]
@@ -39,6 +40,22 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
+        // Cek apakah ada flag dari MainMenu yang menyuruh reload data Inventory
+        if (PlayerPrefs.HasKey("ShouldReloadInventory"))
+        {
+            // Jalankan method untuk reload ulang data Special Seed dari PlayerPrefs
+            ReloadSpecialSeed();
+
+            // Hapus flag setelah selesai dipakai, supaya tidak terulang lagi saat scene di-reload
+            PlayerPrefs.DeleteKey("ShouldReloadInventory");
+            PlayerPrefs.Save();
+
+            Debug.Log("Special Seed di-reload ulang karena flag restart aktif.");
+        }
+
+        // Load data
+        LoadSpecialSeeds();
+
         // Set semua slot menjadi tidak aktif jika kosong prefab biji
         for (int i = 0; i < inventorySlots.Length; i++)
         {
@@ -398,6 +415,7 @@ public class InventoryManager : MonoBehaviour
         if (selectedSpecialSeedSlotIndex != -1)
         {
             RemoveSpecialSeedFromInventory(selectedSpecialSeedSlotIndex);
+            SaveSpecialSeeds();
 
             if (currentDiscountedPrice > 0)
             {
@@ -423,5 +441,73 @@ public class InventoryManager : MonoBehaviour
         {
             Debug.LogWarning("[WARNING] Tidak ada slot yang dipilih untuk dihapus.");
         }
+    }
+
+    // Method untuk Save Data Special Seed
+    // Digunakan pada Script StoreManager (BuySpecialSeed)
+    public void SaveSpecialSeeds()
+    {
+        // Buat instance data untuk disimpan dalam bentuk JSON
+        SpecialSeedSaveData data = new SpecialSeedSaveData();
+
+        // Loop semua prefab yang ada di konfigurasi
+        foreach (var prefab in seedConfig.specialSeedPrefabs)
+        {
+            // Pastikan prefab tidak null sebelum disimpan
+            if (prefab != null)
+                data.specialSeedPrefabNames.Add(prefab.name); // Simpan hanya nama prefab
+        }
+
+        // Konversi objek data ke format JSON string
+        string json = JsonUtility.ToJson(data);
+
+        // Simpan JSON string ke PlayerPrefs dengan key tertentu
+        PlayerPrefs.SetString(keyPrefs, json);
+        PlayerPrefs.Save(); // Commit ke disk
+
+        Debug.Log("[SAVE] Special Seed berhasil disimpan.");
+    }
+
+    // Method untuk Load Data Special Seed
+    // Digunakan pada Method Start dan Reload
+    public void LoadSpecialSeeds()
+    {
+        // Cek apakah key untuk Special Seed sudah ada di PlayerPrefs
+        if (PlayerPrefs.HasKey(keyPrefs))
+        {
+            // Ambil string JSON dari PlayerPrefs
+            string json = PlayerPrefs.GetString(keyPrefs);
+
+            // Deserialize JSON ke objek data
+            SpecialSeedSaveData data = JsonUtility.FromJson<SpecialSeedSaveData>(json);
+
+            // Kosongkan list yang ada sekarang sebelum diisi ulang
+            seedConfig.specialSeedPrefabs.Clear();
+
+            // Loop nama prefab dan load ulang dari folder Resources/Seeds
+            foreach (string prefabName in data.specialSeedPrefabNames)
+            {
+                // Coba load prefab dari folder Resources
+                GameObject prefab = Resources.Load<GameObject>("Seeds/" + prefabName); 
+
+                if (prefab != null)
+                    seedConfig.specialSeedPrefabs.Add(prefab); // Tambahkan prefab yang berhasil di-load
+                else
+                    Debug.LogWarning($"[LOAD] Prefab '{prefabName}' tidak ditemukan di Resources/Seeds.");
+            }
+
+            Debug.Log("[LOAD] Special Seed berhasil dimuat.");
+        }
+    }
+
+    // Method Reload Save Data untuk ketika Restart
+    // Digunakan pada Script MainMenuManager (OnClickRestart)
+    public void ReloadSpecialSeed()
+    {
+        // Clear cache list
+        seedConfig.specialSeedPrefabs.Clear();
+
+        // Baca ulang dari PlayerPrefs (yang sudah kosong karena direset)
+        LoadSpecialSeeds();
     }
 }

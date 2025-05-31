@@ -41,7 +41,7 @@ public class WinScript : MonoBehaviour
     // Method untuk menjalankan Coroutine ketika Panel Win Enable
     void OnEnable()
     {
-        StartCoroutine(DelayShowUI(0.5f, 1f));
+        StartCoroutine(DelayShowUI(0.5f, 1.5f));
     }
 
     // Method untuk mereset Hasil menjadi 0 ketika Panel Win Disable

@@ -40,14 +40,22 @@ public static class SaveDataManager
         Debug.Log("StageInput data dihapus.");
     }
 
+    // --- Keys dari InventoryManager ---
+    public static void ResetSpecialSeedData(string keyPrefs)
+    {
+        PlayerPrefs.DeleteKey(keyPrefs);
+        Debug.Log("Special Seed data dihapus.");
+    }
+
     // --- Save All ---
     // Digunakan pada Script MainMenuManager ketika Restart
-    public static void ResetAllData(string coinKey, string turnKey, string levelKey, int totalLevels, string stageInputKey, int totalStages)
+    public static void ResetAllData(string coinKey, string turnKey, string levelKey, int totalLevels, string stageInputKey, int totalStages, string specialseedKey)
     {
         ResetCoinData(coinKey);
         ResetTurnData(turnKey);
         ResetLevelProgress(levelKey, totalLevels);
         ResetStageInputData(stageInputKey, totalStages);
+        ResetSpecialSeedData(specialseedKey);
         PlayerPrefs.Save();
         Debug.LogWarning("Semua data PlayerPrefs di-reset!");
     }

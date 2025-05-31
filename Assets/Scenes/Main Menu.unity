@@ -377,6 +377,7 @@ MonoBehaviour:
   totalLevels: 3
   stageInputKey: Test Edit Stage
   totalStages: 3
+  specialseedKey: Test Edit Special Seed
 --- !u!4 &162461277
 Transform:
   m_ObjectHideFlags: 0
