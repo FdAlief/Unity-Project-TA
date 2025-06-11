@@ -28,6 +28,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject panelDeleteSeed;
     public TMP_Text specialSeedName;
     public TMP_Text specialSeedPrice;
+    public Image seedImageUI;
     private int currentDiscountedPrice = 0; // Simpan harga jual sementara
 
     [Header("Counter Number")]
@@ -35,7 +36,7 @@ public class InventoryManager : MonoBehaviour
     public CounterNumber refundEffect;
 
     [Header("Referensi Script")]
-    [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private SFXAudio sfxAudio;
     [SerializeField] private GameplayUIScript gameplayUIScript;
 
     void Start()
@@ -78,9 +79,9 @@ public class InventoryManager : MonoBehaviour
     public bool AddSeedToInventory(GameObject seed)
     {
         // Panggil Audio
-        if (audioManager != null)
+        if (sfxAudio != null)
         {
-            audioManager.PlayAudioByIndex(5);
+            sfxAudio.PlayAudioByIndex(5);
         }
         else
         {
@@ -386,9 +387,10 @@ public class InventoryManager : MonoBehaviour
 
             if (seedData != null)
             {
-                specialSeedName.text = seedData.seedName;
+                specialSeedName.text = $"'{seedData.seedName}'";
                 currentDiscountedPrice = seedData.price / 2;
-                specialSeedPrice.text = currentDiscountedPrice.ToString();
+                specialSeedPrice.text = $"seharga '${currentDiscountedPrice}'";
+                seedImageUI.sprite = seedData.seedImage;
 
                 Debug.Log($"[INFO] Biji spesial ditemukan: {seedData.seedName}, Harga: {seedData.price}");
             }

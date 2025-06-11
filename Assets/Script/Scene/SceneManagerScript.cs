@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneManagerScript : MonoBehaviour
 {
     [Header("Referensi Script")]
-    [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private SFXAudio sfxAudio;
 
     private void Update()
     {
@@ -35,7 +35,7 @@ public class SceneManagerScript : MonoBehaviour
     // Digunakan pada Method Buy
     private IEnumerator DelayChangeScene(string scene)
     {
-        audioManager.PlayAudioByIndex(0);
+        sfxAudio.PlayAudioByIndex(0);
 
         yield return new WaitForSeconds(0.5f);
 

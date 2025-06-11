@@ -11,12 +11,8 @@ public class WinScript : MonoBehaviour
     public MonoBehaviour[] scriptEnable; // Untuk mengaktifkan kembali sistem Raycast
 
     [Header("UI Elements")]
-    public TMP_Text stageText; // Tambahkan UI untuk menampilkan skor
     public TMP_Text scoreText; // Tambahkan UI untuk menampilkan skor
     public Button nextButton;
-
-    [Header("Informasi Stage")]
-    [SerializeField] private string[] infoStage; // Array pesan kustom untuk setiap stage
 
     [Header("Next Scene Level")]
     public string sceneNextLevel;
@@ -30,11 +26,10 @@ public class WinScript : MonoBehaviour
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
     [SerializeField] private CongklakManager congklakManager;
-    [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private SFXAudio sfxAudio;
 
     void Update()
     {
-        ShowStageWin();
         ShowScore();
     }
 
@@ -70,26 +65,6 @@ public class WinScript : MonoBehaviour
         nextButton.interactable = true;
     }
 
-    // Method untuk menampilkan UI text informasi Stage Win
-    // Mengguanakn method GetCurrentTarget() dari script StageManager
-    private void ShowStageWin()
-    {
-        if (stageManager != null && stageText != null)
-        {
-            int stageIndex = stageManager.GetCurrentTarget() - 1; // Sesuaikan dengan indeks array
-
-            // Pastikan index dalam batas array
-            if (stageIndex >= 0 && stageIndex < infoStage.Length)
-            {
-                stageText.text = infoStage[stageIndex];
-            }
-            else
-            {
-                stageText.text = "Game Over! Coba lagi!"; // Default jika tidak ada custom text
-            }
-        }
-    }
-
     // Menampilkan skor yang diraih saat menang
     // Mengguanakn method GetLastScore() dari script ScoreManager
     private void ShowScore()
@@ -97,7 +72,7 @@ public class WinScript : MonoBehaviour
         if (ScoreManager.Instance != null && scoreText != null)
         {
             int lastScore = ScoreManager.Instance.GetLastScore(); // Ambil skor terakhir
-            scoreText.text = $"Kumpulkan Sebanyak {lastScore}";
+            scoreText.text = $"{lastScore}";
         }
     }
 
@@ -171,9 +146,9 @@ public class WinScript : MonoBehaviour
             CoinManager.Instance.AddCoins(totalCoins);
 
             // Panggil Audio
-            if (audioManager != null)
+            if (sfxAudio != null)
             {
-                audioManager.PlayAudioByIndex(3); // Misalnya index 0 adalah SFX coin
+                sfxAudio.PlayAudioByIndex(3); // Misalnya index 0 adalah SFX coin
             }
             else
             {
@@ -204,12 +179,12 @@ public class WinScript : MonoBehaviour
         // Pindah scene ke Level berikutnya ketika menyelesaikan Level sebelumnya
         if (stageManager != null && stageManager.isFinalTargetReached)
         {
-            audioManager.PlayAudioByIndex(0); // Play SFX
+            sfxAudio.PlayAudioByIndex(0); // Play SFX
             SceneManager.LoadScene(sceneNextLevel); // Ganti dengan nama scene tujuan
         }
         else
         {
-            audioManager.PlayAudioByIndex(4); // Play SFX
+            sfxAudio.PlayAudioByIndex(4); // Play SFX
             Debug.Log("Belum mencapai target terakhir! Tidak bisa pindah scene.");
         }
     }

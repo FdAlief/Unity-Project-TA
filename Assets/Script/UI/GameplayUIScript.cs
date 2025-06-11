@@ -22,7 +22,7 @@ public class GameplayUIScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private InventoryManager inventoryManager;
-    [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private SFXAudio sfxAudio;
 
     private void Start()
     {
@@ -98,7 +98,7 @@ public class GameplayUIScript : MonoBehaviour
         if (slot.transform.childCount > 1)
         {
             // Play SFX Click
-            audioManager.PlayAudioByIndex(0);
+            sfxAudio.PlayAudioByIndex(0);
 
             StartCoroutine(PlayAnimasiPanelInfo());
 

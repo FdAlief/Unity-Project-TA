@@ -20,7 +20,7 @@ public class DragHandler : MonoBehaviour
     [SerializeField] private InventoryManager inventoryManager; // Referensi ke InventoryManager
     [SerializeField] private ColliderHoleManager colliderHoleManager; // Referensi ke ColliderHoleManager
     [SerializeField] private SpecialSeedHandler specialSeedHandler; // Referensi ke SpecialSeedHandler
-    [SerializeField] private AudioManagerScript audioManager; // Referensi ke Audio Manager Script
+    [SerializeField] private SFXAudio sfxAudio; // Referensi ke Audio Manager Script
 
     void Start()
     {
@@ -109,7 +109,7 @@ public class DragHandler : MonoBehaviour
                     {
                         inventoryManager.RemoveSeedFromInventory(selectedSeed);
                         hole.AddSeed(selectedSeed, true);
-                        audioManager.PlayAudioByIndex(6); // Play Audio
+                        sfxAudio.PlayAudioByIndex(6); // Play Audio
                         selectedSeed.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                         Debug.Log("Biji dipindahkan ke lubang: " + hole.gameObject.name);
 
@@ -168,7 +168,7 @@ public class DragHandler : MonoBehaviour
                                                 oppositeHole.TransferSeedsToSpecificHole(holeLeft);
 
                                                 // Play Audio
-                                                audioManager.PlayAudioByIndex(6);
+                                                sfxAudio.PlayAudioByIndex(6);
 
                                                 Debug.Log($"Semua biji dari {oppositeHole.gameObject.name} dipindahkan ke Hole Left.");
                                             }

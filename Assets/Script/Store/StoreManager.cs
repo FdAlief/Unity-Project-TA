@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class StoreManager : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private TMP_Text seedNameUI; // UI untuk text nama seed
     [SerializeField] private TMP_Text seedInfoUI; // UI untuk text info seed
     [SerializeField] private GameObject seedBuyUI; // UI untuk Panel Buy seed
-    [SerializeField] private TMP_Text seedPriceUI; // UI untuk harga seed
-    //[SerializeField] private Image seedImageUI; // UI untuk menampilkan gambar seed
+    //[SerializeField] private TMP_Text seedPriceUI; // UI untuk harga seed
+    [SerializeField] private Image seedImageUI; // UI untuk menampilkan gambar seed
 
     private SeedSpecialData selectedSeed; // Seed yang dipilih secara random
 
@@ -30,7 +31,7 @@ public class StoreManager : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private InventoryManager inventoryManager;
-    [SerializeField] private AudioManagerScript audioManager;
+    [SerializeField] private SFXAudio sfxAudio;
 
     // Ketika Aktif akan Update UI Coin Store menggunakan data dari CoinManager
     void OnEnable()
@@ -81,7 +82,7 @@ public class StoreManager : MonoBehaviour
             turnBuyUI.SetActive(false);
 
             // Play SFX
-            audioManager.PlayAudioByIndex(1);
+            sfxAudio.PlayAudioByIndex(1);
 
             Debug.Log("Max Turns Ditambahkan! Sekarang: " + TurnScript.Instance.GetMaxTurns());
         }
@@ -108,8 +109,8 @@ public class StoreManager : MonoBehaviour
             seedNameUI.text = selectedSeed.seedName;
             seedInfoUI.text = selectedSeed.seedInfo;
             seedBuyUI.SetActive(true);
-            seedPriceUI.text = selectedSeed.price.ToString();
-            //seedImageUI.sprite = selectedSeed.seedImage;
+            //seedPriceUI.text = selectedSeed.price.ToString();
+            seedImageUI.sprite = selectedSeed.seedImage;
         }
         else
         {
@@ -153,7 +154,7 @@ public class StoreManager : MonoBehaviour
             inventoryManager.SaveSpecialSeeds();
 
             // Play SFX
-            audioManager.PlayAudioByIndex(1);
+            sfxAudio.PlayAudioByIndex(1);
 
             Debug.Log("Seed Dibeli: " + selectedSeed.seedName);
         }
@@ -169,7 +170,7 @@ public class StoreManager : MonoBehaviour
     private IEnumerator ShowCoinNotEnoughUI()
     {
         coinNotEnoughUI.SetActive(true);
-        audioManager.PlayAudioByIndex(9);
+        sfxAudio.PlayAudioByIndex(9);
 
         yield return new WaitForSeconds(1f);
 
@@ -181,7 +182,7 @@ public class StoreManager : MonoBehaviour
     private IEnumerator ShowInventoryFullUI()
     {
         inventoryFullUI.SetActive(true);
-        audioManager.PlayAudioByIndex(9);
+        sfxAudio.PlayAudioByIndex(9);
 
         yield return new WaitForSeconds(1f);
 
