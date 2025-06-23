@@ -11,12 +11,12 @@ public class InventoryManager : MonoBehaviour
     public List<GameObject> seedsInSlots = new List<GameObject>(); // Database biji dalam list dinamis
 
     [Header("Special Seed Slot Inventory")]
-    public GameObject[] specialSeedSlots; // Array slot untuk special seed
+    public GameObject specialSeedSlot; // Array slot untuk special seed
 
     [Header("Special Seed Data")]
     public SeedConfig seedConfig; // Referensi ke SeedConfig ScriptableObject
     [SerializeField] private string keyPrefs; // Key prefs yang bisa diubah di Inspector
-    private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
+    private int currentSpecialSeedIndex = 0; // Track the currently displayed special seed index
 
     [Header("ScrollView")]
     public RectTransform contentRect;  // Referensi RectTransform dari Content di ScrollView
@@ -24,12 +24,17 @@ public class InventoryManager : MonoBehaviour
     public float spacing;        // Spasi antar slot
 
     [Header("Delete Special Seed")]
-    public Button[] deleteButtons;
+    public Button deleteButton;
+    public Button infoButton;
     public GameObject panelDeleteSeed;
     public TMP_Text specialSeedName;
     public TMP_Text specialSeedPrice;
     public Image seedImageUI;
     private int currentDiscountedPrice = 0; // Simpan harga jual sementara
+
+    [Header("Navigation Buttons")]
+    public Button nextSpecialSeedButton;
+    public Button previousSpecialSeedButton;
 
     [Header("Counter Number")]
     public TMP_Text refundCoin;
@@ -63,15 +68,15 @@ public class InventoryManager : MonoBehaviour
             inventorySlots[i].SetActive(false);
         }
 
-        // Ketika Awal akan menampilkan Slot Special Inventory sesuai data dari script SeedConfig (specialSeedPrefabs)
-        AddSpecialSeedsToInventory();
+        DisplayCurrentSpecialSeed(); // Initialize the special seed slot display
+        UpdateNavigationButtons(); // Update button states after initial display
 
         UpdateContentSize();
     }
 
-    void Update()
+    private void Update()
     {
-        UpdateDeleteButtons();
+        UpdateDeleteInfoButton(); // Cek Button Delete & Info
     }
 
     // Method untuk memasukkan biji ke dalam slot inventory yang ada
@@ -132,121 +137,128 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Method untuk memasukkan prefab seed dari data List specialSeedPrefabs di Script SeedConfig
-    // Digunakan pada Script StoreManager (BuySpecialSeed) & Method Start
-    public void AddSpecialSeedsToInventory()
+    // Method untuk menjalankan DisplaySeedAndRefreshInfoCoroutine
+    // Berfungsi untuk menampilkan data Prefab Special Seed pada Slot Special Seed
+    // Digunakan pada Method (Start, RemoveSpecialSeedFromInventory, PreviousSpecialSeed, NextSpecialSeed)
+    // dan Script StoreManager (BuySpecialSeed)
+    public void DisplayCurrentSpecialSeed()
     {
-        // Loop melalui daftar specialSeedPrefabs dalam SeedConfig
-        for (int i = 0; i < seedConfig.specialSeedPrefabs.Count; i++)
+        StartCoroutine(DisplaySeedAndRefreshInfoCoroutine());
+    }
+
+    // Coroutine untuk menjalankan fungsi display prefab special seed pada slot
+    // Digunakan pada Method DisplayCurrentSpecialSeed
+    private IEnumerator DisplaySeedAndRefreshInfoCoroutine()
+    {
+        // Hapus seed yang ada di slot saat ini
+        if (specialSeedSlot.transform.childCount > 0)
         {
-            // Pastikan prefab seed tidak null
-            if (seedConfig.specialSeedPrefabs[i] != null)
+            for (int i = specialSeedSlot.transform.childCount - 1; i >= 0; i--)
             {
-                // Pastikan slot masih tersedia
-                if (i < specialSeedSlots.Length)
+                GameObject child = specialSeedSlot.transform.GetChild(i).gameObject;
+                if (child.name.Contains("(Clone)"))
                 {
-                    // Cek apakah slot sudah memiliki seed
-                    if (specialSeedSlots[i].transform.childCount > 1) // Slot sudah berisi seed
-                    {
-                        Debug.Log($"Slot {i} sudah berisi {specialSeedSlots[i].transform.GetChild(1).name}, tidak perlu instantiate lagi.");
-                        continue; // Lewati loop agar tidak menduplikasi seed
-                    }
-
-                    // Buat instance dari prefab seed sebelum menempatkannya ke slot
-                    GameObject seedInstance = Instantiate(seedConfig.specialSeedPrefabs[i]);
-
-                    // Tempatkan seed yang telah di-instantiate ke dalam slot
-                    PlaceSeedInSlot(seedInstance, specialSeedSlots[i]);
-                }
-                else
-                {
-                    Debug.LogWarning("Tidak cukup slot untuk semua special seeds.");
-                    break; // Hentikan loop jika tidak ada slot yang tersedia
+                    Destroy(child);
                 }
             }
+        }
+
+        // Beri jeda singkat setelah Destroy untuk memastikan objek benar-benar hilang dari hierarki
+        // sebelum kita mencoba menambahkan yang baru dan membaca child count.
+        yield return null; // Tunggu 1 frame
+
+        // Tampilkan biji sesuai currentSpecialSeedIndex
+        if (seedConfig.specialSeedPrefabs.Count > 0 && currentSpecialSeedIndex >= 0 && currentSpecialSeedIndex < seedConfig.specialSeedPrefabs.Count)
+        {
+            GameObject seedPrefab = seedConfig.specialSeedPrefabs[currentSpecialSeedIndex];
+            if (seedPrefab != null)
+            {
+                GameObject seedInstance = Instantiate(seedPrefab);
+                SetSeedParticleActive(seedInstance, false);
+                PlaceSeedInSlot(seedInstance, specialSeedSlot);
+                Debug.Log($"Menampilkan Biji Spesial: {seedPrefab.name} pada indeks {currentSpecialSeedIndex}");
+            }
+        }
+        else
+        {
+            Debug.Log("Tidak ada biji spesial untuk ditampilkan atau indeks di luar batas.");
+        }
+
+        UpdateDeleteInfoButton();
+        UpdateNavigationButtons();
+
+        // Panggil metode refresh info UI di sini, setelah biji diasumsikan telah ditampilkan
+        // Beri jeda lagi untuk memastikan UI sepenuhnya diperbarui setelah instantiate.
+        yield return null; // Tunggu 1 frame lagi
+
+        if (gameplayUIScript != null)
+        {
+            gameplayUIScript.DataInfoSpecialSeed();
         }
     }
 
     // Method untuk menghapus data Special Seed dari slot tertentu
     // Menggunakan parameter index dari Method ConfirmDeleteSpecialSeed
-    private void RemoveSpecialSeedFromInventory(int slotIndex)
+    private void RemoveSpecialSeedFromInventory()
     {
-        // Cek apakah index valid dalam batas array specialSeedSlots
-        if (slotIndex < 0 || slotIndex >= specialSeedSlots.Length)
+        GameObject slot = specialSeedSlot;
+
+        // Periksa childCount > 0 untuk memastikan ada isi di slot
+        if (slot.activeSelf && specialSeedSlot.transform.childCount > 0)
         {
-            Debug.LogWarning($"Index {slotIndex} di luar batas slot.");
-            return;
-        }
-
-        GameObject slot = specialSeedSlots[slotIndex]; // Ambil slot sesuai index
-
-        // Pastikan slot aktif dan memiliki seed untuk dihapus
-        if (slot.activeSelf && slot.transform.childCount > 1)
-        {
-            Transform seedInSlot = slot.transform.GetChild(1); // Ambil objek seed
-
-            if (seedInSlot != null)
+            GameObject seedObject = null;
+            
+            // Cari objek biji yang di-instantiate di dalam slot
+            for (int i = slot.transform.childCount - 1; i >= 0; i--)
             {
-                GameObject seedObject = seedInSlot.gameObject;
-
-                // Cari index seed dalam daftar specialSeedPrefabs berdasarkan nama asli (tanpa "(Clone)")
-                int prefabIndex = seedConfig.specialSeedPrefabs.FindIndex(prefab =>
-                    prefab.name == seedObject.name.Replace("(Clone)", "").Trim());
-
-                if (prefabIndex != -1)
+                GameObject child = slot.transform.GetChild(i).gameObject;
+                if (child.name.Contains("(Clone)")) // Identifikasi biji yang di-instantiate
                 {
-                    Debug.Log($"Menghapus {seedConfig.specialSeedPrefabs[prefabIndex].name} dari database.");
-                    seedConfig.specialSeedPrefabs.RemoveAt(prefabIndex); // Hapus dari database specialSeedPrefabs
+                    seedObject = child;
+                    break;
+                }
+            }
+
+            if (seedObject != null)
+            {
+                string seedNameRaw = seedObject.name.Replace("(Clone)", "").Trim();
+
+                // Hapus dari seedConfig.specialSeedPrefabs berdasarkan indeks yang sedang ditampilkan
+                if (currentSpecialSeedIndex >= 0 && currentSpecialSeedIndex < seedConfig.specialSeedPrefabs.Count)
+                {
+                    Debug.Log($"Menghapus {seedConfig.specialSeedPrefabs[currentSpecialSeedIndex].name} dari database.");
+
+                    // Hapus biji yang sedang ditampilkan
+                    seedConfig.specialSeedPrefabs.RemoveAt(currentSpecialSeedIndex); 
                 }
                 else
                 {
-                    Debug.LogWarning($"Prefab {seedObject.name} tidak ditemukan dalam specialSeedPrefabs.");
+                    Debug.LogWarning($"Mencoba menghapus biji pada indeks tidak valid {currentSpecialSeedIndex}. Nama prefab: {seedNameRaw}");
                 }
 
-                // Hapus seed dari slot dan hapus objek dari scene
-                Destroy(seedObject);
+                Destroy(seedObject); // Hancurkan GameObject biji di scene
 
-                // Memindahkan seed yang berada di slot bawah ke slot atas jika ada
-                ShiftSpecialSeedsUp();
+                // Sesuaikan currentSpecialSeedIndex setelah penghapusan
+                if (seedConfig.specialSeedPrefabs.Count > 0)
+                {
+                    // Jika biji yang dihapus adalah biji terakhir, pindah ke indeks sebelumnya
+                    if (currentSpecialSeedIndex >= seedConfig.specialSeedPrefabs.Count)
+                    {
+                        currentSpecialSeedIndex = seedConfig.specialSeedPrefabs.Count - 1;
+                    }
+                }
+                else
+                {
+                    currentSpecialSeedIndex = 0; // Tidak ada biji tersisa
+                }
 
-                Debug.Log($"Special Seed di slot {slotIndex} telah dihapus dari inventory.");
+                DisplayCurrentSpecialSeed(); // Perbarui tampilan untuk menunjukkan biji yang baru
+                Debug.Log($"Biji Spesial di slot spesial telah dihapus dari inventory.");
             }
         }
         else
         {
-            Debug.LogWarning($"Slot {slotIndex} kosong atau tidak memiliki seed untuk dihapus.");
-        }
-    }
-
-    // Method untuk menggeser seed ke atas jika ada slot kosong di atasnya
-    // Digunakan pada method RemoveSpecialSeedFromInventory ketika sudah menghapus data dari Slot
-    public void ShiftSpecialSeedsUp()
-    {
-        if (selectedSpecialSeedSlotIndex == -1) return; // Kalau gak ada yang dipilih, keluar aja.
-
-        for (int i = selectedSpecialSeedSlotIndex; i < specialSeedSlots.Length - 1; i++)
-        {
-            // Kalau slot ini kosong
-            if (specialSeedSlots[i].transform.childCount <= 2)
-            {
-                for (int j = i + 1; j < specialSeedSlots.Length; j++)
-                {
-                    if (specialSeedSlots[j].transform.childCount > 1)
-                    {
-                        // Pindahkan seed dari slot bawah ke slot kosong
-                        Transform seedToMove = specialSeedSlots[j].transform.GetChild(1);
-
-                        seedToMove.SetParent(specialSeedSlots[i].transform);
-                        seedToMove.localPosition = Vector3.zero;
-                        seedToMove.localRotation = Quaternion.identity;
-                        seedToMove.localScale = new Vector3(5f, 5f, 5f);
-
-                        Debug.Log($"[SHIFT] Memindahkan {seedToMove.name} dari slot {j} ke slot {i}.");
-
-                        break; // Setelah pindah, langsung keluar loop dalam
-                    }
-                }
-            }
+            Debug.LogWarning($"Slot spesial kosong atau tidak memiliki biji untuk dihapus.");
         }
     }
 
@@ -352,35 +364,69 @@ public class InventoryManager : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentWidth, contentRect.sizeDelta.y);
     }
 
-    // Method untuk menon-aktifkan Button Delete ketika Slot Kosong
+    // Method untuk menon-aktifkan Button Delete & Info ketika Slot Kosong
     // Digunakan pada Method Update
-    private void UpdateDeleteButtons()
+    private void UpdateDeleteInfoButton()
     {
-        for (int i = 0; i < specialSeedSlots.Length; i++)
+        if (deleteButton != null && infoButton != null)
         {
-            if (deleteButtons[i] != null)
-            {
-                // Slot dianggap kosong kalau child count <= 1 (cuma background)
-                bool isSlotFilled = specialSeedSlots[i].transform.childCount > 1;
-                deleteButtons[i].interactable = isSlotFilled;
-            }
+            // Slot dianggap kosong kalau child count <= 0 (kosong)
+            bool isSlotFilled = specialSeedSlot.transform.childCount > 0;
+            deleteButton.interactable = isSlotFilled;
+            infoButton.interactable = isSlotFilled;
         }
     }
 
-    // Method untuk membuka Pane Delete Special Seed ketika klik Button Delete di setiap Slot sesuai dengan Slot
+    // Method to Update the state of Next/Previous buttons
+    // Digunakan pada Method Start & Coroutine DisplaySeedAndRefreshInfoCoroutine
+    private void UpdateNavigationButtons()
+    {
+        if (nextSpecialSeedButton != null)
+        {
+            nextSpecialSeedButton.interactable = (currentSpecialSeedIndex < seedConfig.specialSeedPrefabs.Count - 1);
+        }
+        if (previousSpecialSeedButton != null)
+        {
+            previousSpecialSeedButton.interactable = (currentSpecialSeedIndex > 0);
+        }
+    }
+
+    // Method Go to the next special seed
+    // Digunakan pada Button Next di Panel Inventory Special Seed
+    public void NextSpecialSeed()
+    {
+        if (currentSpecialSeedIndex < seedConfig.specialSeedPrefabs.Count - 1)
+        {
+            currentSpecialSeedIndex++;
+            DisplayCurrentSpecialSeed();
+            Debug.Log($"Moving to next special seed: Index {currentSpecialSeedIndex}");
+        }
+    }
+
+    // Method Go to the previous special seed
+    // Digunakan pada Button Previous di Panel Inventory Special Seed
+    public void PreviousSpecialSeed()
+    {
+        if (currentSpecialSeedIndex > 0)
+        {
+            currentSpecialSeedIndex--;
+            DisplayCurrentSpecialSeed();
+            Debug.Log($"Moving to previous special seed: Index {currentSpecialSeedIndex}");
+        }
+    }
+
+    // Method untuk membuka Panel Delete Special Seed ketika klik Button Jual
     // Digunakan pada OnClick setiap Button Delete Slot
-    public void OpenPanelDeleteSpecialSeed(GameObject slot)
+    public void OpenPanelDeleteSpecialSeed()
     {
         panelDeleteSeed.SetActive(true);
-        gameplayUIScript.ClosePanelInfoSpecialSeed();
 
-        // Simpan slot index yang dipilih
-        selectedSpecialSeedSlotIndex = System.Array.IndexOf(specialSeedSlots, slot);
-
-        // Cek apakah slot punya seed (pastikan child lebih dari background doang)
-        if (slot.transform.childCount > 1)
+        // Cek apakah slot punya seed (pastikan child lebih dari 0)
+        if (specialSeedSlot.transform.childCount > 0)
         {
-            GameObject seedObject = slot.transform.GetChild(1).gameObject;
+            // Child index 0 adalah seed
+            GameObject seedObject = specialSeedSlot.transform.GetChild(0).gameObject; 
+
             string seedNameRaw = seedObject.name.Replace("(Clone)", "").Trim();
 
             SeedSpecialData seedData = seedConfig.GetSeedDataByPrefabName(seedNameRaw);
@@ -411,38 +457,30 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Method untuk Konfirmasi Penghapusan Special Seed
-    // Digunakan pada OnClick Button Yes di Panel Delete Special Seed
+    // Digunakan pada OnClick Button Iya di Panel Delete Special Seed
     public void ConfirmDeleteSpecialSeed()
     {
-        if (selectedSpecialSeedSlotIndex != -1)
+        RemoveSpecialSeedFromInventory();
+        SaveSpecialSeeds();
+
+        if (currentDiscountedPrice > 0)
         {
-            RemoveSpecialSeedFromInventory(selectedSpecialSeedSlotIndex);
-            SaveSpecialSeeds();
+            refundCoin.text = $"+ {currentDiscountedPrice}";
 
-            if (currentDiscountedPrice > 0)
-            {
-                refundCoin.text = $"+ {currentDiscountedPrice}";
+            // Menambahkan Total Coin
+            CoinManager.Instance.AddCoins(currentDiscountedPrice);
 
-                // Menambhakan Total Coin
-                CoinManager.Instance.AddCoins(currentDiscountedPrice);
-
-                // Jalankan Effect
-                refundEffect.EffectToShake();
-                Debug.Log($"[SUCCESS] Tambahkan {currentDiscountedPrice} koin ke player.");
-            }
-            else
-            {
-                Debug.LogWarning("[WARNING] Harga seed tidak valid, tidak ada koin yang ditambahkan.");
-            }
-
-            panelDeleteSeed.SetActive(false); // Tutup panel setelah hapus
-            selectedSpecialSeedSlotIndex = -1; // Reset pilihan
-            currentDiscountedPrice = 0; // Reset harga jual
+            // Jalankan Effect
+            refundEffect.EffectToShake();
+            Debug.Log($"[SUCCESS] Tambahkan {currentDiscountedPrice} koin ke player.");
         }
         else
         {
-            Debug.LogWarning("[WARNING] Tidak ada slot yang dipilih untuk dihapus.");
+            Debug.LogWarning("[WARNING] Harga seed tidak valid, tidak ada koin yang ditambahkan.");
         }
+
+        panelDeleteSeed.SetActive(false); // Tutup panel setelah hapus
+        currentDiscountedPrice = 0; // Reset harga jual
     }
 
     // Method untuk Save Data Special Seed
@@ -511,5 +549,18 @@ public class InventoryManager : MonoBehaviour
 
         // Baca ulang dari PlayerPrefs (yang sudah kosong karena direset)
         LoadSpecialSeeds();
+    }
+
+    // Method untuk mengatur Particle System pada Special Seed di Inevntory
+    // Digunakan pada Method DisplaySeedAndRefreshInfoCoroutine
+    private void SetSeedParticleActive(GameObject seed, bool isActive)
+    {
+        if (seed == null) return;
+
+        ParticleSystem particle = seed.GetComponentInChildren<ParticleSystem>(true); // true agar bisa cari yang awalnya nonaktif
+        if (particle != null)
+        {
+            particle.gameObject.SetActive(isActive);
+        }
     }
 }

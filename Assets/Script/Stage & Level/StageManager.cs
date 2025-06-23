@@ -45,6 +45,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private LoseScript loseScript;
     [SerializeField] private StageInput stageInput;
     [SerializeField] private SpecialSeedHandler specialSeedHandler;
+    [SerializeField] private GameplayUIScript gameplayUIScript;
 
     private void Awake()
     {
@@ -99,6 +100,9 @@ public class StageManager : MonoBehaviour
         // Aktifkan Panel Win
         PanelWin.SetActive(true);
 
+        // Method untuk close Panel Inventory Special Seed jika Terbuka
+        gameplayUIScript.ClosePanelInventorySpecialSeed();
+
         // Nonaktifkan script yang terdaftar
         foreach (MonoBehaviour script in scriptDisable)
         {
@@ -108,8 +112,8 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        // Method untuk mereset biji pada congklak
-        congklakManager.ResetSeeds();
+        // Method untuk menghapus biji pada congklak
+        congklakManager.ClearAllSeeds();
 
         // Method untuk menghapus Inventory
         inventoryManager.ClearInventory();
@@ -184,12 +188,11 @@ public class StageManager : MonoBehaviour
         // Memanggil method pada script LoseScript untuk menampilkan UI text Stage Lose
         loseScript.ShowStageOnGameOver();
 
-        // Reset target score ke array pertama (indeks 0) & Stage Informasi ke (index 1)
-        currentTargetIndex = 0;
-        UpdateTargetScoreUI();
-
         // Aktifkan Panel Game Over
         PanelLose.SetActive(true);
+
+        // Method untuk close Panel Inventory Special Seed jika Terbuka
+        gameplayUIScript.ClosePanelInventorySpecialSeed();
 
         // Nonaktifkan script yang terdaftar (misalnya Raycast atau kontrol)
         foreach (MonoBehaviour script in scriptDisable)
@@ -200,8 +203,8 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        // Method untuk mereset biji pada congklak
-        congklakManager.ResetSeeds();
+        // Method untuk menghapus biji pada congklak
+        congklakManager.ClearAllSeeds();
 
         // Method untuk menghapus Inventory
         inventoryManager.ClearInventory();
@@ -278,7 +281,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Method ini untuk mereset Game ketika Restart pada Pause Menu
-    // Digunakan pada Button pada Restart di Pause Menu dan Button BackStage Menu
+    // Digunakan pada Button pada Restart di Pause Menu
     public void RestartGame()
     {
         // Aktifkan script yang terdaftar (misalnya Raycast atau kontrol)
@@ -289,6 +292,9 @@ public class StageManager : MonoBehaviour
                 script.enabled = true;
             }
         }
+
+        // Method untuk close Panel Inventory Special Seed jika Terbuka
+        gameplayUIScript.ClosePanelInventorySpecialSeed();
 
         // Method untuk mereset biji pada congklak
         congklakManager.ResetSeeds();

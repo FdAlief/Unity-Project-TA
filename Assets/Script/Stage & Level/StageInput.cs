@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +13,8 @@ public class StageInput : MonoBehaviour
 
     [Header("UI Completed")]
     [SerializeField] private GameObject[] completedInfo; // UI indicator "Completed"
+    [SerializeField] private Sprite completedSprite; // Sprite disable untuk button yang sudah completed
+    [SerializeField] private Sprite defaultSprite; // Sprite disable untuk button yang default
 
     [Header("UI Stage Menu")]
     [SerializeField] private GameObject stageMenuPanel; // Panel Stage Menu
@@ -173,7 +175,25 @@ public class StageInput : MonoBehaviour
         // Disbale Stage Button ketika Stage Completed
         if (stageButtons.Length > stageIndex && stageButtons[stageIndex] != null)
         {
-            stageButtons[stageIndex].interactable = false;
+            Button btn = stageButtons[stageIndex];
+            btn.interactable = false;
+
+            // Ambil konfigurasi SpriteState saat ini
+            SpriteState spriteState = btn.spriteState;
+
+            // Jika stage ini completed dan tersedia completedSprite → pakai completedSprite
+            if (completedSprite != null)
+            {
+                spriteState.disabledSprite = completedSprite;
+            }
+            else if (defaultSprite != null)
+            {
+                // Jika tidak ada completedSprite tapi ada defaultSprite → fallback pakai default
+                spriteState.disabledSprite = defaultSprite;
+            }
+
+            // Terapkan spriteState kembali ke button
+            btn.spriteState = spriteState;
         }
 
         SaveStageCompleted(stageIndex);

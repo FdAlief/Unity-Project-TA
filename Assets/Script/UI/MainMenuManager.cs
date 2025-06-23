@@ -10,8 +10,12 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private string turnKey;
     [SerializeField] private string levelKey;
     [SerializeField] private int totalLevels;
-    [SerializeField] private string stageInputKey;
-    [SerializeField] private int totalStages;
+    [SerializeField] private string stageInputKey_1;
+    [SerializeField] private int totalStages_1;
+    [SerializeField] private string stageInputKey_2;
+    [SerializeField] private int totalStages_2;
+    [SerializeField] private string stageInputKey_3;
+    [SerializeField] private int totalStages_3;
     [SerializeField] private string specialseedKey;
 
     // Digunakan pada button Resume di Main Menu
@@ -24,7 +28,11 @@ public class MainMenuManager : MonoBehaviour
     public void OnClickRestart()
     {
         // Reset semua Data
-        SaveDataManager.ResetAllData(coinKey, turnKey, levelKey, totalLevels, stageInputKey, totalStages, specialseedKey);
+        SaveDataManager.ResetAllData(
+            coinKey, turnKey, levelKey, totalLevels, 
+            stageInputKey_1, stageInputKey_2, stageInputKey_3, 
+            totalStages_1, totalStages_2, totalStages_3, specialseedKey
+            );
 
         // Reload semua Data Coin, Turn, Level
         CoinManager.Instance.ReloadCoins();

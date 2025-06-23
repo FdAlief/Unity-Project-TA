@@ -11,6 +11,7 @@ TagManager:
   - Honai Seed
   - Borobudur Seed
   - Patung Surabaya Seed
+  - Particle System
   layers:
   - Default
   - TransparentFX

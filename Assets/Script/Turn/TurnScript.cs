@@ -140,6 +140,6 @@ public class TurnScript : MonoBehaviour
     public void ReloadTurns()
     {
         turnCount = 0;
-        maxTurns = 3;
+        maxTurns = 4;
     }
 }

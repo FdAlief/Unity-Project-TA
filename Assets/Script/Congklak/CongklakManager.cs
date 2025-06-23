@@ -13,11 +13,6 @@ public class CongklakManager : MonoBehaviour
     private int totalSeeds = 56; // Total biji congklak
     private int maxSeedsPerHole = 7; // Maksimal biji per lubang
 
-    void Start()
-    {
-        DistributeSeeds();
-    }
-
     // Method untuk men-distribusi / memasukkan biji ke Holes untuk pertama kalinya secara random
     void DistributeSeeds()
     {
@@ -112,8 +107,7 @@ public class CongklakManager : MonoBehaviour
     }
 
     // Method untuk mereset semua biji di setiap hole
-    // Untuk ketika Selesai Stage akan mereset biji pada congklak
-    // Digunakan pada script StageManager & WinScript
+    // Digunakan pada script WinScript, LoseScript, StageManager, StageInput
     public void ResetSeeds()
     {
         // Hapus semua biji dari setiap hole
@@ -128,5 +122,35 @@ public class CongklakManager : MonoBehaviour
 
         // Redistribusi biji
         DistributeSeeds();
+    }
+
+    // Method untuk mengahpus semua biji di setiap hole
+    // Digunakan pada script StageManager dan Button Back Stage Menu
+    public void ClearAllSeeds()
+    {
+        // Hapus semua biji dari setiap hole
+        foreach (Transform hole in holes)
+        {
+            CongklakHole holeScript = hole.GetComponent<CongklakHole>();
+            if (holeScript != null)
+            {
+                holeScript.ClearSeeds(); // Hapus semua biji di lubang
+            }
+        }
+    }
+
+    // Method untuk mengatur Aktif/Non-Aktif Seed pada Hole
+    // Digunakan pada Button Pause dan Resume Pause
+    public void SetActiveAllSeeds(bool isActive)
+    {
+        // Hapus semua biji dari setiap hole
+        foreach (Transform hole in holes)
+        {
+            CongklakHole holeScript = hole.GetComponent<CongklakHole>();
+            if (holeScript != null)
+            {
+                holeScript.SetActiveSeeds(isActive);
+            }
+        }
     }
 }

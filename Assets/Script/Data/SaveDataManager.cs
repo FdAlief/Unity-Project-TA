@@ -30,7 +30,27 @@ public static class SaveDataManager
     }
 
     // --- Keys dari StageInput ---
-    public static void ResetStageInputData(string keyPrefs, int totalStages)
+    public static void ResetStageInputData_1(string keyPrefs, int totalStages)
+    {
+        for (int i = 0; i < totalStages; i++)
+        {
+            PlayerPrefs.DeleteKey(keyPrefs + "Unlock_" + i);
+            PlayerPrefs.DeleteKey(keyPrefs + "Completed_" + i);
+        }
+        Debug.Log("StageInput data dihapus.");
+    }
+
+    public static void ResetStageInputData_2(string keyPrefs, int totalStages)
+    {
+        for (int i = 0; i < totalStages; i++)
+        {
+            PlayerPrefs.DeleteKey(keyPrefs + "Unlock_" + i);
+            PlayerPrefs.DeleteKey(keyPrefs + "Completed_" + i);
+        }
+        Debug.Log("StageInput data dihapus.");
+    }
+
+    public static void ResetStageInputData_3(string keyPrefs, int totalStages)
     {
         for (int i = 0; i < totalStages; i++)
         {
@@ -49,12 +69,18 @@ public static class SaveDataManager
 
     // --- Save All ---
     // Digunakan pada Script MainMenuManager ketika Restart
-    public static void ResetAllData(string coinKey, string turnKey, string levelKey, int totalLevels, string stageInputKey, int totalStages, string specialseedKey)
+    public static void ResetAllData(
+        string coinKey, string turnKey, string levelKey, int totalLevels, 
+        string stageInputKey_1, string stageInputKey_2, string stageInputKey_3,
+        int totalStages_1, int totalStages_2, int totalStages_3,
+        string specialseedKey)
     {
         ResetCoinData(coinKey);
         ResetTurnData(turnKey);
         ResetLevelProgress(levelKey, totalLevels);
-        ResetStageInputData(stageInputKey, totalStages);
+        ResetStageInputData_1(stageInputKey_1, totalStages_1);
+        ResetStageInputData_2(stageInputKey_2, totalStages_2);
+        ResetStageInputData_3(stageInputKey_3, totalStages_3);
         ResetSpecialSeedData(specialseedKey);
         PlayerPrefs.Save();
         Debug.LogWarning("Semua data PlayerPrefs di-reset!");

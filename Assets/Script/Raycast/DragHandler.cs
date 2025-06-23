@@ -65,7 +65,7 @@ public class DragHandler : MonoBehaviour
                     offset = selectedSeed.transform.position - worldPosition;
 
                     // Mengubah ukuran biji saat di-drag
-                    selectedSeed.transform.localScale = new Vector3(3f, 3f, 3f); // Perbesar ukuran biji
+                    selectedSeed.transform.localScale = new Vector3(5f, 5f, 5f); // Perbesar ukuran biji
 
                     Debug.Log("Mulai drag: " + selectedSeed.name);
 
@@ -122,6 +122,14 @@ public class DragHandler : MonoBehaviour
                                 // Cek jika hole yang dipilih adalah bukan "Hole Left"
                                 if (hitCollider.gameObject.name != "Hole Left") // Pastikan bukan Hole Left
                                 {
+                                    // Cek untuk menonaktfikan animasi pada seed
+                                    Animator anim = selectedSeed.GetComponent<Animator>();
+                                    if (anim != null)
+                                    {
+                                        anim.SetBool("IsOpen", false); // Matikan animasi jika masih nyala
+                                        Debug.Log("Animasi IsOpen pada Special Seed dimatikan karena SeedsCount > 1");
+                                    }
+
                                     hole.HandleClick(); // Transfer semua biji dari hole ke inventory
 
                                     // Pengecekan Biji Spesial (Honai) dan Efek Aktif Collider Prevs & Next

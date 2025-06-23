@@ -56,6 +56,7 @@ public class CongklakHole : MonoBehaviour
             if (inventoryManager.AddSeedToInventory(seed)) // Hanya jika berhasil dimasukkan ke inventory
             {
                 seedsInHole.RemoveAt(i); // Hapus dari list seedsInHole
+                SetSeedParticleActive(seed, false); // Nonaktifkan particle
 
                 // Penghitungan turnCount
                 TurnScript.Instance.OnSeedAddedFromHole(); // Tandai bahwa seed berasal dari hole
@@ -113,6 +114,9 @@ public class CongklakHole : MonoBehaviour
         // Memanggil Method untuk pengecekan Biji Spesial
         specialSeedHandler.HandleSpecialSeed(seed, this);
 
+        // Aktifkan particle
+        SetSeedParticleActive(seed, true);
+
         UpdateSeedCountUI(); // Perbarui UI
 
         // Shake hanya seed baru jika diminta
@@ -144,6 +148,17 @@ public class CongklakHole : MonoBehaviour
 
         seedsInHole.Clear(); // Bersihkan list seedsInHole
         UpdateSeedCountUI(); // Perbarui UI
+    }
+
+    // Method untuk mengatur Aktif/Non-Aktif Seed pada Hole
+    // Digunakan pada Script Congklak Manager
+    public void SetActiveSeeds(bool isActive)
+    {
+        for (int i = seedsInHole.Count - 1; i >= 0; i--)
+        {
+            GameObject seed = seedsInHole[i];
+            seed.SetActive(isActive);
+        }
     }
 
     // Method ini berfungsi untuk menampilkan jumlah biji di dalam Hole pada UI Text
@@ -250,6 +265,19 @@ public class CongklakHole : MonoBehaviour
         {
             if (s != null)
             StartCoroutine(ShakeSeed(s));
+        }
+    }
+
+    // Method untuk mengatur Particle System pada Seed
+    // Digunakan pada Method TransferSeedsToInventory
+    private void SetSeedParticleActive(GameObject seed, bool isActive)
+    {
+        if (seed == null) return;
+
+        ParticleSystem particle = seed.GetComponentInChildren<ParticleSystem>(true); // true agar bisa cari yang awalnya nonaktif
+        if (particle != null)
+        {
+            particle.gameObject.SetActive(isActive);
         }
     }
 }

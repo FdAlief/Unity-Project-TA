@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameplayUIScript : MonoBehaviour
 {
@@ -10,15 +10,15 @@ public class GameplayUIScript : MonoBehaviour
     public CounterNumber coinEffect;
     public CounterNumber turnEffect;
 
-    [Header("Info Special Seed")]
-    public GameObject[] textdbuttonInfo;
-    public Animator animPanelInfo;
+    [Header("Inventory Special Seed")]
     public TMP_Text textInfoJenis;
     public TMP_Text textInfoDeskripsi;
-    private int selectedSpecialSeedSlotIndex = -1; // -1 artinya belum ada yang dipilih
+    public Animator animPanelInventory;
+    public Animator animPanelInfoSeed;
 
-    [Header("Seed Data")]
-    [SerializeField] private SeedConfig seedConfig;
+    [Header("Next Scene Level")]
+    public string sceneNextLevel;
+    public GameObject panelNextLevel;
 
     [Header("Referensi Script")]
     [SerializeField] private InventoryManager inventoryManager;
@@ -88,125 +88,95 @@ public class GameplayUIScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Info Special Seed Function
+    /// Inventory Special Seed Function
     /// </summary>
-
-    // Method untuk digunakan pada Button Inventory Spesial Seed
-    public void OpenPanelInfoSpecialSeed(GameObject slot)
+    
+    // Method untuk Open Panel Inventory Special Seed
+    // Digunakan pada Button Open Panel Inventory Special Seed
+    public void OpenPanelInventorySpecialSeed()
     {
-        // Cek apakah slot memiliki lebih dari 1 child (artinya ada seed selain background)
-        if (slot.transform.childCount > 1)
-        {
-            // Play SFX Click
-            sfxAudio.PlayAudioByIndex(0);
-
-            StartCoroutine(PlayAnimasiPanelInfo());
-
-            // Optional: langsung update infonya juga
-            DataInfoSpecialSeed(slot);
-        }
-        else
-        {
-            Debug.LogWarning("Tidak bisa membuka panel, slot kosong atau hanya background.");
-        }
+        animPanelInventory.SetBool("IsOpen", true);
     }
 
-    // Method untuk digunakan pada Button Close Panel Info Special Seed
-    public void ClosePanelInfoSpecialSeed()
+    // Method untuk Close Panel Inventory Special Seed
+    // Digunakan pada Script StageManager (RestartGame) dan Button Close Panel Inventory Special Seed
+    public void ClosePanelInventorySpecialSeed()
     {
-        StartCoroutine(StopAnimasiPanelInfo());
+        animPanelInventory.SetBool("IsOpen", false);
+        animPanelInfoSeed.SetBool("IsOpenInfo", false);
     }
 
-    // Coroutine untuk Play
-    // Digunakan pada Method OpenPanelInfoSpecialSeed()
-    IEnumerator PlayAnimasiPanelInfo()
+    // Method untuk Open Panel Info Special Seed
+    // Digunakan pada Button Info Panel Inventory Special Seed
+    public void OpenPanelInfoSpecialSeed()
     {
-        animPanelInfo.SetBool("isOpen", true);
-
-        yield return new WaitForSeconds(1f);
-
-        // Fade in semua tombol info
-        foreach (GameObject btn in textdbuttonInfo)
-        {
-            CanvasGroup cg = btn.GetComponent<CanvasGroup>();
-            if (cg != null) StartCoroutine(FadeCanvasGroup(cg, 1f, 0.3f));
-        }
-    }
-
-    // Coroutine untuk Stop
-    // Digunakan pada Method ClosePanelInfoSpecialSeed()
-    IEnumerator StopAnimasiPanelInfo()
-    {
-        // Fade out semua tombol info
-        foreach (GameObject btn in textdbuttonInfo)
-        {
-            CanvasGroup cg = btn.GetComponent<CanvasGroup>();
-            if (cg != null) StartCoroutine(FadeCanvasGroup(cg, 0f, 0.3f));
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        animPanelInfo.SetBool("isOpen", false);
-    }
-
-    // Coroutine untuk Fade in / out (Button Close dan Text) di Panel Info Special Seed
-    // Digunakan pada Coroutine PlayAnimasiPanelInfo() dan CloseAnimasiPanelInfo()
-    IEnumerator FadeCanvasGroup(CanvasGroup cg, float targetAlpha, float duration)
-    {
-        float startAlpha = cg.alpha;
-        float time = 0f;
-
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            cg.alpha = Mathf.Lerp(startAlpha, targetAlpha, time / duration);
-            yield return null;
-        }
-
-        cg.alpha = targetAlpha;
-        cg.interactable = targetAlpha > 0f;
-        cg.blocksRaycasts = targetAlpha > 0f;
+        animPanelInfoSeed.SetBool("IsOpenInfo", true);
     }
 
     // Method untuk mengambil dan menampilkan data Special Seed pada Info Text
-    // Digunakan pada Method OpenPanelInfoSpecialSeed
-    private void DataInfoSpecialSeed(GameObject slot)
+    // Dipanggil dari InventoryManager ketika biji spesial di slot berubah.
+    public void DataInfoSpecialSeed()
     {
-        // Simpan slot index yang dipilih
-        selectedSpecialSeedSlotIndex = System.Array.IndexOf(inventoryManager.specialSeedSlots, slot);
-
-        // Cek apakah slot punya seed (pastikan child lebih dari background doang)
-        if (slot.transform.childCount > 1)
+        // Pastikan inventoryManager sudah di-assign
+        if (inventoryManager == null)
         {
-            GameObject seedObject = slot.transform.GetChild(1).gameObject;
+            Debug.LogError("InventoryManager belum di-assign di GameplayUIScript!");
+            return;
+        }
+
+        // Directly reference the single specialSeedSlot from InventoryManager
+        GameObject slotToExamine = inventoryManager.specialSeedSlot;
+
+        // Cek apakah slot punya seed (pastikan child hanya berupa prefab special seed)
+        // Check for childCount > 0 AND check if the first child is actually an instantiated seed
+        if (slotToExamine != null && slotToExamine.transform.childCount > 0 && slotToExamine.transform.GetChild(0).name.Contains("(Clone)"))
+        {
+            GameObject seedObject = slotToExamine.transform.GetChild(0).gameObject;
             string seedNameRaw = seedObject.name.Replace("(Clone)", "").Trim();
 
-            SeedSpecialData seedData = seedConfig.GetSeedDataByPrefabName(seedNameRaw);
+            // Akses seedConfig melalui InventoryManager untuk konsistensi
+            SeedSpecialData seedData = inventoryManager.seedConfig.GetSeedDataByPrefabName(seedNameRaw);
 
             if (seedData != null)
             {
                 textInfoJenis.text = seedData.seedName;
                 textInfoDeskripsi.text = seedData.seedInfo;
-                //currentDiscountedPrice = seedData.price / 2;
-                //specialSeedPrice.text = currentDiscountedPrice.ToString();
 
-                Debug.Log($"[INFO] Biji spesial ditemukan: {seedData.seedName}, Harga: {seedData.price}");
+                Debug.Log($"[GameplayUI] Menampilkan Info Biji Spesial: {seedData.seedName}");
             }
             else
             {
-                Debug.LogWarning($"[WARNING] Data Seed '{seedNameRaw}' tidak ditemukan di SeedStoreList.");
+                Debug.LogWarning($"[GameplayUI] Data Seed '{seedNameRaw}' tidak ditemukan di SeedConfig.");
                 textInfoJenis.text = "-";
-                textInfoDeskripsi.text = "_";
-                //specialSeedPrice.text = "-";
-                //currentDiscountedPrice = 0; // Reset kalau datanya null
+                textInfoDeskripsi.text = "Data tidak ditemukan.";
             }
         }
         else
         {
-            Debug.LogWarning("Slot tidak memiliki seed spesial untuk dihapus.");
+            // Jika slot kosong atau tidak ada biji yang ditampilkan
+            Debug.Log("[GameplayUI] Slot special seed kosong atau tidak memiliki seed.");
             textInfoJenis.text = "-";
-            textInfoDeskripsi.text = "_";
-            //specialSeedPrice.text = "-";
+            textInfoDeskripsi.text = "Tidak ada biji spesial.";
         }
+    }
+
+    /// <summary>
+    /// Next Level Function
+    /// </summary>
+    
+    // Method untuk pindah scene ke level selanjutnya
+    // Digunakan pada Script WinScript (ContinueGame)
+    public void NextLevel()
+    {
+        StartCoroutine(PanelNextLevel());
+    }
+
+    // Coroutine untuk mengaktifkan Panel Next Level dahulu baru pindah Scene
+    // Digunakan pada Method NextLevel()
+    IEnumerator PanelNextLevel()
+    {
+        panelNextLevel.SetActive(true); // Aktifkan Panel
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(sceneNextLevel); // Ganti dengan nama scene tujuan
     }
 }

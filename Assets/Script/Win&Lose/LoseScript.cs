@@ -16,6 +16,7 @@ public class LoseScript : MonoBehaviour
 
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
+    [SerializeField] private CongklakManager congklakManager;
     [SerializeField] private SFXAudio sfxAudio;
 
     // Method untuk menampilkan UI text informasi Stage Lose
@@ -63,5 +64,8 @@ public class LoseScript : MonoBehaviour
 
         // Reset turnCount setiap kali objective tercapai
         TurnScript.Instance.ResetTurnCount();
+
+        // Reset Seed pada Congklak
+        congklakManager.ResetSeeds();
     }
 }

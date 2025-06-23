@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class WinScript : MonoBehaviour
 {
@@ -12,10 +11,7 @@ public class WinScript : MonoBehaviour
 
     [Header("UI Elements")]
     public TMP_Text scoreText; // Tambahkan UI untuk menampilkan skor
-    public Button nextButton;
-
-    [Header("Next Scene Level")]
-    public string sceneNextLevel;
+    public GameObject nextButton;
 
     [Header("Effect Angka UI")]
     [SerializeField] private CounterNumber rewardCoinEffect;
@@ -26,6 +22,8 @@ public class WinScript : MonoBehaviour
     [Header("Referensi Script")]
     [SerializeField] private StageManager stageManager;
     [SerializeField] private CongklakManager congklakManager;
+    [SerializeField] private GameplayUIScript gameplayUIScript;
+    [SerializeField] private TutorialManager tutorialManager;
     [SerializeField] private SFXAudio sfxAudio;
 
     void Update()
@@ -46,7 +44,7 @@ public class WinScript : MonoBehaviour
         sisaTurnEffect.SetInitialValue(0);
         rewardTurnEffect.SetInitialValue(0);
         totalEffect.SetInitialValue(0);
-        nextButton.interactable = false;
+        nextButton.SetActive(false);
     }
 
     // Coroutine untuk menampilkan Hasil yang diraih beseta Effect
@@ -62,7 +60,9 @@ public class WinScript : MonoBehaviour
         yield return new WaitForSeconds(delay2);
         ShowTotalCoins();
         yield return new WaitForSeconds(delay2);
-        nextButton.interactable = true;
+        tutorialManager.TutorialTrigger(4);
+        yield return new WaitForSeconds(delay1);
+        nextButton.SetActive(true);
     }
 
     // Menampilkan skor yang diraih saat menang
@@ -180,7 +180,7 @@ public class WinScript : MonoBehaviour
         if (stageManager != null && stageManager.isFinalTargetReached)
         {
             sfxAudio.PlayAudioByIndex(0); // Play SFX
-            SceneManager.LoadScene(sceneNextLevel); // Ganti dengan nama scene tujuan
+            gameplayUIScript.NextLevel(); // Panggil dan Cek untuk Next Level
         }
         else
         {

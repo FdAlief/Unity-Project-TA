@@ -55,6 +55,17 @@ public class SpecialSeedHandler : MonoBehaviour
 
             congklakHole.UpdateSeedCountUI(); // Update UI setelah menggandakan biji
         }
+
+        // Play Animasi Flip
+        if (isSpecial)
+        {
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
+        }
     }
 
     // Method untuk Biji Spesial (Borobudur)
@@ -81,6 +92,17 @@ public class SpecialSeedHandler : MonoBehaviour
 
             Debug.Log("Borobudur Seed diletakkan di Hole Besar. Reward akan digandakan di akhir.");
         }
+
+        // Play Animasi Flip
+        if (isSpecial)
+        {
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
+        }
     }
 
     // Method untuk Biji Spesial (Komodo)
@@ -106,6 +128,17 @@ public class SpecialSeedHandler : MonoBehaviour
 
             congklakHole.UpdateSeedCountUI(); // Update UI setelah menggandakan biji
         }
+
+        // Play Animasi Flip
+        if (isSpecial)
+        {
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
+        }
     }
 
     // Method untuk Biji Spesial (Bali)
@@ -129,6 +162,17 @@ public class SpecialSeedHandler : MonoBehaviour
             }
 
             congklakHole.UpdateSeedCountUI(); // Update UI setelah menambahkan biji
+        }
+
+        // Play Animasi Flip
+        if (isSpecial)
+        {
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
         }
     }
 
@@ -180,6 +224,17 @@ public class SpecialSeedHandler : MonoBehaviour
                 Debug.LogWarning("Tidak ada mapping hole berlawanan untuk hole ini.");
             }
         }
+
+        // Play Animasi Flip
+        if (isSpecial)
+        {
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
+        }
     }
 
     // Method untuk Biji Spesial (Honai)
@@ -192,6 +247,13 @@ public class SpecialSeedHandler : MonoBehaviour
         if (isSpecial)
         {
             Debug.Log("Honai Seed terakhir terdeteksi. Mengaktifkan collider sebelum dan sesudah hole saat ini.");
+
+            // Play animasi spesial
+            Animator anim = seed.GetComponent<Animator>();
+            if (anim != null)
+            {
+                StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+            }
 
             // Cari index hole saat ini
             int currentIndex = colliderHole.colliders.IndexOf(congklakHole.GetComponent<Collider>());
@@ -257,7 +319,7 @@ public class SpecialSeedHandler : MonoBehaviour
                     0
                 );
 
-                GameObject newSeed = Instantiate(seed, congklakHole.transform.position + offset, Quaternion.identity, congklakHole.transform);
+                GameObject newSeed = Instantiate(seedConfig.defaultSeedPrefab, congklakHole.transform.position + offset, Quaternion.identity, congklakHole.transform);
                 congklakHole.seedsInHole.Add(newSeed); // Simbolik, kita gak pakai prefab
             }
 
@@ -266,5 +328,21 @@ public class SpecialSeedHandler : MonoBehaviour
 
             Debug.Log($"Menambahkan {totalCoins} biji ke {congklakHole.name} dari seed Patung Surabaya.");
         }
+
+        // Play animasi spesial
+        Animator anim = seed.GetComponent<Animator>();
+        if (anim != null)
+        {
+            StartCoroutine(PlayAnimatorSeed(anim, "IsOpen", 1.5f));
+        }
+    }
+
+    // Method untuk play animasi special seed flip
+    // Digunakan pada setiap method special seed
+    private IEnumerator PlayAnimatorSeed(Animator anim, string paramName, float delay)
+    {
+        anim.SetBool(paramName, true);
+        yield return new WaitForSeconds(delay);
+        anim.SetBool(paramName, false);
     }
 }

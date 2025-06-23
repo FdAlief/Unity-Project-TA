@@ -51,6 +51,9 @@ public class StoreManager : MonoBehaviour
         {
             CoinManager.Instance.OnCoinChanged -= UpdateStoreUICoin;
         }
+
+        reduceCoinEffect.SetInitialValue(0);
+        reduceCoinText.alpha = 0;
     }
 
     // Method untuk memberi Effect pada Coin Store
@@ -147,8 +150,8 @@ public class StoreManager : MonoBehaviour
             // Menonaktifkan Panel setelah membeli special seed
             seedBuyUI.SetActive(false);
 
-            // Memasukkan prefab Biji Spesial ke Slot Special Inventory
-            inventoryManager.AddSpecialSeedsToInventory();
+            // Menampilkan data Prefab Special Seed pada Slot
+            inventoryManager.DisplayCurrentSpecialSeed();
 
             // Save Data Special Seed
             inventoryManager.SaveSpecialSeeds();
